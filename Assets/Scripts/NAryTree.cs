@@ -1,11 +1,7 @@
-public abstract class NAryTree<T>
+public abstract class NAryTree<Node>
 {
-    private Node<T> Root { get; set; }
+    private Node Root { get; set; }
 
-    public NAryTree(Node<T> root) => Root = root;
+    public NAryTree(Node root) => Root = root;
 
-
-    //add element
-    //remove element
-    //
 }
