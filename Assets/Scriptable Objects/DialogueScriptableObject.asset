@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c057d18e9d4aa09859393a6aad7d75, type: 3}
   m_Name: DialogueScriptableObject
   m_EditorClassIdentifier: 
-  messages: []
+  speakers: []
+  messages:
+  - speaker: 
+    emotionDisplayed: 0
+    content: 
+  - speaker: 
+    emotionDisplayed: 0
+    content: 
+  - speaker: 
+    emotionDisplayed: 0
+    content: 
