@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -45,6 +47,7 @@ public class DialogueGraphView : GraphView
             title = "START",
             GUID = Guid.NewGuid().ToString(),
             DialogueText = "ENTRYPOINT",
+            Messages = new List<Message>(),
             EntryPoint = true
 
         };
@@ -69,6 +72,7 @@ public class DialogueGraphView : GraphView
         {
             title = nodeName,
             DialogueText = nodeName,
+            Messages = new List<Message>(),
             GUID = Guid.NewGuid().ToString(),
             
         };
@@ -76,27 +80,63 @@ public class DialogueGraphView : GraphView
         var inputPort = GeneratePort(dialogueNode, Direction.Input, Port.Capacity.Multi);
         inputPort.portName = "Input";
         dialogueNode.inputContainer.Add(inputPort);
-
-        var textField = new TextField(string.Empty);
-        textField.RegisterValueChangedCallback(evt =>
-        {
-            dialogueNode.DialogueText = evt.newValue;
-            dialogueNode.title = evt.newValue;
-        });
-        
-        textField.SetValueWithoutNotify(dialogueNode.title);
-        dialogueNode.mainContainer.Add(textField);
         
         dialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("Editor/Node"));
         
-        var button = new Button(() => { AddChoicePort(dialogueNode);});
-        button.text = "New Choice";
-        dialogueNode.titleContainer.Add(button);
+        var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode);});
+        addChoiceButton.text = "New Choice";
+        dialogueNode.titleContainer.Add(addChoiceButton);
+        
+        var addMessageButton = new Button(() => { AddMessage(dialogueNode);});
+        addMessageButton.text = "New Message";
+        dialogueNode.titleContainer.Add(addMessageButton);
         
         dialogueNode.RefreshExpandedState();
         dialogueNode.RefreshPorts();
         dialogueNode.SetPosition(new Rect(Vector2.zero, DefaultNodeSize));
         return dialogueNode;
+    }
+
+    private void AddMessage(DialogueNode dialogueNode)
+    {
+        var message = new Message
+        {
+            Speaker = string.Empty,
+            EmotionDisplayed = Emotion.Happy,
+            Content = string.Empty
+        };
+
+        var speakerTextField = new TextField(string.Empty);
+        var contentTextField = new TextField(string.Empty);
+        var emotionEnumField = new EnumField(Emotion.Happy);
+
+        speakerTextField.SetValueWithoutNotify("Speaker's Name");
+        contentTextField.SetValueWithoutNotify("Message");
+        emotionEnumField.SetValueWithoutNotify(Emotion.Happy);
+        
+        contentTextField.RegisterValueChangedCallback(evt =>
+        {
+            message.Content = evt.newValue;
+        });
+
+        speakerTextField.RegisterValueChangedCallback(evt =>
+        {
+            message.Speaker = evt.newValue;
+        });
+        
+        emotionEnumField.RegisterValueChangedCallback(evt =>
+        {
+            message.EmotionDisplayed = (Emotion) evt.newValue;
+        });
+
+        dialogueNode.Messages.Add(message);
+
+        dialogueNode.mainContainer.Add(speakerTextField);
+        dialogueNode.mainContainer.Add(contentTextField);
+        dialogueNode.mainContainer.Add(emotionEnumField);
+        
+        dialogueNode.RefreshExpandedState();
+        dialogueNode.RefreshPorts();
     }
 
     public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "")

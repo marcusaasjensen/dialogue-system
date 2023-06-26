@@ -3,7 +3,7 @@
 [System.Serializable]
 public class Message
 {
-    [SerializeField] private string speaker;
-    [SerializeField] private Emotion emotionDisplayed;
-    [SerializeField, TextArea] private string content;
+    [field: SerializeField] public string Speaker { get; set; }
+    [field: SerializeField] public Emotion EmotionDisplayed { get; set; }
+    [field: SerializeField, TextArea] public string Content { get; set; }
 }
