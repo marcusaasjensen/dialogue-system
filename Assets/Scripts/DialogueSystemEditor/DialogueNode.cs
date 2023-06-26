@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 
-public class DialogueGraphNode : Node
+public class DialogueNode : Node
 {
     public string GUID;
 

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -11,7 +10,7 @@ public class GraphSaveUtility : MonoBehaviour
     private DialogueGraphView _targetGraphView;
     private DialogueContainer _containerCache;
     private List<Edge> Edges => _targetGraphView.edges.ToList();
-    private List<DialogueGraphNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueGraphNode>().ToList();
+    private List<DialogueNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueNode>().ToList();
     public static GraphSaveUtility GetInstance(DialogueGraphView targetGraphView)
     {
         return new GraphSaveUtility
@@ -28,8 +27,8 @@ public class GraphSaveUtility : MonoBehaviour
         var connectedPorts = Edges.Where(x => x.input.node != null).ToArray();
         for (var i = 0; i < connectedPorts.Length; i++)
         {
-            var outputNode = connectedPorts[i].output.node as DialogueGraphNode;
-            var inputNode = connectedPorts[i].input.node as DialogueGraphNode;
+            var outputNode = connectedPorts[i].output.node as DialogueNode;
+            var inputNode = connectedPorts[i].input.node as DialogueNode;
 
             dialogueContainer.NodeLinks.Add(new NodeLinkData
             {
@@ -105,7 +104,7 @@ public class GraphSaveUtility : MonoBehaviour
     {
         foreach (var nodeData in _containerCache.DialogueNodeData)
         {
-            var tempNode = _targetGraphView.CreateGraphDialogueNode(nodeData.DialogueText);
+            var tempNode = _targetGraphView.CreateDialogueNode(nodeData.DialogueText);
             tempNode.GUID = nodeData.Guid;
             _targetGraphView.AddElement(tempNode);
 

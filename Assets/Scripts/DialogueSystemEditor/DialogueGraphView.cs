@@ -35,12 +35,12 @@ public class DialogueGraphView : GraphView
         return compatiblePorts;
     }
 
-    private Port GeneratePort(DialogueGraphNode node, Direction portDirection, Port.Capacity capacity = Port.Capacity.Single)
+    private Port GeneratePort(DialogueNode node, Direction portDirection, Port.Capacity capacity = Port.Capacity.Single)
         => node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float));
 
-    private DialogueGraphNode GenerateEntryPointNode()
+    private DialogueNode GenerateEntryPointNode()
     {
-        var node = new DialogueGraphNode
+        var node = new DialogueNode
         {
             title = "START",
             GUID = Guid.NewGuid().ToString(),
@@ -61,14 +61,11 @@ public class DialogueGraphView : GraphView
         return node;
     }
 
-    public void CreateNode(string nodeName)
-    {
-        AddElement(CreateGraphDialogueNode(nodeName));
-    }
+    public void CreateNode(string nodeName) => AddElement(CreateDialogueNode(nodeName));
 
-    public DialogueGraphNode CreateGraphDialogueNode(string nodeName)
+    public DialogueNode CreateDialogueNode(string nodeName)
     {
-        var dialogueNode = new DialogueGraphNode
+        var dialogueNode = new DialogueNode
         {
             title = nodeName,
             DialogueText = nodeName,
@@ -102,7 +99,7 @@ public class DialogueGraphView : GraphView
         return dialogueNode;
     }
 
-    public void AddChoicePort(DialogueGraphNode dialogueNode, string overridenPortName = "")
+    public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "")
     {
         var generatedPort = GeneratePort(dialogueNode, Direction.Output);
 
@@ -136,15 +133,18 @@ public class DialogueGraphView : GraphView
         dialogueNode.RefreshPorts();
     }
 
-    private void RemovePort(DialogueGraphNode dialogueNode, Port generatedPort)
+    private void RemovePort(DialogueNode dialogueNode, Port generatedPort)
     {
         var targetEdge = edges.ToList()
             .Where(x => x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
+
+        dialogueNode.outputContainer.Remove(generatedPort);
+        
         if (!targetEdge.Any()) return;
+        
         var edge = targetEdge.First();
         edge.input.Disconnect(edge);
         RemoveElement(targetEdge.First());
-        dialogueNode.outputContainer.Remove(generatedPort);
         dialogueNode.RefreshPorts();
         dialogueNode.RefreshExpandedState();
     }

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -42,10 +39,12 @@ public class DialogueGraph : EditorWindow
         toolbar.Add(fileNameTextField);
         toolbar.Add(new Button(() => RequestDataOperation(true)){text="Save Data"});
         toolbar.Add(new Button(() => RequestDataOperation(false)){text="Load Data"});
+        
         var nodeCreateButton = new Button(() =>
         {
             _graphView.CreateNode("Dialogue Node");
         });
+        
         nodeCreateButton.text = "Create Node";
         toolbar.Add(nodeCreateButton);
         rootVisualElement.Add(toolbar);
@@ -63,10 +62,8 @@ public class DialogueGraph : EditorWindow
         if(save)
             saveUtility.SaveGraph(_fileName);
         else
-        {
             saveUtility.LoadGraph(_fileName);
         }
-    }
 
 
     private void OnEnable()
