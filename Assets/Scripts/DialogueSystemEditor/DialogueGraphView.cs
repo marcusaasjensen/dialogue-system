@@ -13,6 +13,7 @@ public class DialogueGraphView : GraphView
     public DialogueGraphView()
     {
         styleSheets.Add(Resources.Load<StyleSheet>("Editor/DialogueGraph"));
+
         SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
         this.AddManipulator(new ContentDragger());
         this.AddManipulator(new SelectionDragger());
@@ -37,17 +38,15 @@ public class DialogueGraphView : GraphView
         return compatiblePorts;
     }
 
-    private Port GeneratePort(DialogueNode node, Direction portDirection, Port.Capacity capacity = Port.Capacity.Single)
+    private static Port GeneratePort(Node node, Direction portDirection, Port.Capacity capacity = Port.Capacity.Single)
         => node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(float));
 
-    private DialogueNode GenerateEntryPointNode()
+    private static DialogueNode GenerateEntryPointNode()
     {
         var node = new DialogueNode
         {
             title = "START",
             GUID = Guid.NewGuid().ToString(),
-            DialogueText = "ENTRYPOINT",
-            Messages = new List<Message>(),
             EntryPoint = true
 
         };
@@ -74,30 +73,54 @@ public class DialogueGraphView : GraphView
             DialogueText = nodeName,
             Messages = new List<Message>(),
             GUID = Guid.NewGuid().ToString(),
-            
+
         };
 
+        SetupStyleSheet(dialogueNode);
+        
         var inputPort = GeneratePort(dialogueNode, Direction.Input, Port.Capacity.Multi);
         inputPort.portName = "Input";
         dialogueNode.inputContainer.Add(inputPort);
-        
-        dialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("Editor/Node"));
-        
-        var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode);});
+
+        //Add choice button
+        var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode); });
         addChoiceButton.text = "New Choice";
         dialogueNode.titleContainer.Add(addChoiceButton);
-        
-        var addMessageButton = new Button(() => { AddMessage(dialogueNode);});
+
+        var messagesTitleContainer = new VisualElement();
+        messagesTitleContainer.AddToClassList("row-container");
+
+        var messagesTitle = new Label("Dialogue");
+        messagesTitle.AddToClassList("title-label");
+
+        var addMessageButton = new Button(() => { AddMessage(dialogueNode); });
         addMessageButton.text = "New Message";
-        dialogueNode.titleContainer.Add(addMessageButton);
+        addMessageButton.AddToClassList("new-message-button");
+
+        messagesTitleContainer.Add(messagesTitle);
+        messagesTitleContainer.Add(addMessageButton);
+
+        dialogueNode.mainContainer.Add(messagesTitleContainer);
+
+        RefreshNode(dialogueNode);
         
-        dialogueNode.RefreshExpandedState();
-        dialogueNode.RefreshPorts();
         dialogueNode.SetPosition(new Rect(Vector2.zero, DefaultNodeSize));
         return dialogueNode;
     }
 
-    private void AddMessage(DialogueNode dialogueNode)
+    private static void RefreshNode(Node node)
+    {
+        node.RefreshExpandedState();
+        node.RefreshPorts();
+    }
+
+    private static void SetupStyleSheet(Node dialogueNode)
+    {
+        dialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("Editor/Node"));
+        dialogueNode.mainContainer.AddToClassList("dialogueNodeMainContainer");
+    }
+
+    private static void AddMessage(DialogueNode dialogueNode)
     {
         var message = new Message
         {
@@ -108,35 +131,58 @@ public class DialogueGraphView : GraphView
 
         var speakerTextField = new TextField(string.Empty);
         var contentTextField = new TextField(string.Empty);
-        var emotionEnumField = new EnumField(Emotion.Happy);
+        var emotionEnumField = new EnumField(Emotion.None);
+
+        contentTextField.multiline = true;
 
         speakerTextField.SetValueWithoutNotify("Speaker's Name");
-        contentTextField.SetValueWithoutNotify("Message");
+        contentTextField.SetValueWithoutNotify("Message\n");
         emotionEnumField.SetValueWithoutNotify(Emotion.Happy);
         
-        contentTextField.RegisterValueChangedCallback(evt =>
-        {
-            message.Content = evt.newValue;
-        });
-
-        speakerTextField.RegisterValueChangedCallback(evt =>
-        {
-            message.Speaker = evt.newValue;
-        });
+        speakerTextField.AddToClassList("sized-input");
+        emotionEnumField.AddToClassList("sized-input");
         
-        emotionEnumField.RegisterValueChangedCallback(evt =>
-        {
-            message.EmotionDisplayed = (Emotion) evt.newValue;
-        });
+        contentTextField.RegisterValueChangedCallback(evt => {message.Content = evt.newValue;});
+        speakerTextField.RegisterValueChangedCallback(evt => { message.Speaker = evt.newValue;});
+        emotionEnumField.RegisterValueChangedCallback(evt => { message.EmotionDisplayed = (Emotion) evt.newValue; });
 
         dialogueNode.Messages.Add(message);
 
-        dialogueNode.mainContainer.Add(speakerTextField);
-        dialogueNode.mainContainer.Add(contentTextField);
-        dialogueNode.mainContainer.Add(emotionEnumField);
         
-        dialogueNode.RefreshExpandedState();
-        dialogueNode.RefreshPorts();
+        //Speaker label
+        var speakerLabel = new Label("Speaker");
+        speakerLabel.AddToClassList("header-label");
+        
+        //Speaker container
+        var speakerContainer = new VisualElement();
+        speakerContainer.AddToClassList("row-container");
+        speakerContainer.Add(speakerLabel);
+        speakerContainer.Add(speakerTextField);
+
+        //Emotion label
+        var emotionLabel = new Label("Emotion");
+        emotionLabel.AddToClassList("header-label");
+        
+        //Emotion container
+        var emotionContainer = new VisualElement();
+        emotionContainer.AddToClassList("row-container");
+        emotionContainer.Add(emotionLabel);
+        emotionContainer.Add(emotionEnumField);
+        
+        //Message label
+        var messageLabel = new Label("Message");
+        messageLabel.AddToClassList("header-label");
+
+        //Message container
+        var messageContainer = new VisualElement();
+        messageContainer.AddToClassList("message-container");
+        messageContainer.Add(speakerContainer);
+        messageContainer.Add(emotionContainer);
+        messageContainer.Add(messageLabel);
+        messageContainer.Add(contentTextField);
+
+        dialogueNode.mainContainer.Add(messageContainer);
+        RefreshNode(dialogueNode);
     }
 
     public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "")
@@ -157,23 +203,19 @@ public class DialogueGraphView : GraphView
             value = choicePortName
         };
         textField.RegisterValueChangedCallback(evt => generatedPort.portName = evt.newValue);
-        generatedPort.contentContainer.Add(new Label("  "));
+        generatedPort.contentContainer.Add(new Label("|   "));
         generatedPort.contentContainer.Add(textField);
 
-        var deleteButton = new Button(() => RemovePort(dialogueNode, generatedPort))
-        {
-            text = "X"
-        };
+        var deleteButton = new Button(() => RemovePort(dialogueNode, generatedPort)) { text = "Remove" };
         
         generatedPort.contentContainer.Add(deleteButton);
         
         generatedPort.portName = choicePortName;
         dialogueNode.outputContainer.Add(generatedPort);
-        dialogueNode.RefreshExpandedState();
-        dialogueNode.RefreshPorts();
+        RefreshNode(dialogueNode);
     }
 
-    private void RemovePort(DialogueNode dialogueNode, Port generatedPort)
+    private void RemovePort(Node dialogueNode, Port generatedPort)
     {
         var targetEdge = edges.ToList()
             .Where(x => x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
@@ -185,7 +227,6 @@ public class DialogueGraphView : GraphView
         var edge = targetEdge.First();
         edge.input.Disconnect(edge);
         RemoveElement(targetEdge.First());
-        dialogueNode.RefreshPorts();
-        dialogueNode.RefreshExpandedState();
+        RefreshNode(dialogueNode);
     }
 }
