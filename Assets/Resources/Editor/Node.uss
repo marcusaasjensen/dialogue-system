@@ -1,5 +1,11 @@
-DialogueNode #title{
+DialogueNode #title {
     background-color: rgb(14, 77, 80);
+}
+
+.choice-container {
+    flex-direction: row;
+    align-items: center;
+    align-content: flex-start;
 }
 
 .dialogueNodeMainContainer {
@@ -18,21 +24,22 @@ DialogueNode #title{
     margin-bottom: 5px;
 }
 
-.message-container{
+.message-container {
     margin-top: 15px;
-    max-width: 240px;
+    max-width: 400px;
 }
 
-.row-container{
+.row-container {
     flex-direction: row;
     align-items: center;
 }
 
-.sized-input{
-    width: 130px;
+.sized-input {
+    width: 200px;
 }
 
 .new-message-button {
-    margin-left: 60px;
+    align-self: flex-end;
     height:30px;
+    justify-content: flex-end;
 }

@@ -4,12 +4,17 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class DialogueGraphView : GraphView
 {
     public readonly Vector2 DefaultNodeSize = new Vector2(150, 200);
+    private const int MaxChoiceTextLength = 35;
+    
+    private ReorderableList list;
+
     public DialogueGraphView()
     {
         styleSheets.Add(Resources.Load<StyleSheet>("Editor/DialogueGraph"));
@@ -23,7 +28,6 @@ public class DialogueGraphView : GraphView
         grid.StretchToParentSize();
         
         Insert(0, grid);
-        
         AddElement(GenerateEntryPointNode());
     }
 
@@ -48,7 +52,6 @@ public class DialogueGraphView : GraphView
             title = "START",
             GUID = Guid.NewGuid().ToString(),
             EntryPoint = true
-
         };
         var port = GeneratePort(node, Direction.Output);
         port.portName = "Next";
@@ -70,7 +73,7 @@ public class DialogueGraphView : GraphView
         var dialogueNode = new DialogueNode
         {
             title = nodeName,
-            DialogueText = nodeName,
+            //DialogueText = nodeName,
             Messages = new List<Message>(),
             GUID = Guid.NewGuid().ToString(),
 
@@ -90,7 +93,7 @@ public class DialogueGraphView : GraphView
         var messagesTitleContainer = new VisualElement();
         messagesTitleContainer.AddToClassList("row-container");
 
-        var messagesTitle = new Label("Dialogue");
+        var messagesTitle = new Label("Dialogue Script");
         messagesTitle.AddToClassList("title-label");
 
         var addMessageButton = new Button(() => { AddMessage(dialogueNode); });
@@ -101,7 +104,7 @@ public class DialogueGraphView : GraphView
         messagesTitleContainer.Add(addMessageButton);
 
         dialogueNode.mainContainer.Add(messagesTitleContainer);
-
+        
         RefreshNode(dialogueNode);
         
         dialogueNode.SetPosition(new Rect(Vector2.zero, DefaultNodeSize));
@@ -136,8 +139,8 @@ public class DialogueGraphView : GraphView
         contentTextField.multiline = true;
 
         speakerTextField.SetValueWithoutNotify("Speaker's Name");
-        contentTextField.SetValueWithoutNotify("Message\n");
-        emotionEnumField.SetValueWithoutNotify(Emotion.Happy);
+        contentTextField.SetValueWithoutNotify("Content\n");
+        emotionEnumField.SetValueWithoutNotify(Emotion.None);
         
         speakerTextField.AddToClassList("sized-input");
         emotionEnumField.AddToClassList("sized-input");
@@ -200,16 +203,27 @@ public class DialogueGraphView : GraphView
         var textField = new TextField
         {
             name = string.Empty,
-            value = choicePortName
+            value = choicePortName,
+            maxLength = MaxChoiceTextLength
         };
+        textField.AddToClassList("sized-input");
+        
+        var choiceContainer = new VisualElement();
+        choiceContainer.AddToClassList("choice-container");
+        
+        
         textField.RegisterValueChangedCallback(evt => generatedPort.portName = evt.newValue);
-        generatedPort.contentContainer.Add(new Label("|   "));
-        generatedPort.contentContainer.Add(textField);
-
         var deleteButton = new Button(() => RemovePort(dialogueNode, generatedPort)) { text = "Remove" };
+
+        var clickableLabel = new Label("[ Select ]");
         
-        generatedPort.contentContainer.Add(deleteButton);
-        
+        choiceContainer.Add(textField);
+        choiceContainer.Add(deleteButton);
+        choiceContainer.Add(clickableLabel);
+
+        generatedPort.contentContainer.Add(choiceContainer);
+        generatedPort.contentContainer.AddToClassList("content-container");
+
         generatedPort.portName = choicePortName;
         dialogueNode.outputContainer.Add(generatedPort);
         RefreshNode(dialogueNode);
@@ -228,5 +242,27 @@ public class DialogueGraphView : GraphView
         edge.input.Disconnect(edge);
         RemoveElement(targetEdge.First());
         RefreshNode(dialogueNode);
+    }
+    
+    private void CreateReorderableList()
+    {
+        // Create a list with initial elements
+        list = new ReorderableList(new List<string> { "Item 1", "Item 2", "Item 3" }, typeof(string), true, true, true, true);
+
+        // Define how each element in the list should be displayed
+        list.drawElementCallback = (rect, index, isActive, isFocused) =>
+        {
+            var element = list.list[index] as string;
+            EditorGUI.LabelField(rect, element);
+        };
+
+        // Define the height of each element in the list
+        list.elementHeightCallback = index =>
+        {
+            // Adjust the value based on your content height
+            return EditorGUIUtility.singleLineHeight + 2f;
+        };
+        
+        //list.DoLayoutList();
     }
 }
