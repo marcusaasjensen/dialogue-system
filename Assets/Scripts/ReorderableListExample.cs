@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class ReorderableListExample : EditorWindow
 {
-    private ReorderableList reorderableList;
+    private ReorderableList _reorderableMessages;
     private const int GUIOffset = 5;
-    public Vector2 scrollPosition = Vector2.zero;
+    private Vector2 _scrollPosition = Vector2.zero;
 
     [MenuItem("Window/Reorderable List Example")]
     private static void OpenWindow()
@@ -21,37 +21,43 @@ public class ReorderableListExample : EditorWindow
 
     private void OnEnable()
     {
-        var m1 = new Message
+        SetWindowsMinimumSize();
+        DrawUIElements();
+    }
+
+    private void SetWindowsMinimumSize() => minSize = new Vector2(300, 250);
+
+    private void DrawUIElements()
+    {
+        _reorderableMessages = new ReorderableList(new List<Message>(), typeof(Message),true, true, true, true);
+
+        _reorderableMessages.drawElementCallback = (rect, index, isActive, isFocused) =>
         {
-            Content = "blablabla",
-            EmotionDisplayed = Emotion.None,
-            Speaker = "Toto"
-        };
-        
-        reorderableList = new ReorderableList(new List<Message>{m1}, typeof(Message),true, true, true, true);
-        // Define how each element in the list should be displayed
-        
-        reorderableList.drawElementCallback = (rect, index, isActive, isFocused) =>
-        {
-            var element = reorderableList.list[index] as Message;
+            var element = _reorderableMessages.list[index] as Message;
             
             EditorGUI.EnumFlagsField(new Rect(), Emotion.None);
-            element.Speaker = EditorGUI.TextField(new Rect(rect.x + GUIOffset, rect.y + GUIOffset, position.width - 50, 20),new GUIContent("Speaker"),  element.Speaker);
+
+            if (element == null) return;
+            
+            element.Speaker =
+                EditorGUI.TextField(new Rect(rect.x + GUIOffset, rect.y + GUIOffset, position.width - 50, 20),
+                    new GUIContent("Speaker"), element.Speaker);
             element.EmotionDisplayed = (Emotion)
-                EditorGUI.EnumPopup(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 30, position.width - 50, 20),new GUIContent("Emotion"),  element.EmotionDisplayed);
-            element.Content = EditorGUI.TextArea(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 100 - GUIOffset), element.Content);
+                EditorGUI.EnumPopup(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 30, position.width - 50, 20),
+                    new GUIContent("Emotion"), element.EmotionDisplayed);
+            element.Content =
+                EditorGUI.TextArea(
+                    new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 100 - GUIOffset),
+                    element.Content);
         };
         
-        reorderableList.elementHeightCallback = index =>
-        {
-            return EditorGUIUtility.singleLineHeight + 150f + GUIOffset;
-        };
+        _reorderableMessages.elementHeightCallback = index => EditorGUIUtility.singleLineHeight + 150f + GUIOffset;
     }
     
     private void OnGUI()
     {
-        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.ExpandHeight(true));
-        reorderableList.DoLayoutList();
+        _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition, GUILayout.ExpandHeight(true));
+        _reorderableMessages.DoLayoutList();
         EditorGUILayout.EndScrollView();
     }
 }
