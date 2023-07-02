@@ -12,9 +12,6 @@ public class DialogueGraphView : GraphView
 {
     public readonly Vector2 DefaultNodeSize = new Vector2(150, 200);
     private const int MaxChoiceTextLength = 35;
-    
-    private ReorderableList list;
-
     public DialogueGraphView()
     {
         styleSheets.Add(Resources.Load<StyleSheet>("Editor/DialogueGraph"));
@@ -73,10 +70,8 @@ public class DialogueGraphView : GraphView
         var dialogueNode = new DialogueNode
         {
             title = nodeName,
-            //DialogueText = nodeName,
             Messages = new List<Message>(),
             GUID = Guid.NewGuid().ToString(),
-
         };
 
         SetupStyleSheet(dialogueNode);
@@ -84,27 +79,17 @@ public class DialogueGraphView : GraphView
         var inputPort = GeneratePort(dialogueNode, Direction.Input, Port.Capacity.Multi);
         inputPort.portName = "Input";
         dialogueNode.inputContainer.Add(inputPort);
-
-        //Add choice button
-        var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode); });
-        addChoiceButton.text = "New Choice";
+        
+        var openDialogueButton = new Button(() =>
+        {
+            ReorderableMessagesWindow.CloseWindow();
+            ReorderableMessagesWindow.OpenWindow(dialogueNode.Messages);
+        }) { text = "Edit Dialogue" };
+        var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode); }) { text = "New Choice" };
+        
+        dialogueNode.titleContainer.Add(openDialogueButton);
         dialogueNode.titleContainer.Add(addChoiceButton);
 
-        var messagesTitleContainer = new VisualElement();
-        messagesTitleContainer.AddToClassList("row-container");
-
-        var messagesTitle = new Label("Dialogue Script");
-        messagesTitle.AddToClassList("title-label");
-
-        var addMessageButton = new Button(() => { AddMessage(dialogueNode); });
-        addMessageButton.text = "New Message";
-        addMessageButton.AddToClassList("new-message-button");
-
-        messagesTitleContainer.Add(messagesTitle);
-        messagesTitleContainer.Add(addMessageButton);
-
-        dialogueNode.mainContainer.Add(messagesTitleContainer);
-        
         RefreshNode(dialogueNode);
         
         dialogueNode.SetPosition(new Rect(Vector2.zero, DefaultNodeSize));
@@ -151,7 +136,6 @@ public class DialogueGraphView : GraphView
 
         dialogueNode.Messages.Add(message);
 
-        
         //Speaker label
         var speakerLabel = new Label("Speaker");
         speakerLabel.AddToClassList("header-label");
@@ -242,27 +226,5 @@ public class DialogueGraphView : GraphView
         edge.input.Disconnect(edge);
         RemoveElement(targetEdge.First());
         RefreshNode(dialogueNode);
-    }
-    
-    private void CreateReorderableList()
-    {
-        // Create a list with initial elements
-        list = new ReorderableList(new List<string> { "Item 1", "Item 2", "Item 3" }, typeof(string), true, true, true, true);
-
-        // Define how each element in the list should be displayed
-        list.drawElementCallback = (rect, index, isActive, isFocused) =>
-        {
-            var element = list.list[index] as string;
-            EditorGUI.LabelField(rect, element);
-        };
-
-        // Define the height of each element in the list
-        list.elementHeightCallback = index =>
-        {
-            // Adjust the value based on your content height
-            return EditorGUIUtility.singleLineHeight + 2f;
-        };
-        
-        //list.DoLayoutList();
     }
 }

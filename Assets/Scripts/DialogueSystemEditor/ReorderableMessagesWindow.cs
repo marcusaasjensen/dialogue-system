@@ -1,22 +1,35 @@
 using System.Collections.Generic;
-using System.IO;
-using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEditor;
 using UnityEngine;
 
-public class ReorderableListExample : EditorWindow
+public class ReorderableMessagesWindow : EditorWindow
 {
     private ReorderableList _reorderableMessages;
     private const int GUIOffset = 5;
     private Vector2 _scrollPosition = Vector2.zero;
-
-    [MenuItem("Window/Reorderable List Example")]
-    private static void OpenWindow()
+    private static List<Message> _dialogue;
+    private static EditorWindow windowProperties;
+    
+    public static void OpenWindow(List<Message> messages)
     {
-        var window = GetWindow<ReorderableListExample>();
+        _dialogue = messages;
+        var window = GetWindow<ReorderableMessagesWindow>();
+
+        if (windowProperties)
+        {
+            window.position = windowProperties.position;
+        }
+
         window.titleContent = new GUIContent("Reorderable List Example");
         window.Show();
+    }
+
+    public static void CloseWindow()
+    {
+        var window = GetWindow<ReorderableMessagesWindow>();
+        windowProperties = window;
+        window.Close();
     }
 
     private void OnEnable()
@@ -29,7 +42,7 @@ public class ReorderableListExample : EditorWindow
 
     private void DrawUIElements()
     {
-        _reorderableMessages = new ReorderableList(new List<Message>(), typeof(Message),true, true, true, true);
+        _reorderableMessages = new ReorderableList(_dialogue, typeof(Message),true, true, true, true);
 
         _reorderableMessages.drawElementCallback = (rect, index, isActive, isFocused) =>
         {
