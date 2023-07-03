@@ -3,32 +3,29 @@ using UnityEditorInternal;
 using UnityEditor;
 using UnityEngine;
 
-public class ReorderableMessagesWindow : EditorWindow
+public class DialogueView : EditorWindow
 {
     private ReorderableList _reorderableMessages;
     private const int GUIOffset = 5;
     private Vector2 _scrollPosition = Vector2.zero;
     private static List<Message> _dialogue;
-    private static EditorWindow windowProperties;
+    private static EditorWindow _windowProperties;
     
     public static void OpenWindow(List<Message> messages)
     {
         _dialogue = messages;
-        var window = GetWindow<ReorderableMessagesWindow>();
+        var window = GetWindow<DialogueView>();
 
-        if (windowProperties)
-        {
-            window.position = windowProperties.position;
-        }
+        if (_windowProperties) window.position = _windowProperties.position;
 
-        window.titleContent = new GUIContent("Reorderable List Example");
+        window.titleContent = new GUIContent("Dialogue Editor");
         window.Show();
     }
 
     public static void CloseWindow()
     {
-        var window = GetWindow<ReorderableMessagesWindow>();
-        windowProperties = window;
+        var window = GetWindow<DialogueView>();
+        _windowProperties = window;
         window.Close();
     }
 

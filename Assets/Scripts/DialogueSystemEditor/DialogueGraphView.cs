@@ -82,8 +82,8 @@ public class DialogueGraphView : GraphView
         
         var openDialogueButton = new Button(() =>
         {
-            ReorderableMessagesWindow.CloseWindow();
-            ReorderableMessagesWindow.OpenWindow(dialogueNode.Messages);
+            DialogueView.CloseWindow();
+            DialogueView.OpenWindow(dialogueNode.Messages);
         }) { text = "Edit Dialogue" };
         var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode); }) { text = "New Choice" };
         
@@ -108,69 +108,69 @@ public class DialogueGraphView : GraphView
         dialogueNode.mainContainer.AddToClassList("dialogueNodeMainContainer");
     }
 
-    private static void AddMessage(DialogueNode dialogueNode)
-    {
-        var message = new Message
-        {
-            Speaker = string.Empty,
-            EmotionDisplayed = Emotion.Happy,
-            Content = string.Empty
-        };
-
-        var speakerTextField = new TextField(string.Empty);
-        var contentTextField = new TextField(string.Empty);
-        var emotionEnumField = new EnumField(Emotion.None);
-
-        contentTextField.multiline = true;
-
-        speakerTextField.SetValueWithoutNotify("Speaker's Name");
-        contentTextField.SetValueWithoutNotify("Content\n");
-        emotionEnumField.SetValueWithoutNotify(Emotion.None);
-        
-        speakerTextField.AddToClassList("sized-input");
-        emotionEnumField.AddToClassList("sized-input");
-        
-        contentTextField.RegisterValueChangedCallback(evt => {message.Content = evt.newValue;});
-        speakerTextField.RegisterValueChangedCallback(evt => { message.Speaker = evt.newValue;});
-        emotionEnumField.RegisterValueChangedCallback(evt => { message.EmotionDisplayed = (Emotion) evt.newValue; });
-
-        dialogueNode.Messages.Add(message);
-
-        //Speaker label
-        var speakerLabel = new Label("Speaker");
-        speakerLabel.AddToClassList("header-label");
-        
-        //Speaker container
-        var speakerContainer = new VisualElement();
-        speakerContainer.AddToClassList("row-container");
-        speakerContainer.Add(speakerLabel);
-        speakerContainer.Add(speakerTextField);
-
-        //Emotion label
-        var emotionLabel = new Label("Emotion");
-        emotionLabel.AddToClassList("header-label");
-        
-        //Emotion container
-        var emotionContainer = new VisualElement();
-        emotionContainer.AddToClassList("row-container");
-        emotionContainer.Add(emotionLabel);
-        emotionContainer.Add(emotionEnumField);
-        
-        //Message label
-        var messageLabel = new Label("Message");
-        messageLabel.AddToClassList("header-label");
-
-        //Message container
-        var messageContainer = new VisualElement();
-        messageContainer.AddToClassList("message-container");
-        messageContainer.Add(speakerContainer);
-        messageContainer.Add(emotionContainer);
-        messageContainer.Add(messageLabel);
-        messageContainer.Add(contentTextField);
-
-        dialogueNode.mainContainer.Add(messageContainer);
-        RefreshNode(dialogueNode);
-    }
+    // private static void AddMessage(DialogueNode dialogueNode)
+    // {
+    //     var message = new Message
+    //     {
+    //         Speaker = string.Empty,
+    //         EmotionDisplayed = Emotion.Happy,
+    //         Content = string.Empty
+    //     };
+    //
+    //     var speakerTextField = new TextField(string.Empty);
+    //     var contentTextField = new TextField(string.Empty);
+    //     var emotionEnumField = new EnumField(Emotion.None);
+    //
+    //     contentTextField.multiline = true;
+    //
+    //     speakerTextField.SetValueWithoutNotify("Speaker's Name");
+    //     contentTextField.SetValueWithoutNotify("Content\n");
+    //     emotionEnumField.SetValueWithoutNotify(Emotion.None);
+    //     
+    //     speakerTextField.AddToClassList("sized-input");
+    //     emotionEnumField.AddToClassList("sized-input");
+    //     
+    //     contentTextField.RegisterValueChangedCallback(evt => {message.Content = evt.newValue;});
+    //     speakerTextField.RegisterValueChangedCallback(evt => { message.Speaker = evt.newValue;});
+    //     emotionEnumField.RegisterValueChangedCallback(evt => { message.EmotionDisplayed = (Emotion) evt.newValue; });
+    //
+    //     dialogueNode.Messages.Add(message);
+    //
+    //     //Speaker label
+    //     var speakerLabel = new Label("Speaker");
+    //     speakerLabel.AddToClassList("header-label");
+    //     
+    //     //Speaker container
+    //     var speakerContainer = new VisualElement();
+    //     speakerContainer.AddToClassList("row-container");
+    //     speakerContainer.Add(speakerLabel);
+    //     speakerContainer.Add(speakerTextField);
+    //
+    //     //Emotion label
+    //     var emotionLabel = new Label("Emotion");
+    //     emotionLabel.AddToClassList("header-label");
+    //     
+    //     //Emotion container
+    //     var emotionContainer = new VisualElement();
+    //     emotionContainer.AddToClassList("row-container");
+    //     emotionContainer.Add(emotionLabel);
+    //     emotionContainer.Add(emotionEnumField);
+    //     
+    //     //Message label
+    //     var messageLabel = new Label("Message");
+    //     messageLabel.AddToClassList("header-label");
+    //
+    //     //Message container
+    //     var messageContainer = new VisualElement();
+    //     messageContainer.AddToClassList("message-container");
+    //     messageContainer.Add(speakerContainer);
+    //     messageContainer.Add(emotionContainer);
+    //     messageContainer.Add(messageLabel);
+    //     messageContainer.Add(contentTextField);
+    //
+    //     dialogueNode.mainContainer.Add(messageContainer);
+    //     RefreshNode(dialogueNode);
+    // }
 
     public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "")
     {
