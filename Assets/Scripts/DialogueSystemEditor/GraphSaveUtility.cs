@@ -9,7 +9,7 @@ public class GraphSaveUtility : MonoBehaviour
 {
     private DialogueGraphView _targetGraphView;
     private DialogueContainer _containerCache;
-    private List<Edge> Edges => _targetGraphView.edges.ToList();
+    private IEnumerable<Edge> Edges => _targetGraphView.edges.ToList();
     private List<DialogueNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueNode>().ToList();
     public static GraphSaveUtility GetInstance(DialogueGraphView targetGraphView)
     {
@@ -43,7 +43,7 @@ public class GraphSaveUtility : MonoBehaviour
             dialogueContainer.DialogueNodeData.Add(new DialogueNodeData
             {
                 Guid = dialogueNode.GUID,
-                DialogueText = dialogueNode.DialogueText,
+                Dialogue = dialogueNode.Messages,
                 Position = dialogueNode.GetPosition().position
             });
         }
@@ -104,21 +104,20 @@ public class GraphSaveUtility : MonoBehaviour
     {
         foreach (var nodeData in _containerCache.DialogueNodeData)
         {
-            var tempNode = _targetGraphView.CreateDialogueNode(nodeData.DialogueText);
+            var tempNode = _targetGraphView.CreateDialogueNode("Multiple Choice Node", nodeData.Dialogue);
             tempNode.GUID = nodeData.Guid;
             _targetGraphView.AddElement(tempNode);
 
             var nodePorts = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == nodeData.Guid).ToList();
-            nodePorts.ForEach(x => _targetGraphView.AddChoicePort(tempNode, x.PortName));
+                nodePorts.ForEach(x => _targetGraphView.AddChoicePort(tempNode, x.PortName));
         }
     }
-    
+
     private void ClearGraph()
     {
         Nodes.Find(x => x.EntryPoint).GUID = _containerCache.NodeLinks[0].BaseNodeGuid;
-        foreach (var node in Nodes)
+        foreach (var node in Nodes.Where(node => !node.EntryPoint))
         {
-            if (node.EntryPoint) continue;
             Edges.Where(x => x.input.node == node).ToList()
                 .ForEach(edge => _targetGraphView.RemoveElement(edge));
             

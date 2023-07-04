@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.UIElements;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -63,14 +60,14 @@ public class DialogueGraphView : GraphView
         return node;
     }
 
-    public void CreateNode(string nodeName) => AddElement(CreateDialogueNode(nodeName));
+    public void CreateNode(string nodeName) => AddElement(CreateDialogueNode(nodeName, new List<Message>()));
 
-    public DialogueNode CreateDialogueNode(string nodeName)
+    public DialogueNode CreateDialogueNode(string nodeName, List<Message> messages)
     {
         var dialogueNode = new DialogueNode
         {
             title = nodeName,
-            Messages = new List<Message>(),
+            Messages = messages,
             GUID = Guid.NewGuid().ToString(),
         };
 
@@ -107,70 +104,6 @@ public class DialogueGraphView : GraphView
         dialogueNode.styleSheets.Add(Resources.Load<StyleSheet>("Editor/Node"));
         dialogueNode.mainContainer.AddToClassList("dialogueNodeMainContainer");
     }
-
-    // private static void AddMessage(DialogueNode dialogueNode)
-    // {
-    //     var message = new Message
-    //     {
-    //         Speaker = string.Empty,
-    //         EmotionDisplayed = Emotion.Happy,
-    //         Content = string.Empty
-    //     };
-    //
-    //     var speakerTextField = new TextField(string.Empty);
-    //     var contentTextField = new TextField(string.Empty);
-    //     var emotionEnumField = new EnumField(Emotion.None);
-    //
-    //     contentTextField.multiline = true;
-    //
-    //     speakerTextField.SetValueWithoutNotify("Speaker's Name");
-    //     contentTextField.SetValueWithoutNotify("Content\n");
-    //     emotionEnumField.SetValueWithoutNotify(Emotion.None);
-    //     
-    //     speakerTextField.AddToClassList("sized-input");
-    //     emotionEnumField.AddToClassList("sized-input");
-    //     
-    //     contentTextField.RegisterValueChangedCallback(evt => {message.Content = evt.newValue;});
-    //     speakerTextField.RegisterValueChangedCallback(evt => { message.Speaker = evt.newValue;});
-    //     emotionEnumField.RegisterValueChangedCallback(evt => { message.EmotionDisplayed = (Emotion) evt.newValue; });
-    //
-    //     dialogueNode.Messages.Add(message);
-    //
-    //     //Speaker label
-    //     var speakerLabel = new Label("Speaker");
-    //     speakerLabel.AddToClassList("header-label");
-    //     
-    //     //Speaker container
-    //     var speakerContainer = new VisualElement();
-    //     speakerContainer.AddToClassList("row-container");
-    //     speakerContainer.Add(speakerLabel);
-    //     speakerContainer.Add(speakerTextField);
-    //
-    //     //Emotion label
-    //     var emotionLabel = new Label("Emotion");
-    //     emotionLabel.AddToClassList("header-label");
-    //     
-    //     //Emotion container
-    //     var emotionContainer = new VisualElement();
-    //     emotionContainer.AddToClassList("row-container");
-    //     emotionContainer.Add(emotionLabel);
-    //     emotionContainer.Add(emotionEnumField);
-    //     
-    //     //Message label
-    //     var messageLabel = new Label("Message");
-    //     messageLabel.AddToClassList("header-label");
-    //
-    //     //Message container
-    //     var messageContainer = new VisualElement();
-    //     messageContainer.AddToClassList("message-container");
-    //     messageContainer.Add(speakerContainer);
-    //     messageContainer.Add(emotionContainer);
-    //     messageContainer.Add(messageLabel);
-    //     messageContainer.Add(contentTextField);
-    //
-    //     dialogueNode.mainContainer.Add(messageContainer);
-    //     RefreshNode(dialogueNode);
-    // }
 
     public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "")
     {
@@ -219,12 +152,13 @@ public class DialogueGraphView : GraphView
             .Where(x => x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
 
         dialogueNode.outputContainer.Remove(generatedPort);
+
+        var enumerable = targetEdge.ToList();
+        if (!enumerable.Any()) return;
         
-        if (!targetEdge.Any()) return;
-        
-        var edge = targetEdge.First();
+        var edge = enumerable.First();
         edge.input.Disconnect(edge);
-        RemoveElement(targetEdge.First());
+        RemoveElement(enumerable.First());
         RefreshNode(dialogueNode);
     }
 }

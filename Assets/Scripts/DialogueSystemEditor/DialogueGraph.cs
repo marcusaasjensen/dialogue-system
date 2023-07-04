@@ -67,7 +67,7 @@ public class DialogueGraph : EditorWindow
             saveUtility.SaveGraph(_fileName);
         else
             saveUtility.LoadGraph(_fileName);
-        }
+    }
 
 
     private void OnEnable()
