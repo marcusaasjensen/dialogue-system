@@ -7,4 +7,6 @@
     Scared,
     Sad,
     Disgusted,
+    Surprised,
+    Curious
 }

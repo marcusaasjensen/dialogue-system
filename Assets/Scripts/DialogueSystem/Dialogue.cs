@@ -1,9 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "DialogueScriptableObject", menuName = "ScriptableObjects/Dialogue")]
-public class Dialogue : ScriptableObject
+[System.Serializable]
+public class Dialogue
 {
-    [SerializeField] private List<GameObject> speakers;
-    [SerializeField] private List<Message> messages;
+    public Dictionary<string, GameObject> Speakers { get; private set; }
+    [field: SerializeField] public List<Message> Messages { get; private set; }
+    [SerializeField] private bool isLocked;
+
+    public Dialogue(Dictionary<string, GameObject> speakers, List<Message> messages, bool isLocked = true)
+    {
+        Speakers = speakers;
+        Messages = messages;
+        isLocked = this.isLocked;
+    }
 }
