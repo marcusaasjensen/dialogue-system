@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using System;
 
-[System.Serializable]
+[Serializable]
 public class Message
 {
     [field: SerializeField] public string Speaker { get; set; }

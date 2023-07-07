@@ -216,7 +216,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2089170438}
-  - component: {fileID: 2089170437}
   - component: {fileID: 2089170439}
   m_Layer: 0
   m_Name: Dialogue System
@@ -225,19 +224,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2089170437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2089170436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e42ce17379d2e6243a0d8b069e42880b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogues: []
 --- !u!4 &2089170438
 Transform:
   m_ObjectHideFlags: 0
@@ -266,3 +252,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   narrative: {fileID: 11400000, guid: 49b663f3268ddcb41a9e511e08c1a07f, type: 2}
+  narrativeNodes: []

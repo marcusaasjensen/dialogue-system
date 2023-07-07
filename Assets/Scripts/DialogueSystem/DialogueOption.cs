@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using JetBrains.Annotations;
 
 public class DialogueOption
 {
     public string Text { get; private set; }
-    public NarrativeNode NextNarrative;
-    
-    public DialogueOption(string text, NarrativeNode nextNode)
+    [NotNull] public NarrativeNode SourceNarrative { get; private set; }
+    [CanBeNull] public NarrativeNode TargetNarrative { get; set; }
+
+    public DialogueOption(string text, NarrativeNode sourceNode, NarrativeNode targetNode)
     {
         Text = text;
-        NextNarrative = nextNode;
+        SourceNarrative = sourceNode;
+        TargetNarrative = targetNode;
     }
 }

@@ -19,34 +19,25 @@ MonoBehaviour:
   - BaseNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
     PortName: I'm trying to fix it.
     TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
-  - BaseNodeGuid: 23501be1-baad-45f7-92ea-cb4e2f51fa64
-    PortName: I'm concentrated.
-    TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
-  - BaseNodeGuid: 23501be1-baad-45f7-92ea-cb4e2f51fa64
-    PortName: You can sit with me if you want.
-    TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-  - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
-    PortName: I enjoy being here.
-    TargetNodeGuid: 23501be1-baad-45f7-92ea-cb4e2f51fa64
   - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
     PortName: This tree needs a friend.
     TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+  - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
+    PortName: I enjoy being here.
+    TargetNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+  - BaseNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+    PortName: You can sit with me if you want.
+    TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+  - BaseNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+    PortName: I'm concentred...
+    TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
   DialogueNodeData:
-  - Guid: 23501be1-baad-45f7-92ea-cb4e2f51fa64
-    Dialogue:
-    - <Speaker>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 4
-      <Content>k__BackingField: I really don't like being alone!
-    - <Speaker>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 5
-      <Content>k__BackingField: I wish I could be like you...
-    Position: {x: 719.3333, y: -49.333336}
   - Guid: 63dc8710-439f-48c0-8e63-75898d75b09f
     Dialogue:
     - <Speaker>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 1
       <Content>k__BackingField: Why are you sitting on that banch alone?
-    Position: {x: 233.33333, y: 178}
+    Position: {x: 280.66666, y: 126.666664}
   - Guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
     Dialogue:
     - <Speaker>k__BackingField: Victor
@@ -69,3 +60,12 @@ MonoBehaviour:
       <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: Thank you I guess.
     Position: {x: 1214, y: 178}
+  - Guid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+    Dialogue:
+    - <Speaker>k__BackingField: Victor
+      <EmotionDisplayed>k__BackingField: 4
+      <Content>k__BackingField: I really dislike being alone!
+    - <Speaker>k__BackingField: Victor
+      <EmotionDisplayed>k__BackingField: 5
+      <Content>k__BackingField: I wish I could be like you...
+    Position: {x: 750, y: -46}
