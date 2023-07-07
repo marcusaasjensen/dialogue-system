@@ -1,15 +1,10 @@
 ﻿using System.Collections.Generic;
-using System;
-using UnityEngine;
-using UnityEngine.Serialization;
 
-[Serializable]
 public class NarrativeNode
 {
-    [field: SerializeField] public Dialogue Dialogue { get; private set; }
+    private Dialogue Dialogue { get; set; }
     public List<DialogueOption> Options { get; private set; }
-    
-    [FormerlySerializedAs("Id")] public string NodeId;
+    public string NodeId { get; private set; }
 
     public NarrativeNode(Dialogue dialogue, string nodeId)
     {
@@ -22,5 +17,5 @@ public class NarrativeNode
     {
         var option = new DialogueOption(newOption, this, targetNode);
         Options.Add(option);
-    }  
+    }
 }

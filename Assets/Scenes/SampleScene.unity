@@ -217,6 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2089170438}
   - component: {fileID: 2089170439}
+  - component: {fileID: 2089170440}
   m_Layer: 0
   m_Name: Dialogue System
   m_TagString: Untagged
@@ -251,5 +252,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498aba3b030f45b2b3ebad034f4d525d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrative: {fileID: 11400000, guid: 49b663f3268ddcb41a9e511e08c1a07f, type: 2}
-  narrativeNodes: []
+  narrativeToLoad: {fileID: 11400000, guid: 6d7d206f2d3454d42bade650903adc21, type: 2}
+--- !u!114 &2089170440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089170436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66bab439c4b2b5f40aa0dcdfe8b5b362, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  narrativeLoader: {fileID: 2089170439}
+  isLockingPlayer: 0
