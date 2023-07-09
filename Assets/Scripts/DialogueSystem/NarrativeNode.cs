@@ -2,7 +2,7 @@
 
 public class NarrativeNode
 {
-    private Dialogue Dialogue { get; set; }
+    public Dialogue Dialogue { get; private set; }
     public List<DialogueOption> Options { get; private set; }
     public string NodeId { get; private set; }
 

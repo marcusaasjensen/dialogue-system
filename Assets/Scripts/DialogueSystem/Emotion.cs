@@ -5,8 +5,12 @@
     Neutral,
     Angry,
     Scared,
+    Fearful,
     Sad,
     Disgusted,
+    Annoyed,
     Surprised,
-    Curious
+    Curious,
+    Warm,
+    Evil
 }
