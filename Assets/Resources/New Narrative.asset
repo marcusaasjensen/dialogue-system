@@ -16,15 +16,15 @@ MonoBehaviour:
   - BaseNodeGuid: 87bf1630-5128-4f6c-a4cc-5550e42f7115
     PortName: Next
     TargetNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
-  - BaseNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-    PortName: I'm trying to fix it.
-    TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
   - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
     PortName: This tree needs a friend.
     TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
   - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
     PortName: I enjoy being here.
     TargetNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+  - BaseNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+    PortName: I'm trying to fix it.
+    TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
   - BaseNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
     PortName: You can sit with me if you want.
     TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
@@ -36,14 +36,8 @@ MonoBehaviour:
     Dialogue:
     - <Speaker>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 1
-      <Content>k__BackingField: Why are you sitting on that banch alone?
-    Position: {x: 280.66666, y: 126.666664}
-  - Guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-    Dialogue:
-    - <Speaker>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 1
-      <Content>k__BackingField: Wait, is that a robot?
-    Position: {x: 719.3333, y: 361.3333}
+      <Content>k__BackingField: Why are you sitting on that bench alone?
+    Position: {x: 260.66666, y: 128.66667}
   - Guid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
     Dialogue:
     - <Speaker>k__BackingField: Victor
@@ -60,6 +54,12 @@ MonoBehaviour:
       <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: Thank you I guess.
     Position: {x: 1214, y: 178}
+  - Guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+    Dialogue:
+    - <Speaker>k__BackingField: Victor
+      <EmotionDisplayed>k__BackingField: 1
+      <Content>k__BackingField: Wait, is that a robot?
+    Position: {x: 719.3333, y: 361.3333}
   - Guid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
     Dialogue:
     - <Speaker>k__BackingField: Victor

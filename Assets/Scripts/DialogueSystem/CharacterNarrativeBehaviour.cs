@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class CharacterEmotion
+public class CharacterNarrativeBehaviour
 {
      public Emotion emotionLabel;
      public AudioClip speakingSound;

@@ -10,7 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10a856104a895dc44bad575fdc4d698b, type: 3}
-  m_Name: SpeakerScriptableObject
+  m_Name: DefaultSpeakerScriptableObject
   m_EditorClassIdentifier: 
-  characterName: X
-  emotions: []
+  characterName: 
+  narrativeBehaviours:
+  - emotionLabel: 0
+    speakingSound: {fileID: 8300000, guid: dec0dd068984f0c419c26b79302cd356, type: 3}
+    speakingRhythm: 0.11
+    characterFace: {fileID: 0}

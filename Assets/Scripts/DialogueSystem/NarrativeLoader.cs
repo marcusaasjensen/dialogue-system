@@ -20,7 +20,7 @@ public class NarrativeLoader : MonoBehaviour
                 
                 CreateNodesFromEntryNode(entryNode, loadedNarrative);
                 
-                Debug.Log($"Narrative loaded: {loadedNarrative}.", this);
+                Debug.Log($"<color=#2CD3E1>Narrative loaded: {loadedNarrative}.</color>", this);
                 
                 return loadedNarrative;
         }

@@ -6,7 +6,7 @@ using System;
 public class Dialogue
 {
     [field: SerializeField] public Queue<Message> Messages { get; private set; }
-    public event Action OnMessageQueueEmpty; 
+    public event Action OnLastMessage; 
 
     public Dialogue(IEnumerable<Message> messages)
     {
@@ -19,7 +19,7 @@ public class Dialogue
         
         if (nextMessage != null) return nextMessage;
         
-        OnMessageQueueEmpty?.Invoke();
+        OnLastMessage?.Invoke();
         return null;
     }
 }
