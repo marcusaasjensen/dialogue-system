@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a856104a895dc44bad575fdc4d698b, type: 3}
   m_Name: ShySpeakerScriptableObject
   m_EditorClassIdentifier: 
-  characterName: 
+  characterName: Shy
   narrativeBehaviours:
   - emotionLabel: 0
     speakingSound: {fileID: 8300000, guid: dec0dd068984f0c419c26b79302cd356, type: 3}
-    speakingRhythm: 0.05
+    speakingRhythm: 0.09
     characterFace: {fileID: 0}

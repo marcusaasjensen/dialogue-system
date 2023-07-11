@@ -28,6 +28,9 @@ MonoBehaviour:
   - BaseNodeGuid: 04680189-ab6d-4a6c-9262-fbcefc8d3c44
     PortName: I don't have a choice...
     TargetNodeGuid: 49162a72-ddb1-4985-bbc7-927da47f4c8a
+  - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
+    PortName: I don't want to talk.
+    TargetNodeGuid: fdcb7345-f7f2-4371-86fe-9be3ee967415
   DialogueNodeData:
   - Guid: 4558c672-966e-41bf-a158-baecac99cf98
     Dialogue:
@@ -59,3 +62,12 @@ MonoBehaviour:
       <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: Bye
     Position: {x: 1231.3334, y: 46.666664}
+  - Guid: fdcb7345-f7f2-4371-86fe-9be3ee967415
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: Okay... That's rude. Bye.
+    - <Speaker>k__BackingField: Y
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: Bye.
+    Position: {x: 354, y: 420}

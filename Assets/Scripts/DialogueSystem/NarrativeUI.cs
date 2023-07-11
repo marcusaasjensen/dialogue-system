@@ -11,11 +11,12 @@ public class NarrativeUI : MonoBehaviour
     [Header("Texts")]
     [SerializeField] private TextMeshProUGUI speakerNameText;
     [SerializeField] private TextMeshProUGUI messageText;
-    
-    [Space, Header("Buttons")]
+
+    [Space, Header("Buttons")] 
+    [SerializeField] private Transform buttonsParent;
     [SerializeField] private Button dialogueOptionButtonPrefab;
     [SerializeField] private Button nextMessageButton;
-    [SerializeField] private Vector3 buttonOffset;
+    [SerializeField] private Vector2 buttonOffset;
     
     [Space, Header("Rendering")]
     [SerializeField, CanBeNull] private Renderer speakingCharacterImage;
@@ -36,11 +37,18 @@ public class NarrativeUI : MonoBehaviour
         
         var buttonList = new List<Button>();
 
+        var buttonRect = dialogueOptionButtonPrefab.GetComponent<RectTransform>().rect;
+
+        var firstButtonXPosition = (buttonRect.width * (1 - options.Count) - options.Count * buttonOffset.x + buttonOffset.x) / 2;
+        
         foreach(var option in options)
         {
-            var newOptionButton = Instantiate(dialogueOptionButtonPrefab, transform);
+            var newOptionButton = Instantiate(dialogueOptionButtonPrefab, buttonsParent);
             var buttonPosition = newOptionButton.GetComponent<RectTransform>();
-            buttonPosition.position += buttonOffset * options.IndexOf(option);
+
+            var currentIndex = options.IndexOf(option);
+            
+            buttonPosition.localPosition = new Vector3(firstButtonXPosition + currentIndex * (buttonRect.width + buttonOffset.x), buttonOffset.y,0);
             newOptionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = option.Text;
             
             buttonList.Add(newOptionButton);
