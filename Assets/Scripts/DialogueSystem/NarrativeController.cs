@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 public class NarrativeController : MonoBehaviour
@@ -89,4 +87,5 @@ public class NarrativeController : MonoBehaviour
         narrativeUI.CloseDialogue();
         
     }
+
 }

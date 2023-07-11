@@ -45,7 +45,7 @@ public class DialogueView : EditorWindow
         {
             var element = _reorderableMessages.list[index] as Message;
             
-            EditorGUI.EnumFlagsField(new Rect(), Emotion.None);
+            EditorGUI.EnumFlagsField(new Rect(), Emotion.Default);
 
             if (element == null) return;
             

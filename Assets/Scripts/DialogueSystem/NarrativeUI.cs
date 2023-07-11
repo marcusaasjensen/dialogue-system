@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
@@ -19,12 +20,15 @@ public class NarrativeUI : MonoBehaviour
     [Space, Header("Rendering")]
     [SerializeField, CanBeNull] private Renderer speakingCharacterImage;
 
-    [Space, Header("Default Values"), SerializeField, NotNull]
+    [Space, Header("Default Values"), SerializeField]
     private Speaker defaultSpeaker;
 
     [SerializeField] private int punctuationDelayMultiplier = 10;
 
     private IEnumerator _currentMessageShowing;
+
+    private static readonly char[] Punctuation = {'.', ',', '!', '?', ':', ';'};
+    private static readonly char[] CharactersToIgnore = {' '};
 
     public List<Button> DisplayDialogueOptionButtons(List<DialogueOption> options)
     {
@@ -52,11 +56,12 @@ public class NarrativeUI : MonoBehaviour
         speakerNameText.text = message.Speaker;
 
         if (speaker == null) speaker = defaultSpeaker;
+
+        var defaultSpeakerBehaviour = speaker.narrativeBehaviours[0] ?? defaultSpeaker.narrativeBehaviours[0];
         
-        var speakerBehaviour = 
-            speaker.narrativeBehaviours.Find(emotion => emotion.emotionLabel == message.EmotionDisplayed) 
-            ??
-            defaultSpeaker.narrativeBehaviours[0];
+        var speakerBehaviour =
+            speaker.narrativeBehaviours.Find(emotion => emotion.emotionLabel == message.EmotionDisplayed)
+            ?? defaultSpeakerBehaviour;
         
         if(_currentMessageShowing != null)
             StopCoroutine(_currentMessageShowing);
@@ -70,22 +75,23 @@ public class NarrativeUI : MonoBehaviour
     {
         
         messageText.text = "";
+        float currentDelay = 0;
         foreach (var c in message)
         {
-            var currentDelay = delayBetweenLetters;
-            
-            switch (c)
+            yield return new WaitForSeconds(currentDelay);
+            currentDelay = delayBetweenLetters;
+
+            if (CharactersToIgnore.Contains(c))
             {
-                case ' ':
-                    messageText.text += c; continue;
-                case '.' or '?' or '!' or ',':
-                    currentDelay = delayBetweenLetters * punctuationDelayMultiplier;
-                    break;
+                messageText.text += c;
+                continue;
             }
+            
+            if(Punctuation.Contains(c))
+                currentDelay = delayBetweenLetters * punctuationDelayMultiplier;
 
             AudioManager.Instance.PlaySound(speakerSound);
             messageText.text += c;
-            yield return new WaitForSeconds(currentDelay);
         }
 
         _currentMessageShowing = null;
