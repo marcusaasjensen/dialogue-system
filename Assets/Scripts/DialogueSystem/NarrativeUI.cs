@@ -19,7 +19,7 @@ public class NarrativeUI : MonoBehaviour
     [SerializeField] private Vector2 buttonOffset;
     
     [Space, Header("Rendering")]
-    [SerializeField, CanBeNull] private Renderer speakingCharacterImage;
+    [SerializeField, CanBeNull] private Image speakingCharacterImage;
 
     [Space, Header("Default Values"), SerializeField]
     private Speaker defaultSpeaker;
@@ -76,8 +76,8 @@ public class NarrativeUI : MonoBehaviour
 
         _currentMessageShowing = ShowLetterByLetter(message.Content, speakerBehaviour.speakingRhythm, speakerBehaviour.speakingSound);
         StartCoroutine(_currentMessageShowing);
-        
-        speakingCharacterImage = speakerBehaviour.characterFace;
+
+        if (speakingCharacterImage != null) speakingCharacterImage.sprite = speakerBehaviour.characterFace;
     }
     private IEnumerator ShowLetterByLetter(string message, float delayBetweenLetters, AudioClip speakerSound)
     {
