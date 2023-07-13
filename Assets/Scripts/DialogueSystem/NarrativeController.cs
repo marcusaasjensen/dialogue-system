@@ -5,6 +5,7 @@ public class NarrativeController : MonoBehaviour
 {
     [SerializeField] private NarrativeUI narrativeUI;
     [SerializeField] private NarrativeLoader narrativeLoader;
+    [SerializeField] private AudioClip narrativeMusic;
     [SerializeField] private bool isLockingPlayer;
     [SerializeField] private List<Speaker> speakers;
     public string NarrativePathID { get; private set; }
@@ -18,6 +19,7 @@ public class NarrativeController : MonoBehaviour
 
     private void StartNarrative()
     {
+        AudioManager.Instance.PlayMusic(narrativeMusic);
         _currentNarrative = _narrativeStructure.NarrativeEntryNode;
         _currentNarrative.Dialogue.OnLastMessage += DisplayDialogueOptions;
         ContinueNarrative();

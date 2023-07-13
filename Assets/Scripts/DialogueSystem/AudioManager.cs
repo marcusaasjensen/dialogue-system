@@ -19,4 +19,10 @@ public class AudioManager : MonoBehaviour
         if (sound != null) 
             effectSource.PlayOneShot(sound);
     }
+
+    public void PlayMusic(AudioClip music)
+    {
+        if (music != null)
+            musicSource.PlayOneShot(music);
+    }
 }

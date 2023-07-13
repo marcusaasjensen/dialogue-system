@@ -965,7 +965,7 @@ MonoBehaviour:
   dialogueOptionButtonPrefab: {fileID: 1851353415986813201, guid: 4e2170dc146a1c94e8c4a48ec625ef17, type: 3}
   nextMessageButton: {fileID: 1249654693}
   buttonOffset: {x: 100, y: 40}
-  speakingCharacterImage: {fileID: 0}
+  speakingCharacterImage: {fileID: 1919876754}
   defaultSpeaker: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
   punctuationDelayMultiplier: 10
 --- !u!114 &1751017560
