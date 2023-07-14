@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ public class NarrativeUI : MonoBehaviour
 
     private static readonly char[] Punctuation = {'.', ',', '!', '?', ':', ';'};
     private static readonly char[] CharactersToIgnore = {' '};
+
+    public event Action OnMessageEnd;
 
     public List<Button> DisplayDialogueOptionButtons(List<DialogueOption> options)
     {
@@ -102,15 +105,21 @@ public class NarrativeUI : MonoBehaviour
             messageText.text += c;
         }
 
-        _currentMessageShowing = null;
+        EndMessage();
     }
     public bool IsShowingCurrentMessage() => _currentMessageShowing != null;
 
     public void ShowAllMessage(Message currentMessage)
     {
+        messageText.text = currentMessage.Content;
+        EndMessage();
+    }
+
+    private void EndMessage()
+    {
         StopCoroutine(_currentMessageShowing);
         _currentMessageShowing = null;
-        messageText.text = currentMessage.Content;
+        OnMessageEnd?.Invoke();
     }
 
     public void EnableNarrationUI() => nextMessageButton.gameObject.SetActive(true);

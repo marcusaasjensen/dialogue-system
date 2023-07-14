@@ -8,6 +8,8 @@ public class NarrativeController : MonoBehaviour
     [SerializeField] private AudioClip narrativeMusic;
     [SerializeField] private bool isLockingPlayer;
     [SerializeField] private List<Speaker> speakers;
+    [SerializeField] private bool displayChoicesAutomatically = true;
+    
     public string NarrativePathID { get; private set; }
     
     private NarrativeNode _currentNarrative;
@@ -19,10 +21,23 @@ public class NarrativeController : MonoBehaviour
 
     private void StartNarrative()
     {
+        if (_narrativeStructure == null)
+        {
+            Debug.LogError("Can't start narrative because the narrative was not loaded properly.");
+            return;
+        }
+        
         AudioManager.Instance.PlayMusic(narrativeMusic);
         _currentNarrative = _narrativeStructure.NarrativeEntryNode;
-        _currentNarrative.Dialogue.OnLastMessage += DisplayDialogueOptions;
+        SetupNarrativeEvents();
         ContinueNarrative();
+    }
+
+    private void ContinueToChoice()
+    {
+        var hasNextChoices = _currentNarrative.Dialogue.IsLastMessage() && !_currentNarrative.IsLastDialogue();
+        if (!displayChoicesAutomatically || !hasNextChoices) return;
+        DisplayDialogueOptions();
     }
 
     public void ContinueNarrative()
@@ -56,7 +71,6 @@ public class NarrativeController : MonoBehaviour
             buttonList[i].onClick.AddListener(() => narrativeUI.EnableNarrationUI());
             buttonList[i].onClick.AddListener(() => buttonList.ForEach(button => Destroy(button.gameObject)));
         }
-
     }
 
     private void ShowNextMessage(Message nextMessage)
@@ -69,25 +83,41 @@ public class NarrativeController : MonoBehaviour
     {
         NarrativePathID += choiceIndex.ToString();
         
-        _currentNarrative.Dialogue.OnLastMessage -= DisplayDialogueOptions;
+        UnsetNarrativeEvents();
         _currentNarrative = _currentNarrative.Options[choiceIndex].TargetNarrative;
 
         if (_currentNarrative != null)
         {
-            _currentNarrative.Dialogue.OnLastMessage += DisplayDialogueOptions;
+            SetupNarrativeEvents();
             ContinueNarrative();
+            return;
         }
-        else
-            FinishDialogue();
-
+        
+        FinishDialogue();
     }
 
+    private void SetupNarrativeEvents()
+    {
+        _currentNarrative.Dialogue.OnLastMessage += DisplayDialogueOptions;
+        narrativeUI.OnMessageEnd += ContinueToChoice;
+    }
+
+    private void UnsetNarrativeEvents()
+    {
+        _currentNarrative.Dialogue.OnLastMessage -= DisplayDialogueOptions;
+        narrativeUI.OnMessageEnd -= ContinueToChoice;
+    }
+    
     private void FinishDialogue()
+    {
+        LogResults();
+        narrativeUI.CloseDialogue();
+    }
+
+    private void LogResults()
     {
         Debug.Log("<color=#2CD3E1>Dialogue finished!</color>");
         Debug.Log($"<color=#2CD3E1>Final narrative path ID: {NarrativePathID}</color>");
-        narrativeUI.CloseDialogue();
-        
     }
 
 }

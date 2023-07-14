@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Unity.VisualScripting.FullSerializer;
 
 [Serializable]
 public class Dialogue
@@ -11,6 +12,12 @@ public class Dialogue
     public Dialogue(IEnumerable<Message> messages)
     {
         Messages = new Queue<Message>(messages);
+    }
+
+    public bool IsLastMessage()
+    {
+        Debug.Log(Messages.Count);
+        return Messages.Count == 0;
     }
 
     public Message NextMessage()

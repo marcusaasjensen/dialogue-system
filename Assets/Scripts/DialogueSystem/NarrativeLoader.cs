@@ -9,7 +9,8 @@ public class NarrativeLoader : MonoBehaviour
         {
                 if (narrativeToLoad == null)
                 { 
-                        Debug.LogError("Narrative's reference missing.");
+                        Debug.LogError("Narrative's reference missing.", this);
+                        Debug.LogWarning("Hint: if you have made any changes to your current narrative, do not forget to set up its new reference in the NarrativeLoader component!", this);
                         return null;
                 }
                 

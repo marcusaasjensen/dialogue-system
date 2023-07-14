@@ -18,4 +18,6 @@ public class NarrativeNode
         var option = new DialogueOption(newOption, this, targetNode);
         Options.Add(option);
     }
+
+    public bool IsLastDialogue() => Options.Count == 0;
 }
