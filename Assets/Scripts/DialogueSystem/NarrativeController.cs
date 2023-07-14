@@ -12,6 +12,9 @@ public class NarrativeController : MonoBehaviour
     
     public string NarrativePathID { get; private set; }
     
+    public bool IsChoosing { get; private set; }
+    public bool IsDialogueFinished { get; private set; }
+    
     private NarrativeNode _currentNarrative;
     private Message _currentMessage;
     private Narrative _narrativeStructure;
@@ -21,6 +24,8 @@ public class NarrativeController : MonoBehaviour
 
     private void StartNarrative()
     {
+        IsDialogueFinished = false;
+        
         if (_narrativeStructure == null)
         {
             Debug.LogError("Can't start narrative because the narrative was not loaded properly.");
@@ -37,11 +42,12 @@ public class NarrativeController : MonoBehaviour
     {
         var hasNextChoices = _currentNarrative.Dialogue.IsLastMessage() && !_currentNarrative.IsLastDialogue();
         if (!displayChoicesAutomatically || !hasNextChoices) return;
-        DisplayDialogueOptions();
+        SetupDialogueOptions();
     }
 
     public void ContinueNarrative()
     {
+        IsChoosing = false;
         if (narrativeUI.IsShowingCurrentMessage())
         {
             SkipCurrentMessage(_currentMessage);
@@ -54,13 +60,16 @@ public class NarrativeController : MonoBehaviour
     }
 
     private void SkipCurrentMessage(Message currentMessage) => narrativeUI.ShowAllMessage(currentMessage);
-    private void DisplayDialogueOptions()
+    private void SetupDialogueOptions()
     {
+        
         if(_currentNarrative.Options.Count == 0)
         {
             FinishDialogue();
             return;
         }
+        
+        IsChoosing = true;
 
         var buttonList = narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options);
 
@@ -68,7 +77,7 @@ public class NarrativeController : MonoBehaviour
         {
             var newIndex = i;
             buttonList[i].onClick.AddListener(() => ChooseNarrativePath(newIndex));
-            buttonList[i].onClick.AddListener(() => narrativeUI.EnableNarrationUI());
+            buttonList[i].onClick.AddListener(() => narrativeUI.EnableNextNarrationUI());
             buttonList[i].onClick.AddListener(() => buttonList.ForEach(button => Destroy(button.gameObject)));
         }
     }
@@ -98,13 +107,13 @@ public class NarrativeController : MonoBehaviour
 
     private void SetupNarrativeEvents()
     {
-        _currentNarrative.Dialogue.OnLastMessage += DisplayDialogueOptions;
+        _currentNarrative.Dialogue.OnLastMessage += SetupDialogueOptions;
         narrativeUI.OnMessageEnd += ContinueToChoice;
     }
 
     private void UnsetNarrativeEvents()
     {
-        _currentNarrative.Dialogue.OnLastMessage -= DisplayDialogueOptions;
+        _currentNarrative.Dialogue.OnLastMessage -= SetupDialogueOptions;
         narrativeUI.OnMessageEnd -= ContinueToChoice;
     }
     
@@ -112,6 +121,7 @@ public class NarrativeController : MonoBehaviour
     {
         LogResults();
         narrativeUI.CloseDialogue();
+        IsDialogueFinished = true;
     }
 
     private void LogResults()

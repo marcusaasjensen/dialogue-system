@@ -1418,6 +1418,7 @@ GameObject:
   - component: {fileID: 2089170438}
   - component: {fileID: 2089170439}
   - component: {fileID: 2089170440}
+  - component: {fileID: 2089170441}
   m_Layer: 0
   m_Name: Dialogue System
   m_TagString: Untagged
@@ -1473,3 +1474,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}
   displayChoicesAutomatically: 1
+--- !u!114 &2089170441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089170436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd5146737e7d954c977e604111b6e88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  narrativeController: {fileID: 2089170440}

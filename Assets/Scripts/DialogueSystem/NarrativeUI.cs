@@ -38,7 +38,7 @@ public class NarrativeUI : MonoBehaviour
 
     public List<Button> DisplayDialogueOptionButtons(List<DialogueOption> options)
     {
-        nextMessageButton.gameObject.SetActive(false);
+        DisableNextNarrationUI();
         
         var buttonList = new List<Button>();
 
@@ -138,7 +138,7 @@ public class NarrativeUI : MonoBehaviour
         OnMessageEnd?.Invoke();
     }
 
-    public void EnableNarrationUI() => nextMessageButton.gameObject.SetActive(true);
-    public void DisableNarrationUI() => nextMessageButton.gameObject.SetActive(false);
+    public void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
+    private void DisableNextNarrationUI() => nextMessageButton.gameObject.SetActive(false);
     public void CloseDialogue() => this.gameObject.SetActive(false);
 }
