@@ -5,6 +5,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class NarrativeUI : MonoBehaviour
@@ -19,8 +20,9 @@ public class NarrativeUI : MonoBehaviour
     [SerializeField] private Button nextMessageButton;
     [SerializeField] private Vector2 buttonOffset;
     
+    [FormerlySerializedAs("speakingCharacterImage")]
     [Space, Header("Rendering")]
-    [SerializeField, CanBeNull] private Image speakingCharacterImage;
+    [SerializeField, CanBeNull] private Image speakingCharacterSprite;
 
     [Space, Header("Default Values"), SerializeField]
     private Speaker defaultSpeaker;
@@ -74,14 +76,28 @@ public class NarrativeUI : MonoBehaviour
             speaker.narrativeBehaviours.Find(emotion => emotion.emotionLabel == message.EmotionDisplayed)
             ?? defaultSpeakerBehaviour;
         
+        SetupSpeakerSprite(speakerBehaviour.characterFace);
+        
         if(_currentMessageShowing != null)
             StopCoroutine(_currentMessageShowing);
 
         _currentMessageShowing = ShowLetterByLetter(message.Content, speakerBehaviour.speakingRhythm, speakerBehaviour.speakingSound);
         StartCoroutine(_currentMessageShowing);
-
-        if (speakingCharacterImage != null) speakingCharacterImage.sprite = speakerBehaviour.characterFace;
     }
+
+    private void SetupSpeakerSprite(Sprite sprite)
+    {
+        if (speakingCharacterSprite == null) return;
+        
+        if(sprite == null)
+            speakingCharacterSprite.gameObject.SetActive(false);
+        else
+        {
+            speakingCharacterSprite.gameObject.SetActive(true);
+            speakingCharacterSprite.sprite = sprite;
+        }
+    } 
+    
     private IEnumerator ShowLetterByLetter(string message, float delayBetweenLetters, AudioClip speakerSound)
     {
         
