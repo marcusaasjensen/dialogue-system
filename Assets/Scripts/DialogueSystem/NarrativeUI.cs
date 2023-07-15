@@ -19,6 +19,7 @@ public class NarrativeUI : MonoBehaviour
     [SerializeField] private Button dialogueOptionButtonPrefab;
     [SerializeField] private Button nextMessageButton;
     [SerializeField] private Vector2 buttonOffset;
+    [SerializeField, Min(1)] private int numberOfColumns = 2;
     
     [FormerlySerializedAs("speakingCharacterImage")]
     [Space, Header("Rendering")]
@@ -41,20 +42,39 @@ public class NarrativeUI : MonoBehaviour
         DisableNextNarrationUI();
         
         var buttonList = new List<Button>();
-
+        
         var buttonRect = dialogueOptionButtonPrefab.GetComponent<RectTransform>().rect;
-
-        var firstButtonXPosition = (buttonRect.width * (1 - options.Count) - options.Count * buttonOffset.x + buttonOffset.x) / 2;
+        var parentRect = buttonsParent.GetComponent<RectTransform>().rect;
+        
+        var columnIndex = 0;
+        var rowIndex = 0;
+        
+        var optionsLeft = new Queue<DialogueOption>(options);
+        var numberOfOptionsInRow = Mathf.Min(optionsLeft.Count, numberOfColumns);
+        
+        var initialButtonXPosition = (buttonRect.width * (1 - numberOfOptionsInRow) - numberOfOptionsInRow * buttonOffset.x + buttonOffset.x) / 2;
+        var initialButtonYPosition = parentRect.height / 2 - buttonRect.height / 2;
         
         foreach(var option in options)
         {
-            var newOptionButton = Instantiate(dialogueOptionButtonPrefab, buttonsParent);
-            var buttonPosition = newOptionButton.GetComponent<RectTransform>();
-
-            var currentIndex = options.IndexOf(option);
+            if (columnIndex == numberOfColumns)
+            {
+                numberOfOptionsInRow = Mathf.Min(optionsLeft.Count, numberOfColumns);
+                initialButtonXPosition = (buttonRect.width * (1 - numberOfOptionsInRow) - numberOfOptionsInRow * buttonOffset.x + buttonOffset.x) / 2;
+                columnIndex = 0;
+                rowIndex++;
+            }
             
-            buttonPosition.localPosition = new Vector3(firstButtonXPosition + currentIndex * (buttonRect.width + buttonOffset.x), buttonOffset.y,0);
+            var newOptionButton = Instantiate(dialogueOptionButtonPrefab, buttonsParent);
+
+            var xOffset = columnIndex * (buttonRect.width + buttonOffset.x);
+            var yOffset = rowIndex * (buttonRect.height + buttonOffset.y);
+            
+            newOptionButton.GetComponent<RectTransform>().localPosition = new Vector3(initialButtonXPosition + xOffset, initialButtonYPosition - yOffset,0);
             newOptionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = option.Text;
+        
+            columnIndex++;
+            optionsLeft.Dequeue();
             
             buttonList.Add(newOptionButton);
         }

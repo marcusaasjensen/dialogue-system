@@ -22,6 +22,12 @@ MonoBehaviour:
   - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
     PortName: Hey you too
     TargetNodeGuid: e94029d7-1e13-4075-83d3-c4ba09c933b4
+  - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
+    PortName: I don't want to talk.
+    TargetNodeGuid: fdcb7345-f7f2-4371-86fe-9be3ee967415
+  - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
+    PortName: What?
+    TargetNodeGuid: 1d2c9ccd-0d10-4a5d-bcb7-b37af93c2452
   - BaseNodeGuid: e94029d7-1e13-4075-83d3-c4ba09c933b4
     PortName: Nice to meet me...
     TargetNodeGuid: 04680189-ab6d-4a6c-9262-fbcefc8d3c44
@@ -29,15 +35,15 @@ MonoBehaviour:
     PortName: I don't have a choice...
     TargetNodeGuid: 49162a72-ddb1-4985-bbc7-927da47f4c8a
   - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
-    PortName: I don't want to talk.
-    TargetNodeGuid: fdcb7345-f7f2-4371-86fe-9be3ee967415
+    PortName: Yo?
+    TargetNodeGuid: 1d2c9ccd-0d10-4a5d-bcb7-b37af93c2452
   DialogueNodeData:
   - Guid: 4558c672-966e-41bf-a158-baecac99cf98
     Dialogue:
     - <Speaker>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 1
       <Content>k__BackingField: Hey you
-    Position: {x: 272, y: 188}
+    Position: {x: 146, y: 141.33334}
   - Guid: e94029d7-1e13-4075-83d3-c4ba09c933b4
     Dialogue:
     - <Speaker>k__BackingField: X
@@ -71,3 +77,6 @@ MonoBehaviour:
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Bye.
     Position: {x: 354, y: 420}
+  - Guid: 1d2c9ccd-0d10-4a5d-bcb7-b37af93c2452
+    Dialogue: []
+    Position: {x: 816.6667, y: 498.66666}

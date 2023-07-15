@@ -1,16 +1,21 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GraphSaveUtility : MonoBehaviour
+public class GraphSaveUtility
 {
     private DialogueGraphView _targetGraphView;
     private DialogueContainer _containerCache;
     private IEnumerable<Edge> Edges => _targetGraphView.edges.ToList();
     private List<DialogueNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueNode>().ToList();
+
+    private const string PathToResources = "Assets/Resources";
+    private const string PathInResourcesFolder = "Narratives";
+    
     public static GraphSaveUtility GetInstance(DialogueGraphView targetGraphView)
     {
         return new GraphSaveUtility
@@ -48,15 +53,15 @@ public class GraphSaveUtility : MonoBehaviour
             });
         }
 
-        if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-            AssetDatabase.CreateFolder("Assets", "Resources");
-        AssetDatabase.CreateAsset(dialogueContainer, $"Assets/Resources/{fileName}.asset");
+        if (!AssetDatabase.IsValidFolder($"{PathToResources}/{PathInResourcesFolder}"))
+            Directory.CreateDirectory($"{PathToResources}/{PathInResourcesFolder}");
+        AssetDatabase.CreateAsset(dialogueContainer, $"{PathToResources}/{PathInResourcesFolder}/{fileName}.asset");
         AssetDatabase.SaveAssets();
     }
 
     public void LoadGraph(string fileName)
     {
-        _containerCache = Resources.Load<DialogueContainer>(fileName);
+        _containerCache = Resources.Load<DialogueContainer>($"{PathInResourcesFolder}/{fileName}");
 
         if (_containerCache == null)
         {

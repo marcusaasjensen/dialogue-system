@@ -225,7 +225,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -10, y: -250}
+  m_AnchoredPosition: {x: -10, y: -278}
   m_SizeDelta: {x: 900, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &366787869
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 46
+  m_lineSpacing: 50
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -506,7 +506,8 @@ MonoBehaviour:
   buttonsParent: {fileID: 222693666}
   dialogueOptionButtonPrefab: {fileID: 1851353415986813201, guid: 4e2170dc146a1c94e8c4a48ec625ef17, type: 3}
   nextMessageButton: {fileID: 1249654693}
-  buttonOffset: {x: 100, y: 40}
+  buttonOffset: {x: 100, y: 50}
+  numberOfColumns: 3
   speakingCharacterSprite: {fileID: 1919876754}
   defaultSpeaker: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
   punctuationDelayMultiplier: 10

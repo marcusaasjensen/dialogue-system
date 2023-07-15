@@ -1,12 +1,10 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
-using Unity.VisualScripting.FullSerializer;
 
 [Serializable]
 public class Dialogue
 {
-    [field: SerializeField] public Queue<Message> Messages { get; private set; }
+    public Queue<Message> Messages { get; private set; }
     public event Action OnLastMessage; 
 
     public Dialogue(IEnumerable<Message> messages)
@@ -14,11 +12,7 @@ public class Dialogue
         Messages = new Queue<Message>(messages);
     }
 
-    public bool IsLastMessage()
-    {
-        Debug.Log(Messages.Count);
-        return Messages.Count == 0;
-    }
+    public bool IsLastMessage() => Messages.Count == 0;
 
     public Message NextMessage()
     {
