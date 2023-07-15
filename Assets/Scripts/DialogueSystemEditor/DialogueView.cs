@@ -55,13 +55,14 @@ public class DialogueView : EditorWindow
             element.EmotionDisplayed = (Emotion)
                 EditorGUI.EnumPopup(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 30, position.width - 50, 20),
                     new GUIContent("Emotion"), element.EmotionDisplayed);
+            element.HideCharacter = EditorGUI.Toggle(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 20), new GUIContent("Display character"), element.HideCharacter);
             element.Content =
                 EditorGUI.TextArea(
-                    new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 100 - GUIOffset),
+                    new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 90, position.width - 50, 100 - GUIOffset),
                     element.Content);
         };
         
-        _reorderableMessages.elementHeightCallback = index => EditorGUIUtility.singleLineHeight + 150f + GUIOffset;
+        _reorderableMessages.elementHeightCallback = index => EditorGUIUtility.singleLineHeight + 170f + GUIOffset;
     }
     
     private void OnGUI()

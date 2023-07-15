@@ -86,7 +86,7 @@ public class NarrativeUI : MonoBehaviour
     {
         if (message == null) return;
         
-        speakerNameText.text = message.Speaker;
+        speakerNameText.text = message.HideCharacter ? "" : message.Speaker;
 
         if (speaker == null) speaker = defaultSpeaker;
 
@@ -96,7 +96,7 @@ public class NarrativeUI : MonoBehaviour
             speaker.narrativeBehaviours.Find(emotion => emotion.emotionLabel == message.EmotionDisplayed)
             ?? defaultSpeakerBehaviour;
         
-        SetupSpeakerSprite(speakerBehaviour.characterFace);
+        SetupSpeakerSprite(speakerBehaviour.characterFace, message.HideCharacter);
         
         if(_currentMessageShowing != null)
             StopCoroutine(_currentMessageShowing);
@@ -105,11 +105,11 @@ public class NarrativeUI : MonoBehaviour
         StartCoroutine(_currentMessageShowing);
     }
 
-    private void SetupSpeakerSprite(Sprite sprite)
+    private void SetupSpeakerSprite(Sprite sprite, bool hideCharacter)
     {
         if (speakingCharacterSprite == null) return;
         
-        if(sprite == null)
+        if(sprite == null || hideCharacter)
             speakingCharacterSprite.gameObject.SetActive(false);
         else
         {

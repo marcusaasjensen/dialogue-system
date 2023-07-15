@@ -41,13 +41,13 @@ MonoBehaviour:
   - Guid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
     Dialogue:
     - <Speaker>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 1
+      <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: I can help you fixing that robot!
     - <Speaker>k__BackingField: Shy
       <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: You know that model?
     - <Speaker>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 1
+      <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: Of course! I have one at home. let me fix it for
         you.
     - <Speaker>k__BackingField: Shy
@@ -57,15 +57,15 @@ MonoBehaviour:
   - Guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
     Dialogue:
     - <Speaker>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 1
+      <EmotionDisplayed>k__BackingField: 11
       <Content>k__BackingField: Wait, is that a robot?
     Position: {x: 719.3333, y: 361.3333}
   - Guid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
     Dialogue:
     - <Speaker>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 4
+      <EmotionDisplayed>k__BackingField: 6
       <Content>k__BackingField: I really dislike being alone!
     - <Speaker>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 10
+      <EmotionDisplayed>k__BackingField: 11
       <Content>k__BackingField: I wish I could be like you...
     Position: {x: 750, y: -46}
