@@ -66,7 +66,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Option
+  m_text: 'New
+
+    Option'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6430e7d840333d348a8b1237f2c63ae9, type: 2}
   m_sharedMaterial: {fileID: 9039135510027449646, guid: 6430e7d840333d348a8b1237f2c63ae9, type: 2}
@@ -105,7 +107,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 44
+  m_lineSpacing: 100
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -148,7 +150,7 @@ GameObject:
   - component: {fileID: 1851353415986813214}
   - component: {fileID: 1851353415986813201}
   m_Layer: 5
-  m_Name: Option Button
+  m_Name: Default Option Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -18,11 +18,7 @@ MonoBehaviour:
     speakingSound: {fileID: 8300000, guid: e884bc21eb79fde42816deea8251b7ff, type: 3}
     speakingRhythm: 0.05
     characterFace: {fileID: 21300000, guid: 4b9ada37f22f7604f8f395562472070e, type: 3}
-  - emotionLabel: 10
+  - emotionLabel: 11
     speakingSound: {fileID: 8300000, guid: e884bc21eb79fde42816deea8251b7ff, type: 3}
-    speakingRhythm: 0.05
+    speakingRhythm: 0.06
     characterFace: {fileID: 21300000, guid: 847d85bc66f56914ebeb804be9e7f9ff, type: 3}
-  - emotionLabel: 1
-    speakingSound: {fileID: 8300000, guid: e884bc21eb79fde42816deea8251b7ff, type: 3}
-    speakingRhythm: 0.05
-    characterFace: {fileID: 0}

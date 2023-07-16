@@ -55,7 +55,7 @@ public class DialogueView : EditorWindow
             element.EmotionDisplayed = (Emotion)
                 EditorGUI.EnumPopup(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 30, position.width - 50, 20),
                     new GUIContent("Emotion"), element.EmotionDisplayed);
-            element.HideCharacter = EditorGUI.Toggle(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 20), new GUIContent("Display character"), element.HideCharacter);
+            element.HideCharacter = EditorGUI.Toggle(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 20), new GUIContent("Hide character"), element.HideCharacter);
             element.Content =
                 EditorGUI.TextArea(
                     new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 90, position.width - 50, 100 - GUIOffset),

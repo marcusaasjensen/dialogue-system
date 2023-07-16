@@ -2,21 +2,17 @@
 using System;
 
 [Serializable]
-public class Dialogue
+public class Dialogue : Queue<Message>
 {
-    public Queue<Message> Messages { get; private set; }
-    public event Action OnLastMessage; 
+    public event Action OnLastMessage;
 
-    public Dialogue(IEnumerable<Message> messages)
-    {
-        Messages = new Queue<Message>(messages);
-    }
+    public Dialogue(IEnumerable<Message> messages) : base(messages){}
 
-    public bool IsLastMessage() => Messages.Count == 0;
+    public bool IsLastMessage() => Count == 0;
 
     public Message NextMessage()
     {
-        var nextMessage = Messages.Count == 0 ? null : Messages?.Dequeue();
+        var nextMessage = Count == 0 ? null : Dequeue();
         
         if (nextMessage != null) return nextMessage;
         
