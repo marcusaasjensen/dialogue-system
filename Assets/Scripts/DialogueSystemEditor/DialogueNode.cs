@@ -6,4 +6,5 @@ public class DialogueNode : Node
     public string GUID;
     public List<Message> Messages;
     public bool EntryPoint = false;
+    public bool TransitionNode = false;
 }

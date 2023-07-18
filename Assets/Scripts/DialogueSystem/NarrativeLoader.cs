@@ -44,7 +44,7 @@ public class NarrativeLoader : MonoBehaviour
                 options.ForEach(option =>
                 {
                         var nextNode = narrativeToLoad.DialogueNodeData.Find(dialogueNode => option.TargetNodeGuid == dialogueNode.Guid);
-                        narrativeNode.AddOption(option.PortName, CreateNextNode(nextNode, narrative));
+                        narrativeNode.AddOption(option.PortName, CreateNextNode(nextNode, narrative), null);
                 });
 
                 return narrativeNode;

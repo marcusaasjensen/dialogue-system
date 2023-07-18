@@ -14,7 +14,6 @@ public class DialogueGraph : EditorWindow
     {
         var window = GetWindow<DialogueGraph>();
         window.titleContent = new GUIContent("Dialogue Graph");
-        
     }
 
     private void ConstructGraph()
@@ -48,9 +47,16 @@ public class DialogueGraph : EditorWindow
         {
             _graphView.CreateNode("Dialogue Node");
         });
+
+        var transitionCreateButton = new Button(() =>
+        {
+            _graphView.CreateTransitionNode("Transition Node");
+        });
         
         nodeCreateButton.text = "Create Node";
         toolbar.Add(nodeCreateButton);
+        transitionCreateButton.text = "Create Transition";
+        toolbar.Add(transitionCreateButton);
         rootVisualElement.Add(toolbar);
     }
 
@@ -69,7 +75,6 @@ public class DialogueGraph : EditorWindow
             saveUtility.LoadGraph(_fileName);
     }
 
-
     private void OnEnable()
     {
         ConstructGraph(); 
@@ -84,8 +89,5 @@ public class DialogueGraph : EditorWindow
         _graphView.Add(miniMap);
     }
     
-    private void OnDisable()
-    {
-        rootVisualElement.Remove(_graphView);
-    }
+    private void OnDisable() => rootVisualElement.Remove(_graphView);
 }

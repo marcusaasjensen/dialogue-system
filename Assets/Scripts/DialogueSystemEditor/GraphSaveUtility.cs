@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -49,7 +50,8 @@ public class GraphSaveUtility
             {
                 Guid = dialogueNode.GUID,
                 Dialogue = dialogueNode.Messages,
-                Position = dialogueNode.GetPosition().position
+                Position = dialogueNode.GetPosition().position,
+                TransitionNode = dialogueNode.TransitionNode
             });
         }
 
@@ -82,8 +84,10 @@ public class GraphSaveUtility
             var connections = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == Nodes[i].GUID).ToList();
             for (var j = 0; j < connections.Count; j++)
             {
+                
                 var targetNodeGuid = connections[j].TargetNodeGuid;
                 var targetNode = Nodes.First(x => x.GUID == targetNodeGuid);
+                
                 LinkNodes(Nodes[i].outputContainer[j].Q<Port>(), (Port) targetNode.inputContainer[0]);
 
                 targetNode.SetPosition(new Rect(_containerCache.DialogueNodeData.First(x => x.Guid == targetNodeGuid).Position,
@@ -108,13 +112,19 @@ public class GraphSaveUtility
     private void CreateNodes()
     {
         foreach (var nodeData in _containerCache.DialogueNodeData)
-        {
-            var tempNode = _targetGraphView.CreateDialogueNode("Multiple Choice Node", nodeData.Dialogue);
+        { 
+            var tempNode =  nodeData.TransitionNode 
+                ? _targetGraphView.CreateDialogueTransitionNode("Transition Node", nodeData.Dialogue)
+                : _targetGraphView.CreateDialogueNode("Multiple Choice Node", nodeData.Dialogue);
             tempNode.GUID = nodeData.Guid;
+            
             _targetGraphView.AddElement(tempNode);
 
             var nodePorts = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == nodeData.Guid).ToList();
-                nodePorts.ForEach(x => _targetGraphView.AddChoicePort(tempNode, x.PortName));
+            
+            if (nodeData.TransitionNode) continue;
+
+            nodePorts.ForEach(x => _targetGraphView.AddChoicePort(tempNode, x.PortName));
         }
     }
 

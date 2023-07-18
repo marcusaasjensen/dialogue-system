@@ -9,6 +9,7 @@ public class DialogueGraphView : GraphView
 {
     public readonly Vector2 DefaultNodeSize = new Vector2(150, 200);
     private const int MaxChoiceTextLength = 35;
+    
     public DialogueGraphView()
     {
         styleSheets.Add(Resources.Load<StyleSheet>("Editor/DialogueGraph"));
@@ -69,14 +70,13 @@ public class DialogueGraphView : GraphView
             title = nodeName,
             Messages = messages,
             GUID = Guid.NewGuid().ToString(),
+            TransitionNode = false
         };
 
         SetupStyleSheet(dialogueNode);
-        
-        var inputPort = GeneratePort(dialogueNode, Direction.Input, Port.Capacity.Multi);
-        inputPort.portName = "Input";
-        dialogueNode.inputContainer.Add(inputPort);
-        
+
+        CreatePort(dialogueNode, Direction.Input);
+
         var openDialogueButton = new Button(() =>
         {
             DialogueView.CloseWindow();
@@ -128,7 +128,6 @@ public class DialogueGraphView : GraphView
         var choiceContainer = new VisualElement();
         choiceContainer.AddToClassList("choice-container");
         
-        
         textField.RegisterValueChangedCallback(evt => generatedPort.portName = evt.newValue);
         var deleteButton = new Button(() => RemovePort(dialogueNode, generatedPort)) { text = "Remove" };
 
@@ -160,5 +159,47 @@ public class DialogueGraphView : GraphView
         edge.input.Disconnect(edge);
         RemoveElement(enumerable.First());
         RefreshNode(dialogueNode);
+    }
+
+    public void CreateTransitionNode(string transitionNode) => AddElement(CreateDialogueTransitionNode(transitionNode, new List<Message>()));
+
+    public DialogueNode CreateDialogueTransitionNode(string transitionNode, List<Message> messages)
+    {
+        var dialogueNode = new DialogueNode
+        {
+            title = transitionNode,
+            Messages = messages,
+            GUID = Guid.NewGuid().ToString(),
+            TransitionNode = true
+        };
+
+        SetupStyleSheet(dialogueNode);
+        
+        CreatePort(dialogueNode, Direction.Input);
+        CreatePort(dialogueNode, Direction.Output);
+        
+        var openDialogueButton = new Button(() =>
+        {
+            DialogueView.CloseWindow();
+            DialogueView.OpenWindow(dialogueNode.Messages);
+        }) { text = "Edit Dialogue" };
+
+        dialogueNode.titleContainer.Add(openDialogueButton);
+
+        dialogueNode.SetPosition(new Rect(Vector2.zero, DefaultNodeSize));
+        
+        RefreshNode(dialogueNode);
+        return dialogueNode;
+    }
+
+    private static void CreatePort(Node dialogueNode, Direction direction)
+    {
+        var port = GeneratePort(dialogueNode, direction, direction == Direction.Input ? Port.Capacity.Multi : Port.Capacity.Single);
+        port.portName = direction == Direction.Input ? "Input" : "Output";
+        
+        if(direction == Direction.Input) 
+            dialogueNode.inputContainer.Add(port);
+        else
+            dialogueNode.outputContainer.Add(port);
     }
 }

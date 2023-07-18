@@ -38,7 +38,7 @@ MonoBehaviour:
     PortName: I'm concentrated fixing my robot.
     TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
   - BaseNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
-    PortName: You can sit with me if you want.
+    PortName: You seem to be lonely.
     TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
   DialogueNodeData:
   - Guid: 63dc8710-439f-48c0-8e63-75898d75b09f
@@ -60,7 +60,7 @@ MonoBehaviour:
       <HideCharacter>k__BackingField: 0
     - <Speaker>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: Yeah. I do have A LOT of friends.
+      <Content>k__BackingField: Yeah. But I do have A LOT of friends though.
       <HideCharacter>k__BackingField: 0
     - <Speaker>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0

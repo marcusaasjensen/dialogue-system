@@ -13,9 +13,9 @@ public class NarrativeNode
         NodeId = nodeId;
     }
 
-    public void AddOption(string newOption, NarrativeNode targetNode)
+    public void AddOption(string newOption, NarrativeNode targetNode, Dialogue dialogueTransition)
     {
-        var option = new DialogueOption(newOption, this, targetNode);
+        var option = new DialogueOption(newOption, this, targetNode, dialogueTransition);
         Options.Add(option);
     }
 
