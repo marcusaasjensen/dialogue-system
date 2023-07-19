@@ -17,6 +17,7 @@ public class NarrativeController : MonoBehaviour
     
     private NarrativeNode _currentNarrative;
     private Message _currentMessage;
+    private Queue<Message> _narrativeQueue;
     private Narrative _narrativeStructure;
 
     private void Awake() => _narrativeStructure = narrativeLoader.LoadNarrativeFromData();
@@ -33,16 +34,23 @@ public class NarrativeController : MonoBehaviour
         }
         
         AudioManager.Instance.PlayMusic(narrativeMusic);
-        _currentNarrative = _narrativeStructure.NarrativeEntryNode;
+
         SetupNarrativeEvents();
-        ContinueNarrative();
+        StartNewDialogue(_narrativeStructure.NarrativeEntryNode);
     }
 
     private void ContinueToChoice()
     {
         var hasNextChoices = _currentNarrative.Dialogue.IsLastMessage() && !_currentNarrative.IsLastDialogue();
         if (!displayChoicesAutomatically || !hasNextChoices) return;
-        SetupDialogueOptions();
+        FindNextPath();
+    }
+
+    private void StartNewDialogue(NarrativeNode narrative)
+    {
+        _currentNarrative = narrative;
+        _narrativeQueue = new Queue<Message>(narrative.Dialogue);
+        ContinueNarrative();
     }
 
     public void ContinueNarrative()
@@ -54,21 +62,35 @@ public class NarrativeController : MonoBehaviour
             Debug.Log($"<color=#FAE392>Skip</color>");
             return;
         }
+
+        _currentMessage = _narrativeQueue.Dequeue();
         
-        _currentMessage = _currentNarrative.Dialogue.NextMessage();
+        if(_narrativeQueue.Count == 0)
+            FindNextPath();
+        
         ShowNextMessage(_currentMessage);
     }
 
     private void SkipCurrentMessage(Message currentMessage) => narrativeUI.ShowAllMessage(currentMessage);
+    private void FindNextPath()
+    {
+        switch (_currentNarrative.Options.Count)
+        {
+            case 0 when _currentNarrative.DefaultPath == null:
+                FinishDialogue();
+                break;
+            case 0 when _currentNarrative.DefaultPath != null:
+                StartNewDialogue(_currentNarrative.DefaultPath);
+                break;
+            case > 0:
+                SetupDialogueOptions();
+                break;
+        }
+
+    }
+
     private void SetupDialogueOptions()
     {
-        
-        if(_currentNarrative.Options.Count == 0)
-        {
-            FinishDialogue();
-            return;
-        }
-        
         IsChoosing = true;
 
         var buttonList = narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options);
@@ -80,7 +102,9 @@ public class NarrativeController : MonoBehaviour
             buttonList[i].onClick.AddListener(() => narrativeUI.EnableNextNarrationUI());
             buttonList[i].onClick.AddListener(() => buttonList.ForEach(button => Destroy(button.gameObject)));
         }
-    }
+    } 
+    
+    
 
     private void ShowNextMessage(Message nextMessage)
     {
@@ -93,12 +117,13 @@ public class NarrativeController : MonoBehaviour
         NarrativePathID += choiceIndex.ToString();
         
         UnsetNarrativeEvents();
-        _currentNarrative = _currentNarrative.Options[choiceIndex].TargetNarrative;
+        
+        var nextNarrative = _currentNarrative.Options[choiceIndex].TargetNarrative;
 
-        if (_currentNarrative != null)
+        if (nextNarrative != null)
         {
             SetupNarrativeEvents();
-            ContinueNarrative();
+            StartNewDialogue(nextNarrative);
             return;
         }
         
@@ -107,13 +132,11 @@ public class NarrativeController : MonoBehaviour
 
     private void SetupNarrativeEvents()
     {
-        _currentNarrative.Dialogue.OnLastMessage += SetupDialogueOptions;
         narrativeUI.OnMessageEnd += ContinueToChoice;
     }
-
+    
     private void UnsetNarrativeEvents()
     {
-        _currentNarrative.Dialogue.OnLastMessage -= SetupDialogueOptions;
         narrativeUI.OnMessageEnd -= ContinueToChoice;
     }
     
