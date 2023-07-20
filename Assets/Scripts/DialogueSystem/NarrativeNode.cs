@@ -21,5 +21,7 @@ public class NarrativeNode
         Options.Add(option);
     }
 
-    public bool IsLastDialogue() => Options.Count == 0;
+    public bool IsTipNarrativeNode() => Options.Count == 0 && DefaultPath == null;
+    public bool IsTransitionNode() => Options.Count == 0 && DefaultPath != null;
+    public bool HasNextChoice() => Options.Count > 0;
 }

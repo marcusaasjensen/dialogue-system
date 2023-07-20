@@ -159,6 +159,8 @@ public class NarrativeUI : MonoBehaviour
     }
 
     public void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
+
     private void DisableNextNarrationUI() => nextMessageButton.gameObject.SetActive(false);
-    public void CloseDialogue() => this.gameObject.SetActive(false);
+
+    public void CloseDialogue() => gameObject.SetActive(false);
 }

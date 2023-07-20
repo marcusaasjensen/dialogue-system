@@ -41,8 +41,7 @@ public class NarrativeController : MonoBehaviour
 
     private void ContinueToChoice()
     {
-        var hasNextChoices = _currentNarrative.Dialogue.IsLastMessage() && !_currentNarrative.IsLastDialogue();
-        if (!displayChoicesAutomatically || !hasNextChoices) return;
+        if (!displayChoicesAutomatically || _narrativeQueue.Count != 0 || _currentNarrative.IsTransitionNode()) return;
         FindNextPath();
     }
 
@@ -62,31 +61,39 @@ public class NarrativeController : MonoBehaviour
             Debug.Log($"<color=#FAE392>Skip</color>");
             return;
         }
+        
+        if(_narrativeQueue.Count == 0 && _currentNarrative.IsTransitionNode())
+            StartNewDialogue(_currentNarrative.DefaultPath);
 
         _currentMessage = _narrativeQueue.Dequeue();
-        
-        if(_narrativeQueue.Count == 0)
-            FindNextPath();
+
+        if (_currentMessage == null)
+            return;
         
         ShowNextMessage(_currentMessage);
     }
 
     private void SkipCurrentMessage(Message currentMessage) => narrativeUI.ShowAllMessage(currentMessage);
+    
     private void FindNextPath()
     {
-        switch (_currentNarrative.Options.Count)
+
+        if (_currentNarrative.IsTransitionNode())
         {
-            case 0 when _currentNarrative.DefaultPath == null:
-                FinishDialogue();
-                break;
-            case 0 when _currentNarrative.DefaultPath != null:
-                StartNewDialogue(_currentNarrative.DefaultPath);
-                break;
-            case > 0:
-                SetupDialogueOptions();
-                break;
+            StartNewDialogue(_currentNarrative.DefaultPath);
+            return;
         }
 
+        if (_currentNarrative.HasNextChoice())
+        {
+            SetupDialogueOptions();
+            return;
+        }
+
+        if (_currentNarrative.IsTipNarrativeNode())
+        {
+            FinishDialogue();
+        }
     }
 
     private void SetupDialogueOptions()
@@ -102,9 +109,7 @@ public class NarrativeController : MonoBehaviour
             buttonList[i].onClick.AddListener(() => narrativeUI.EnableNextNarrationUI());
             buttonList[i].onClick.AddListener(() => buttonList.ForEach(button => Destroy(button.gameObject)));
         }
-    } 
-    
-    
+    }
 
     private void ShowNextMessage(Message nextMessage)
     {
