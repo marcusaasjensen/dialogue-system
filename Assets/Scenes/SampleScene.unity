@@ -597,7 +597,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2089170440}
         m_TargetAssemblyTypeName: NarrativeController, Assembly-CSharp
-        m_MethodName: ContinueNarrative
+        m_MethodName: NextNarrative
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
