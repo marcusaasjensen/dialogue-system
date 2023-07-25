@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NarrativeInput : MonoBehaviour
@@ -13,6 +11,6 @@ public class NarrativeInput : MonoBehaviour
         if (!Input.GetKeyDown(KeyCode.Space) || narrativeController.IsChoosing ||
             narrativeController.IsDialogueFinished) return;
 
-        narrativeController.ContinueNarrative();
+        narrativeController.NextNarrative();
     }
 }

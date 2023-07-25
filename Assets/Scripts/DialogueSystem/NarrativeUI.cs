@@ -78,7 +78,7 @@ public class NarrativeUI : MonoBehaviour
             
             buttonList.Add(newOptionButton);
         }
-
+        
         return buttonList;
     }
 
@@ -147,8 +147,8 @@ public class NarrativeUI : MonoBehaviour
 
     public void ShowAllMessage(Message currentMessage)
     {
-        messageText.text = currentMessage.Content;
         EndMessage();
+        messageText.text = currentMessage.Content;
     }
 
     private void EndMessage()
@@ -159,6 +159,8 @@ public class NarrativeUI : MonoBehaviour
     }
 
     public void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
+
     private void DisableNextNarrationUI() => nextMessageButton.gameObject.SetActive(false);
-    public void CloseDialogue() => this.gameObject.SetActive(false);
+
+    public void CloseDialogue() => gameObject.SetActive(false);
 }
