@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,8 +10,8 @@ public class NarrativeController : MonoBehaviour
     [SerializeField] private bool isLockingPlayer;
     [SerializeField] private List<Speaker> speakers;
     [SerializeField] private bool displayChoicesAutomatically = true;
-    
-    public string NarrativePathID { get; private set; }
+
+    private string NarrativePathID { get; set; }
     
     public bool IsChoosing { get; private set; }
     public bool IsDialogueFinished { get; private set; }
@@ -39,9 +40,12 @@ public class NarrativeController : MonoBehaviour
         StartNewDialogue(_narrativeStructure.NarrativeEntryNode);
     }
 
-    private void ContinueToChoice()
+    private void ContinueToChoiceAutomatically()
     {
-        if (!displayChoicesAutomatically || _narrativeQueue.Count != 0 || _currentNarrative.IsTransitionNode()) return;
+        var continueAutomatically = displayChoicesAutomatically && _narrativeQueue.Count == 0 && _currentNarrative.HasNextChoice();
+        
+        if (!continueAutomatically) return;
+
         FindNextPath();
     }
 
@@ -49,27 +53,32 @@ public class NarrativeController : MonoBehaviour
     {
         _currentNarrative = narrative;
         _narrativeQueue = new Queue<Message>(narrative.Dialogue);
-        ContinueNarrative();
+        NextNarrative();
     }
 
-    public void ContinueNarrative()
+    public void NextNarrative()
     {
         IsChoosing = false;
         if (narrativeUI.IsShowingCurrentMessage())
         {
             SkipCurrentMessage(_currentMessage);
+            print(_currentMessage);
             Debug.Log($"<color=#FAE392>Skip</color>");
             return;
         }
         
-        if(_narrativeQueue.Count == 0 && _currentNarrative.IsTransitionNode())
-            StartNewDialogue(_currentNarrative.DefaultPath);
+        ContinueNarrative();
+    }
+
+    public void ContinueNarrative()
+    {
+        if (_narrativeQueue.Count == 0)
+        {
+            FindNextPath();
+            return;
+        }
 
         _currentMessage = _narrativeQueue.Dequeue();
-
-        if (_currentMessage == null)
-            return;
-        
         ShowNextMessage(_currentMessage);
     }
 
@@ -77,7 +86,6 @@ public class NarrativeController : MonoBehaviour
     
     private void FindNextPath()
     {
-
         if (_currentNarrative.IsTransitionNode())
         {
             StartNewDialogue(_currentNarrative.DefaultPath);
@@ -90,10 +98,8 @@ public class NarrativeController : MonoBehaviour
             return;
         }
 
-        if (_currentNarrative.IsTipNarrativeNode())
-        {
-            FinishDialogue();
-        }
+        if (!_currentNarrative.IsTipNarrativeNode()) return;
+        FinishDialogue();
     }
 
     private void SetupDialogueOptions()
@@ -107,7 +113,11 @@ public class NarrativeController : MonoBehaviour
             var newIndex = i;
             buttonList[i].onClick.AddListener(() => ChooseNarrativePath(newIndex));
             buttonList[i].onClick.AddListener(() => narrativeUI.EnableNextNarrationUI());
-            buttonList[i].onClick.AddListener(() => buttonList.ForEach(button => Destroy(button.gameObject)));
+            buttonList[i].onClick.AddListener(() =>
+            {
+                print("Destroyed");
+                buttonList.ForEach(button => Destroy(button.gameObject));
+            });
         }
     }
 
@@ -122,7 +132,8 @@ public class NarrativeController : MonoBehaviour
         NarrativePathID += choiceIndex.ToString();
         
         UnsetNarrativeEvents();
-        
+
+        _currentNarrative.Options[choiceIndex].HasAlreadyBeenChosen = true;
         var nextNarrative = _currentNarrative.Options[choiceIndex].TargetNarrative;
 
         if (nextNarrative != null)
@@ -137,12 +148,12 @@ public class NarrativeController : MonoBehaviour
 
     private void SetupNarrativeEvents()
     {
-        narrativeUI.OnMessageEnd += ContinueToChoice;
+        narrativeUI.OnMessageEnd += ContinueToChoiceAutomatically;
     }
     
     private void UnsetNarrativeEvents()
     {
-        narrativeUI.OnMessageEnd -= ContinueToChoice;
+        narrativeUI.OnMessageEnd -= ContinueToChoiceAutomatically;
     }
     
     private void FinishDialogue()

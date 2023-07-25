@@ -13,39 +13,36 @@ MonoBehaviour:
   m_Name: test
   m_EditorClassIdentifier: 
   NodeLinks:
-  - BaseNodeGuid: 3a6ea0e9-0fe1-42c9-913d-519b0ae7a04a
+  - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
     PortName: Next
     TargetNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
+  - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
+    PortName: What?
+    TargetNodeGuid: 55a04af5-eaf6-42a2-9613-3bd3fec884e7
+  - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
+    PortName: I don't want to talk.
+    TargetNodeGuid: fdcb7345-f7f2-4371-86fe-9be3ee967415
+  - BaseNodeGuid: 55a04af5-eaf6-42a2-9613-3bd3fec884e7
+    PortName: Transition 2
+    TargetNodeGuid: 2a99b714-4356-42fe-98fa-65a14dfa88d0
+  - BaseNodeGuid: 2a99b714-4356-42fe-98fa-65a14dfa88d0
+    PortName: Output
+    TargetNodeGuid: fdcb7345-f7f2-4371-86fe-9be3ee967415
+  - BaseNodeGuid: 55a04af5-eaf6-42a2-9613-3bd3fec884e7
+    PortName: Transition 1
+    TargetNodeGuid: 49162a72-ddb1-4985-bbc7-927da47f4c8a
+  - BaseNodeGuid: e94029d7-1e13-4075-83d3-c4ba09c933b4
+    PortName: Nice to meet me...
+    TargetNodeGuid: 04680189-ab6d-4a6c-9262-fbcefc8d3c44
   - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
     PortName: Hey me
     TargetNodeGuid: 04680189-ab6d-4a6c-9262-fbcefc8d3c44
   - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
     PortName: Hey you too
     TargetNodeGuid: e94029d7-1e13-4075-83d3-c4ba09c933b4
-  - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
-    PortName: I don't want to talk.
-    TargetNodeGuid: fdcb7345-f7f2-4371-86fe-9be3ee967415
-  - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
-    PortName: What?
-    TargetNodeGuid: 1d2c9ccd-0d10-4a5d-bcb7-b37af93c2452
-  - BaseNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
-    PortName: Yo?
-    TargetNodeGuid: 1d2c9ccd-0d10-4a5d-bcb7-b37af93c2452
-  - BaseNodeGuid: e94029d7-1e13-4075-83d3-c4ba09c933b4
-    PortName: Nice to meet me...
-    TargetNodeGuid: 2a99b714-4356-42fe-98fa-65a14dfa88d0
   - BaseNodeGuid: 04680189-ab6d-4a6c-9262-fbcefc8d3c44
     PortName: I don't have a choice...
-    TargetNodeGuid: 49162a72-ddb1-4985-bbc7-927da47f4c8a
-  - BaseNodeGuid: 1d2c9ccd-0d10-4a5d-bcb7-b37af93c2452
-    PortName: Go back.
-    TargetNodeGuid: 270913c6-752d-4a0c-9432-9f414405e79d
-  - BaseNodeGuid: 2a99b714-4356-42fe-98fa-65a14dfa88d0
-    PortName: Output
-    TargetNodeGuid: 04680189-ab6d-4a6c-9262-fbcefc8d3c44
-  - BaseNodeGuid: 270913c6-752d-4a0c-9432-9f414405e79d
-    PortName: Output
-    TargetNodeGuid: fdcb7345-f7f2-4371-86fe-9be3ee967415
+    TargetNodeGuid: 4558c672-966e-41bf-a158-baecac99cf98
   DialogueNodeData:
   - Guid: 4558c672-966e-41bf-a158-baecac99cf98
     Dialogue:
@@ -53,47 +50,15 @@ MonoBehaviour:
       <EmotionDisplayed>k__BackingField: 1
       <Content>k__BackingField: Hey you
       <HideCharacter>k__BackingField: 0
-    Position: {x: 272.66666, y: 166.66667}
+    Position: {x: 267.33334, y: 200}
     TransitionNode: 0
-  - Guid: e94029d7-1e13-4075-83d3-c4ba09c933b4
-    Dialogue:
-    - <Speaker>k__BackingField: X
-      <EmotionDisplayed>k__BackingField: 1
-      <Content>k__BackingField: Nice too meet you.
-      <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Y
-      <EmotionDisplayed>k__BackingField: 2
-      <Content>k__BackingField: I guess...
-      <HideCharacter>k__BackingField: 0
-    Position: {x: 709.3333, y: 341.3333}
-    TransitionNode: 0
-  - Guid: 04680189-ab6d-4a6c-9262-fbcefc8d3c44
-    Dialogue:
-    - <Speaker>k__BackingField: X
-      <EmotionDisplayed>k__BackingField: 7
-      <Content>k__BackingField: You seem pretty selfish.
-      <HideCharacter>k__BackingField: 0
-    Position: {x: 709.3333, y: 46.666664}
-    TransitionNode: 0
-  - Guid: 49162a72-ddb1-4985-bbc7-927da47f4c8a
-    Dialogue:
-    - <Speaker>k__BackingField: X
-      <EmotionDisplayed>k__BackingField: 3
-      <Content>k__BackingField: Bye
-      <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Y
-      <EmotionDisplayed>k__BackingField: 2
-      <Content>k__BackingField: Bye
-      <HideCharacter>k__BackingField: 0
-    Position: {x: 1231.3334, y: 46.666664}
-    TransitionNode: 0
-  - Guid: 1d2c9ccd-0d10-4a5d-bcb7-b37af93c2452
+  - Guid: 55a04af5-eaf6-42a2-9613-3bd3fec884e7
     Dialogue:
     - <Speaker>k__BackingField: Y
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Try this.
       <HideCharacter>k__BackingField: 0
-    Position: {x: -32.666668, y: 516.6667}
+    Position: {x: 842.6667, y: 323.3333}
     TransitionNode: 0
   - Guid: 2a99b714-4356-42fe-98fa-65a14dfa88d0
     Dialogue:
@@ -101,15 +66,7 @@ MonoBehaviour:
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: New transition
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1180, y: 341.3333}
-    TransitionNode: 1
-  - Guid: 270913c6-752d-4a0c-9432-9f414405e79d
-    Dialogue:
-    - <Speaker>k__BackingField: Y
-      <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: Its a transition.
-      <HideCharacter>k__BackingField: 0
-    Position: {x: 459.33334, y: 618}
+    Position: {x: 1316.6666, y: 347.3333}
     TransitionNode: 1
   - Guid: fdcb7345-f7f2-4371-86fe-9be3ee967415
     Dialogue:
@@ -121,5 +78,37 @@ MonoBehaviour:
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Bye.
       <HideCharacter>k__BackingField: 0
-    Position: {x: 688.6667, y: 477.3333}
+    Position: {x: 1316.6666, y: 183.33334}
+    TransitionNode: 0
+  - Guid: 49162a72-ddb1-4985-bbc7-927da47f4c8a
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 3
+      <Content>k__BackingField: Bye
+      <HideCharacter>k__BackingField: 0
+    - <Speaker>k__BackingField: Y
+      <EmotionDisplayed>k__BackingField: 2
+      <Content>k__BackingField: Bye
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 1199.3334, y: 39.333336}
+    TransitionNode: 0
+  - Guid: e94029d7-1e13-4075-83d3-c4ba09c933b4
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 1
+      <Content>k__BackingField: Nice too meet you.
+      <HideCharacter>k__BackingField: 0
+    - <Speaker>k__BackingField: Y
+      <EmotionDisplayed>k__BackingField: 2
+      <Content>k__BackingField: I guess...
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 768.6667, y: 160.66667}
+    TransitionNode: 0
+  - Guid: 04680189-ab6d-4a6c-9262-fbcefc8d3c44
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 7
+      <Content>k__BackingField: You seem pretty selfish.
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 651.3333, y: -55.333336}
     TransitionNode: 0
