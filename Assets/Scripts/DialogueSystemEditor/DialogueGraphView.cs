@@ -151,13 +151,15 @@ public class DialogueGraphView : GraphView
             .Where(x => x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
 
         dialogueNode.outputContainer.Remove(generatedPort);
-
-        var enumerable = targetEdge.ToList();
-        if (!enumerable.Any()) return;
         
-        var edge = enumerable.First();
-        edge.input.Disconnect(edge);
-        RemoveElement(enumerable.First());
+        if (targetEdge.Any())
+        {
+            var edge = targetEdge.First();
+            edge.input.Disconnect(edge);
+            RemoveElement(targetEdge.First());
+        }
+        
+        dialogueNode.outputContainer.Remove(generatedPort);
         RefreshNode(dialogueNode);
     }
 

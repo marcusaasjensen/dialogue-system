@@ -1454,7 +1454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498aba3b030f45b2b3ebad034f4d525d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrativeToLoad: {fileID: 11400000, guid: 6d7d206f2d3454d42bade650903adc21, type: 2}
+  narrativeToLoad: {fileID: 11400000, guid: 1c1c9d1ab11b4a241b2ed4ceb58af6b2, type: 2}
 --- !u!114 &2089170440
 MonoBehaviour:
   m_ObjectHideFlags: 0
