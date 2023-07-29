@@ -26,8 +26,6 @@ public class GraphSaveUtility
 
     public void SaveGraph(string fileName)
     {
-        if (!Edges.Any()) return;
-
         var dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
         var connectedPorts = Edges.Where(x => x.input.node != null).ToArray();
         for (var i = 0; i < connectedPorts.Length; i++)
@@ -43,6 +41,18 @@ public class GraphSaveUtility
             });
         }
 
+        var entryPoint = Nodes.Find(node => node.EntryPoint);
+        
+        dialogueContainer.DialogueNodeData.Add(new DialogueNodeData
+            {
+                Guid = entryPoint.GUID,
+                Dialogue = null,
+                Position = entryPoint.GetPosition().position,
+                TransitionNode = false,
+                EntryPoint = true
+            }
+        );
+
         foreach (var dialogueNode in Nodes.Where(node => !node.EntryPoint))
         {
             dialogueContainer.DialogueNodeData.Add(new DialogueNodeData
@@ -56,6 +66,8 @@ public class GraphSaveUtility
 
         if (!AssetDatabase.IsValidFolder($"{PathToResources}/{PathInResourcesFolder}"))
             Directory.CreateDirectory($"{PathToResources}/{PathInResourcesFolder}");
+        
+        AssetDatabase.DeleteAsset($"{PathToResources}/{PathInResourcesFolder}/{fileName}.asset");
         AssetDatabase.CreateAsset(dialogueContainer, $"{PathToResources}/{PathInResourcesFolder}/{fileName}.asset");
         AssetDatabase.SaveAssets();
     }
@@ -75,19 +87,19 @@ public class GraphSaveUtility
         ConnectNodes();
     }
 
-
     private void ConnectNodes()
     {
         for (var i = 0; i < Nodes.Count; i++)
         {
-            var connections = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == Nodes[i].GUID).ToList();
+            var currentNode = Nodes[i];
+            var connections = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == currentNode.GUID).ToList();
+  
             for (var j = 0; j < connections.Count; j++)
             {
-                
                 var targetNodeGuid = connections[j].TargetNodeGuid;
-                var targetNode = Nodes.First(x => x.GUID == targetNodeGuid);
+                var targetNode = Nodes.Find(x => x.GUID == targetNodeGuid);
 
-                LinkNodes(Nodes[i].outputContainer[j].Q<Port>(), (Port) targetNode.inputContainer[0]);
+                LinkNodes(currentNode.outputContainer[j].Q<Port>(), (Port) targetNode.inputContainer[0]);
 
                 targetNode.SetPosition(new Rect(_containerCache.DialogueNodeData.First(x => x.Guid == targetNodeGuid).Position,
                     _targetGraphView.DefaultNodeSize
@@ -111,7 +123,9 @@ public class GraphSaveUtility
     private void CreateNodes()
     {
         foreach (var nodeData in _containerCache.DialogueNodeData)
-        { 
+        {
+            if (nodeData.EntryPoint) continue;
+            
             var tempNode =  nodeData.TransitionNode 
                 ? _targetGraphView.CreateDialogueTransitionNode("Transition Node", nodeData.Dialogue)
                 : _targetGraphView.CreateDialogueNode("Multiple Choice Node", nodeData.Dialogue);
@@ -129,12 +143,11 @@ public class GraphSaveUtility
 
     private void ClearGraph()
     {
-        Nodes.Find(x => x.EntryPoint).GUID = _containerCache.NodeLinks[0].BaseNodeGuid;
+        Nodes.Find(node => node.EntryPoint).GUID = _containerCache.DialogueNodeData.Find(node => node.EntryPoint)?.Guid;
+        
         foreach (var node in Nodes.Where(node => !node.EntryPoint))
         {
-            Edges.Where(x => x.input.node == node).ToList()
-                .ForEach(edge => _targetGraphView.RemoveElement(edge));
-            
+            Edges.Where(x => x.input.node == node).ToList().ForEach(edge => _targetGraphView.RemoveElement(edge));
             _targetGraphView.RemoveElement(node);
         }
     }

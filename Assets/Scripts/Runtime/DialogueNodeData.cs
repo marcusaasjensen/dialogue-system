@@ -9,4 +9,5 @@ public class DialogueNodeData
     public List<Message> Dialogue;
     public Vector2 Position;
     public bool TransitionNode;
+    public bool EntryPoint;
 }
