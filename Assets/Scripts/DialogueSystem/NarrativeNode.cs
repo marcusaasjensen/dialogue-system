@@ -17,7 +17,7 @@ public class NarrativeNode
     
     public void AddOption(string newOption, NarrativeNode targetNode)
     {
-        var option = new DialogueOption(newOption, this, targetNode);
+        var option = new DialogueOption(newOption, targetNode);
         Options.Add(option);
     }
 

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class DialogueGraphView : GraphView
 {
-    public readonly Vector2 DefaultNodeSize = new Vector2(150, 200);
+    public readonly Vector2 DefaultNodeSize = new(150, 200);
     private const int MaxChoiceTextLength = 35;
     
     public DialogueGraphView()
