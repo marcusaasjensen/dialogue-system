@@ -19,21 +19,22 @@ public class NarrativeLoader : MonoBehaviour
                 
                 //Entry node is the first element node of all dialogue nodes in saved narrative
                 var entryNode = narrativeToLoad.DialogueNodeData.Find(node => node.EntryPoint);
-                
-                var entryLink = narrativeToLoad.NodeLinks.Find(link => link.BaseNodeGuid == entryNode.Guid);
-                
-                if (entryLink == null) return null;
-                
-                var firstNode = narrativeToLoad.DialogueNodeData.Find(node => node.Guid == entryLink.TargetNodeGuid);
-                
-                CreateNodesFromEntryNode(firstNode, loadedNarrative);
+                CreateNodesFromEntryNode(entryNode, loadedNarrative);
                 
                 Debug.Log($"<color=#2CD3E1>Narrative loaded: {loadedNarrative}.</color>", this);
                 
                 return loadedNarrative;
         }
 
-        private void CreateNodesFromEntryNode(DialogueNodeData node, Narrative narrative) => narrative.NarrativeEntryNode = CreateNextNode(node, narrative);
+        private void CreateNodesFromEntryNode(DialogueNodeData entryNode, Narrative narrative)
+        {
+                var entryLink = narrativeToLoad.NodeLinks.Find(link => link.BaseNodeGuid == entryNode.Guid);
+                
+                if (entryLink == null) return;
+                
+                var firstNode = narrativeToLoad.DialogueNodeData.Find(node => node.Guid == entryLink.TargetNodeGuid);
+                narrative.NarrativeEntryNode = CreateNextNode(firstNode, narrative);
+        }
 
         private NarrativeNode CreateNextNode(DialogueNodeData node, Narrative narrative)
         {

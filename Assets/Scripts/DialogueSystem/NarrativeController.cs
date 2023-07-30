@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class NarrativeController : MonoBehaviour
@@ -43,7 +41,7 @@ public class NarrativeController : MonoBehaviour
 
     private void ContinueToChoiceAutomatically()
     {
-        var continueAutomatically = displayChoicesAutomatically && _narrativeQueue.Count == 0 && _currentNarrative.HasNextChoice();
+        var continueAutomatically = displayChoicesAutomatically && _narrativeQueue.Count == 0 && (_currentNarrative.HasNextChoice() || _currentNarrative.HasChoiceAfterTransition());
         
         if (!continueAutomatically) return;
 
@@ -63,7 +61,6 @@ public class NarrativeController : MonoBehaviour
         if (narrativeUI.IsShowingCurrentMessage())
         {
             SkipCurrentMessage(_currentMessage);
-            print(_currentMessage);
             Debug.Log($"<color=#FAE392>Skip</color>");
             return;
         }
@@ -114,11 +111,7 @@ public class NarrativeController : MonoBehaviour
             var newIndex = i;
             buttonList[i].onClick.AddListener(() => ChooseNarrativePath(newIndex));
             buttonList[i].onClick.AddListener(() => narrativeUI.EnableNextNarrationUI());
-            buttonList[i].onClick.AddListener(() =>
-            {
-                print("Destroyed");
-                buttonList.ForEach(button => Destroy(button.gameObject));
-            });
+            buttonList[i].onClick.AddListener(() => buttonList.ForEach(button => Destroy(button.gameObject)));
         }
     }
 
@@ -130,6 +123,7 @@ public class NarrativeController : MonoBehaviour
 
     private void ChooseNarrativePath(int choiceIndex)
     {
+
         NarrativePathID += choiceIndex.ToString();
         
         UnsetNarrativeEvents();

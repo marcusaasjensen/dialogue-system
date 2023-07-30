@@ -5,7 +5,6 @@ using System.Linq;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class NarrativeUI : MonoBehaviour
@@ -17,11 +16,11 @@ public class NarrativeUI : MonoBehaviour
     [Space, Header("Buttons")] 
     [SerializeField] private Transform buttonsParent;
     [SerializeField] private Button dialogueOptionButtonPrefab;
+    [SerializeField] private Button disabledOptionButtonPrefab;
     [SerializeField] private Button nextMessageButton;
     [SerializeField] private Vector2 buttonOffset;
     [SerializeField, Min(1)] private int numberOfColumns = 2;
     
-    [FormerlySerializedAs("speakingCharacterImage")]
     [Space, Header("Rendering")]
     [SerializeField, CanBeNull] private Image speakingCharacterSprite;
 
@@ -31,16 +30,19 @@ public class NarrativeUI : MonoBehaviour
     [SerializeField] private int punctuationDelayMultiplier = 10;
 
     private IEnumerator _currentMessageShowing;
+    private bool _disableAlreadyChosenOptionButtons;
 
     private static readonly char[] Punctuation = {'.', ',', '!', '?', ':', ';'};
     private static readonly char[] CharactersToIgnore = {' '};
 
     public event Action OnMessageEnd;
 
+    private void Awake() => _disableAlreadyChosenOptionButtons = disabledOptionButtonPrefab != null;
+
     public List<Button> DisplayDialogueOptionButtons(List<DialogueOption> options)
     {
         DisableNextNarrationUI();
-        
+
         var buttonList = new List<Button>();
         
         var buttonRect = dialogueOptionButtonPrefab.GetComponent<RectTransform>().rect;
@@ -65,7 +67,9 @@ public class NarrativeUI : MonoBehaviour
                 rowIndex++;
             }
             
-            var newOptionButton = Instantiate(dialogueOptionButtonPrefab, buttonsParent);
+            var newOptionButton = _disableAlreadyChosenOptionButtons && option.HasAlreadyBeenChosen 
+                ? Instantiate(disabledOptionButtonPrefab, buttonsParent)
+                : Instantiate(dialogueOptionButtonPrefab, buttonsParent);
 
             var xOffset = columnIndex * (buttonRect.width + buttonOffset.x);
             var yOffset = rowIndex * (buttonRect.height + buttonOffset.y);
@@ -75,7 +79,7 @@ public class NarrativeUI : MonoBehaviour
         
             columnIndex++;
             optionsLeft.Dequeue();
-            
+
             buttonList.Add(newOptionButton);
         }
         

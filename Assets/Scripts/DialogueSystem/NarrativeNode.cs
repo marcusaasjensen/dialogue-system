@@ -24,4 +24,6 @@ public class NarrativeNode
     public bool IsTipNarrativeNode() => Options.Count == 0 && DefaultPath == null;
     public bool IsTransitionNode() => Options.Count == 0 && DefaultPath != null;
     public bool HasNextChoice() => Options.Count > 0;
+    public bool HasChoiceAfterTransition() => !HasNextChoice() && DefaultPath != null && DefaultPath.HasOnlyChoices();
+    private bool HasOnlyChoices() => Dialogue.Count == 0 && HasNextChoice();
 }
