@@ -9,6 +9,7 @@ public class NarrativeController : MonoBehaviour
     [SerializeField] private bool isLockingPlayer;
     [SerializeField] private List<Speaker> speakers;
     [SerializeField] private bool displayChoicesAutomatically = true;
+    [SerializeField] private bool disableAlreadyChosenOptions = true;
 
     private string NarrativePathID { get; set; }
     
@@ -16,7 +17,7 @@ public class NarrativeController : MonoBehaviour
     public bool IsDialogueFinished { get; private set; }
     
     private NarrativeNode _currentNarrative;
-    private Message _currentMessage = new Message();
+    private Message _currentMessage = new();
     private Queue<Message> _narrativeQueue;
     private Narrative _narrativeStructure;
 
@@ -41,7 +42,8 @@ public class NarrativeController : MonoBehaviour
 
     private void ContinueToChoiceAutomatically()
     {
-        var continueAutomatically = displayChoicesAutomatically && _narrativeQueue.Count == 0 && (_currentNarrative.HasNextChoice() || _currentNarrative.HasChoiceAfterTransition());
+        var continueAutomatically = displayChoicesAutomatically && _narrativeQueue.Count == 0 && 
+                                    (_currentNarrative.HasNextChoice() || _currentNarrative.HasChoiceAfterTransition());
         
         if (!continueAutomatically) return;
 
@@ -104,7 +106,7 @@ public class NarrativeController : MonoBehaviour
     {
         IsChoosing = true;
 
-        var buttonList = narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options);
+        var buttonList = narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, disableAlreadyChosenOptions);
 
         for (var i = 0; i < buttonList.Count; i++)
         {

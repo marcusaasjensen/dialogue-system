@@ -30,16 +30,16 @@ public class NarrativeUI : MonoBehaviour
     [SerializeField] private int punctuationDelayMultiplier = 10;
 
     private IEnumerator _currentMessageShowing;
-    private bool _disableAlreadyChosenOptionButtons;
+    private bool _disabledButtonPrefabNotNull;
 
     private static readonly char[] Punctuation = {'.', ',', '!', '?', ':', ';'};
     private static readonly char[] CharactersToIgnore = {' '};
 
     public event Action OnMessageEnd;
 
-    private void Awake() => _disableAlreadyChosenOptionButtons = disabledOptionButtonPrefab != null;
+    private void Awake() => _disabledButtonPrefabNotNull = disabledOptionButtonPrefab != null;
 
-    public List<Button> DisplayDialogueOptionButtons(List<DialogueOption> options)
+    public List<Button> DisplayDialogueOptionButtons(List<DialogueOption> options, bool disableChosenOptions)
     {
         DisableNextNarrationUI();
 
@@ -66,10 +66,18 @@ public class NarrativeUI : MonoBehaviour
                 columnIndex = 0;
                 rowIndex++;
             }
+
+            var isDisabledOption = disableChosenOptions && option.HasAlreadyBeenChosen;
             
-            var newOptionButton = _disableAlreadyChosenOptionButtons && option.HasAlreadyBeenChosen 
-                ? Instantiate(disabledOptionButtonPrefab, buttonsParent)
-                : Instantiate(dialogueOptionButtonPrefab, buttonsParent);
+            Button newOptionButton;
+
+            if (isDisabledOption)
+            {
+                newOptionButton = Instantiate(_disabledButtonPrefabNotNull ? disabledOptionButtonPrefab : dialogueOptionButtonPrefab, buttonsParent);
+                newOptionButton.interactable = false;
+            }
+            else
+                newOptionButton = Instantiate(dialogueOptionButtonPrefab, buttonsParent);
 
             var xOffset = columnIndex * (buttonRect.width + buttonOffset.x);
             var yOffset = rowIndex * (buttonRect.height + buttonOffset.y);
