@@ -16,7 +16,7 @@ public class NarrativeController : MonoBehaviour
     public bool IsDialogueFinished { get; private set; }
     
     private NarrativeNode _currentNarrative;
-    private Message _currentMessage;
+    private Message _currentMessage = new Message();
     private Queue<Message> _narrativeQueue;
     private Narrative _narrativeStructure;
 
@@ -26,7 +26,7 @@ public class NarrativeController : MonoBehaviour
     private void StartNarrative()
     {
         IsDialogueFinished = false;
-        
+        narrativeUI.InitializeUI();
         if (_narrativeStructure == null)
         {
             Debug.LogError("Can't start narrative because the narrative was not loaded properly.");
@@ -68,7 +68,7 @@ public class NarrativeController : MonoBehaviour
         ContinueNarrative();
     }
 
-    public void ContinueNarrative()
+    private void ContinueNarrative()
     {
         if (_narrativeQueue.Count == 0)
         {

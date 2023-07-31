@@ -20,7 +20,7 @@ public class NarrativeUI : MonoBehaviour
     [SerializeField] private Button nextMessageButton;
     [SerializeField] private Vector2 buttonOffset;
     [SerializeField, Min(1)] private int numberOfColumns = 2;
-    
+
     [Space, Header("Rendering")]
     [SerializeField, CanBeNull] private Image speakingCharacterSprite;
 
@@ -167,4 +167,11 @@ public class NarrativeUI : MonoBehaviour
     private void DisableNextNarrationUI() => nextMessageButton.gameObject.SetActive(false);
 
     public void CloseDialogue() => gameObject.SetActive(false);
+
+    public void InitializeUI()
+    {
+        messageText.text = "";
+        speakerNameText.text = "";
+        SetupSpeakerSprite(null, true);
+    }
 }

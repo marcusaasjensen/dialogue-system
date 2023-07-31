@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: test2
   m_EditorClassIdentifier: 
   NodeLinks:
-  - BaseNodeGuid: abc633e1-2388-4a36-afae-7e512b14694f
-    PortName: Next
-    TargetNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
   - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
     PortName: How are you?
     TargetNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
@@ -55,6 +52,9 @@ MonoBehaviour:
   - BaseNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
     PortName: Output
     TargetNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+  - BaseNodeGuid: abc633e1-2388-4a36-afae-7e512b14694f
+    PortName: Next
+    TargetNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
   DialogueNodeData:
   - Guid: abc633e1-2388-4a36-afae-7e512b14694f
     Dialogue: []
@@ -155,6 +155,6 @@ MonoBehaviour:
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Welcome to my shop!
       <HideCharacter>k__BackingField: 0
-    Position: {x: 311.33334, y: 143.33334}
+    Position: {x: 278, y: 224}
     TransitionNode: 1
     EntryPoint: 0
