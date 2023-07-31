@@ -13,18 +13,9 @@ MonoBehaviour:
   m_Name: test2
   m_EditorClassIdentifier: 
   NodeLinks:
-  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    PortName: How are you?
-    TargetNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
-  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    PortName: I want to buy you some bread.
-    TargetNodeGuid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
-  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    PortName: I want a coffee please.
-    TargetNodeGuid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
-  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    PortName: I'm leaving.
-    TargetNodeGuid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
+  - BaseNodeGuid: abc633e1-2388-4a36-afae-7e512b14694f
+    PortName: Next
+    TargetNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
   - BaseNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
     PortName: It can be better
     TargetNodeGuid: b47bca0b-4822-41db-acc6-5558bc78f2a5
@@ -49,23 +40,27 @@ MonoBehaviour:
   - BaseNodeGuid: b47bca0b-4822-41db-acc6-5558bc78f2a5
     PortName: Output
     TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
+  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    PortName: I want to buy you some bread.
+    TargetNodeGuid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
+  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    PortName: I want a coffee please.
+    TargetNodeGuid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
+  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    PortName: I'm leaving.
+    TargetNodeGuid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
+  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    PortName: How are you?
+    TargetNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
   - BaseNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
     PortName: Output
     TargetNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-  - BaseNodeGuid: abc633e1-2388-4a36-afae-7e512b14694f
-    PortName: Next
-    TargetNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
   DialogueNodeData:
   - Guid: abc633e1-2388-4a36-afae-7e512b14694f
     Dialogue: []
     Position: {x: 100, y: 200}
     TransitionNode: 0
     EntryPoint: 1
-  - Guid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    Dialogue: []
-    Position: {x: 660.6667, y: 318}
-    TransitionNode: 0
-    EntryPoint: 0
   - Guid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
     Dialogue:
     - <Speaker>k__BackingField: X
@@ -149,12 +144,17 @@ MonoBehaviour:
     Position: {x: 1647.3334, y: 121.333336}
     TransitionNode: 1
     EntryPoint: 0
+  - Guid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    Dialogue: []
+    Position: {x: 660.6667, y: 318}
+    TransitionNode: 0
+    EntryPoint: 0
   - Guid: b551527d-3554-405b-bd0d-5949924857ec
     Dialogue:
     - <Speaker>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Welcome to my shop!
       <HideCharacter>k__BackingField: 0
-    Position: {x: 278, y: 224}
+    Position: {x: 339.33334, y: 224.66667}
     TransitionNode: 1
     EntryPoint: 0
