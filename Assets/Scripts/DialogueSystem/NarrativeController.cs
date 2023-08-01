@@ -52,6 +52,7 @@ public class NarrativeController : MonoBehaviour
 
     private void StartNewDialogue(NarrativeNode narrative)
     {
+        if (narrative == null) return;
         _currentNarrative = narrative;
         _narrativeQueue = new Queue<Message>(narrative.Dialogue);
         NextNarrative();
@@ -72,6 +73,12 @@ public class NarrativeController : MonoBehaviour
 
     private void ContinueNarrative()
     {
+        if (_narrativeQueue == null)
+        {
+            FinishDialogue();
+            return;
+        }
+        
         if (_narrativeQueue.Count == 0)
         {
             FindNextPath();

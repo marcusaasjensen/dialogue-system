@@ -89,10 +89,10 @@ public class GraphSaveUtility
 
     private void ConnectNodes()
     {
-        for (var i = 0; i < Nodes.Count; i++)
+        foreach (var currentNode in Nodes)
         {
-            var currentNode = Nodes[i];
-            var connections = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == currentNode.GUID).ToList();
+            var node = currentNode;
+            var connections = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == node.GUID).ToList();
   
             for (var j = 0; j < connections.Count; j++)
             {
@@ -100,10 +100,6 @@ public class GraphSaveUtility
                 var targetNode = Nodes.Find(x => x.GUID == targetNodeGuid);
 
                 LinkNodes(currentNode.outputContainer[j].Q<Port>(), (Port) targetNode.inputContainer[0]);
-
-                targetNode.SetPosition(new Rect(_containerCache.DialogueNodeData.First(x => x.Guid == targetNodeGuid).Position,
-                    _targetGraphView.DefaultNodeSize
-                    ));
             }
         }
     }
@@ -131,12 +127,13 @@ public class GraphSaveUtility
                 : _targetGraphView.CreateDialogueNode("Multiple Choice Node", nodeData.Dialogue);
             tempNode.GUID = nodeData.Guid;
             
-            _targetGraphView.AddElement(tempNode);
+            tempNode.SetPosition(new Rect(nodeData.Position, _targetGraphView.DefaultNodeSize));
 
-            var nodePorts = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == nodeData.Guid).ToList();
+            _targetGraphView.AddElement(tempNode);
             
             if (nodeData.TransitionNode) continue;
 
+            var nodePorts = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == nodeData.Guid).ToList();
             nodePorts.ForEach(x => _targetGraphView.AddChoicePort(tempNode, x.PortName));
         }
     }
