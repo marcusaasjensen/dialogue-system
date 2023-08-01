@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ public class NarrativeController : MonoBehaviour
     [SerializeField] private bool isLockingPlayer;
     [SerializeField] private List<Speaker> speakers;
     [SerializeField] private bool displayChoicesAutomatically = true;
+    [SerializeField] private bool disableAlreadyChosenOptions = true;
 
     private string NarrativePathID { get; set; }
     
@@ -17,7 +17,7 @@ public class NarrativeController : MonoBehaviour
     public bool IsDialogueFinished { get; private set; }
     
     private NarrativeNode _currentNarrative;
-    private Message _currentMessage;
+    private Message _currentMessage = new();
     private Queue<Message> _narrativeQueue;
     private Narrative _narrativeStructure;
 
@@ -27,7 +27,7 @@ public class NarrativeController : MonoBehaviour
     private void StartNarrative()
     {
         IsDialogueFinished = false;
-        
+        narrativeUI.InitializeUI();
         if (_narrativeStructure == null)
         {
             Debug.LogError("Can't start narrative because the narrative was not loaded properly.");
@@ -42,7 +42,8 @@ public class NarrativeController : MonoBehaviour
 
     private void ContinueToChoiceAutomatically()
     {
-        var continueAutomatically = displayChoicesAutomatically && _narrativeQueue.Count == 0 && _currentNarrative.HasNextChoice();
+        var continueAutomatically = displayChoicesAutomatically && _narrativeQueue.Count == 0 && 
+                                    (_currentNarrative.HasNextChoice() || _currentNarrative.HasChoiceAfterTransition());
         
         if (!continueAutomatically) return;
 
@@ -62,7 +63,6 @@ public class NarrativeController : MonoBehaviour
         if (narrativeUI.IsShowingCurrentMessage())
         {
             SkipCurrentMessage(_currentMessage);
-            print(_currentMessage);
             Debug.Log($"<color=#FAE392>Skip</color>");
             return;
         }
@@ -70,7 +70,7 @@ public class NarrativeController : MonoBehaviour
         ContinueNarrative();
     }
 
-    public void ContinueNarrative()
+    private void ContinueNarrative()
     {
         if (_narrativeQueue.Count == 0)
         {
@@ -106,18 +106,14 @@ public class NarrativeController : MonoBehaviour
     {
         IsChoosing = true;
 
-        var buttonList = narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options);
+        var buttonList = narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, disableAlreadyChosenOptions);
 
         for (var i = 0; i < buttonList.Count; i++)
         {
             var newIndex = i;
             buttonList[i].onClick.AddListener(() => ChooseNarrativePath(newIndex));
             buttonList[i].onClick.AddListener(() => narrativeUI.EnableNextNarrationUI());
-            buttonList[i].onClick.AddListener(() =>
-            {
-                print("Destroyed");
-                buttonList.ForEach(button => Destroy(button.gameObject));
-            });
+            buttonList[i].onClick.AddListener(() => buttonList.ForEach(button => Destroy(button.gameObject)));
         }
     }
 
@@ -129,6 +125,7 @@ public class NarrativeController : MonoBehaviour
 
     private void ChooseNarrativePath(int choiceIndex)
     {
+
         NarrativePathID += choiceIndex.ToString();
         
         UnsetNarrativeEvents();

@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class DialogueGraphView : GraphView
 {
-    public readonly Vector2 DefaultNodeSize = new Vector2(150, 200);
+    public readonly Vector2 DefaultNodeSize = new(150, 200);
     private const int MaxChoiceTextLength = 35;
     
     public DialogueGraphView()
@@ -151,13 +151,15 @@ public class DialogueGraphView : GraphView
             .Where(x => x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
 
         dialogueNode.outputContainer.Remove(generatedPort);
-
-        var enumerable = targetEdge.ToList();
-        if (!enumerable.Any()) return;
         
-        var edge = enumerable.First();
-        edge.input.Disconnect(edge);
-        RemoveElement(enumerable.First());
+        if (targetEdge.Any())
+        {
+            var edge = targetEdge.First();
+            edge.input.Disconnect(edge);
+            RemoveElement(targetEdge.First());
+        }
+        
+        dialogueNode.outputContainer.Remove(generatedPort);
         RefreshNode(dialogueNode);
     }
 

@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d50752db9e472b8d367dcf46cdbad8, type: 3}
+  m_Name: test2
+  m_EditorClassIdentifier: 
+  NodeLinks:
+  - BaseNodeGuid: abc633e1-2388-4a36-afae-7e512b14694f
+    PortName: Next
+    TargetNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
+  - BaseNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
+    PortName: It can be better
+    TargetNodeGuid: b47bca0b-4822-41db-acc6-5558bc78f2a5
+  - BaseNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
+    PortName: I'm guud
+    TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
+  - BaseNodeGuid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
+    PortName: "Pay 1.50\u20AC"
+    TargetNodeGuid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
+  - BaseNodeGuid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
+    PortName: "Pay 1.00\u20AC"
+    TargetNodeGuid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
+  - BaseNodeGuid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
+    PortName: Output
+    TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
+  - BaseNodeGuid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
+    PortName: Output
+    TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
+  - BaseNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
+    PortName: Output
+    TargetNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+  - BaseNodeGuid: b47bca0b-4822-41db-acc6-5558bc78f2a5
+    PortName: Output
+    TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
+  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    PortName: I want to buy you some bread.
+    TargetNodeGuid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
+  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    PortName: I want a coffee please.
+    TargetNodeGuid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
+  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    PortName: I'm leaving.
+    TargetNodeGuid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
+  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    PortName: How are you?
+    TargetNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
+  - BaseNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
+    PortName: Output
+    TargetNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+  DialogueNodeData:
+  - Guid: abc633e1-2388-4a36-afae-7e512b14694f
+    Dialogue: []
+    Position: {x: 100, y: 200}
+    TransitionNode: 0
+    EntryPoint: 1
+  - Guid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: I'm feeling really gooooood today!
+      <HideCharacter>k__BackingField: 0
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: What about ya?
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 1113.3334, y: 54}
+    TransitionNode: 0
+    EntryPoint: 0
+  - Guid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: "Nice choice. A coffee for 1.50\u20AC!"
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 1126.6666, y: 429.3333}
+    TransitionNode: 0
+    EntryPoint: 0
+  - Guid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: "Okay then. That would cost 1.00\u20AC."
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 1126.6666, y: 318}
+    TransitionNode: 0
+    EntryPoint: 0
+  - Guid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: 'Thank you very much, here is your cup of coffee.
+
+        Be
+        Careful, it''s hot.'
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 1610.6666, y: 429.3333}
+    TransitionNode: 1
+    EntryPoint: 0
+  - Guid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: Thank you. Here is your bread!
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 1610.6666, y: 318}
+    TransitionNode: 1
+    EntryPoint: 0
+  - Guid: 5da6a15c-8cc3-439a-8360-8132191fae29
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: Do you want anything else?
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 1912.6666, y: 374}
+    TransitionNode: 1
+    EntryPoint: 0
+  - Guid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: Thank you for coming. Have a wonderful day!
+      <HideCharacter>k__BackingField: 0
+    - <Speaker>k__BackingField: Me
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: Thank you, bye.
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 1156, y: 572}
+    TransitionNode: 0
+    EntryPoint: 0
+  - Guid: b47bca0b-4822-41db-acc6-5558bc78f2a5
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: I guess, I can make your day better!
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 1647.3334, y: 121.333336}
+    TransitionNode: 1
+    EntryPoint: 0
+  - Guid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    Dialogue: []
+    Position: {x: 660.6667, y: 318}
+    TransitionNode: 0
+    EntryPoint: 0
+  - Guid: b551527d-3554-405b-bd0d-5949924857ec
+    Dialogue:
+    - <Speaker>k__BackingField: X
+      <EmotionDisplayed>k__BackingField: 0
+      <Content>k__BackingField: Welcome to my shop!
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 339.33334, y: 224.66667}
+    TransitionNode: 1
+    EntryPoint: 0

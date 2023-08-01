@@ -45,7 +45,7 @@ public class DialogueGraph : EditorWindow
         
         var nodeCreateButton = new Button(() =>
         {
-            _graphView.CreateNode("Dialogue Node");
+            _graphView.CreateNode("Multiple Choice Node");
         });
 
         var transitionCreateButton = new Button(() =>

@@ -505,6 +505,7 @@ MonoBehaviour:
   messageText: {fileID: 366787871}
   buttonsParent: {fileID: 222693666}
   dialogueOptionButtonPrefab: {fileID: 1851353415986813201, guid: cddc6c7c60e7316439d45cc2baa0952b, type: 3}
+  disabledOptionButtonPrefab: {fileID: 1851353415986813201, guid: f052b6a0606a3f747b3ccfac2cd3c684, type: 3}
   nextMessageButton: {fileID: 1249654693}
   buttonOffset: {x: 100, y: 50}
   numberOfColumns: 3
@@ -1454,7 +1455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498aba3b030f45b2b3ebad034f4d525d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrativeToLoad: {fileID: 11400000, guid: 6d7d206f2d3454d42bade650903adc21, type: 2}
+  narrativeToLoad: {fileID: 11400000, guid: 1c1c9d1ab11b4a241b2ed4ceb58af6b2, type: 2}
 --- !u!114 &2089170440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,6 +1476,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}
   displayChoicesAutomatically: 1
+  disableAlreadyChosenOptions: 1
 --- !u!114 &2089170441
 MonoBehaviour:
   m_ObjectHideFlags: 0
