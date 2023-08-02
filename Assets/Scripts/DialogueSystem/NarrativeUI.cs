@@ -102,7 +102,7 @@ public class NarrativeUI : MonoBehaviour
 
         if (speaker == null) speaker = defaultSpeaker;
 
-        var defaultSpeakerBehaviour = speaker.narrativeBehaviours[0] ?? defaultSpeaker.narrativeBehaviours[0];
+        var defaultSpeakerBehaviour = speaker.defaultBehaviour ?? defaultSpeaker.defaultBehaviour;
         
         var speakerBehaviour =
             speaker.narrativeBehaviours.Find(emotion => emotion.emotionLabel == message.EmotionDisplayed)
@@ -113,7 +113,7 @@ public class NarrativeUI : MonoBehaviour
         if(_currentMessageShowing != null)
             StopCoroutine(_currentMessageShowing);
 
-        _currentMessageShowing = ShowLetterByLetter(message.Content, speakerBehaviour.speakingRhythm, speakerBehaviour.speakingSound);
+        _currentMessageShowing = TypeMessage(message.Content, speakerBehaviour.speakingRhythm, speakerBehaviour.speakingSound);
         StartCoroutine(_currentMessageShowing);
     }
 
@@ -129,38 +129,51 @@ public class NarrativeUI : MonoBehaviour
             speakingCharacterSprite.sprite = sprite;
         }
     } 
-    
-    private IEnumerator ShowLetterByLetter(string message, float delayBetweenLetters, AudioClip speakerSound)
-    {
-        
-        messageText.text = "";
-        float currentDelay = 0;
-        foreach (var c in message)
-        {
-            yield return new WaitForSeconds(currentDelay);
-            currentDelay = delayBetweenLetters;
 
-            if (CharactersToIgnore.Contains(c))
+    private IEnumerator TypeMessage(string message, float delayBetweenLetters, AudioClip speakerSound)
+    {
+        messageText.ForceMeshUpdate();
+        messageText.text = message;
+        messageText.maxVisibleCharacters = 0;
+
+        float currentDelay = 0;
+        
+        for (var i = 0; i < message.Length; i++)
+        {
+            if(message[i] == '<')
             {
-                messageText.text += c;
-                continue;
+                while (message[i] != '>')
+                    i++;
+                i++;
             }
+
+            var c = message[i];
+
+            yield return new WaitForSeconds(currentDelay);
             
-            if(Punctuation.Contains(c))
+
+            messageText.maxVisibleCharacters++;
+            
+            currentDelay = delayBetweenLetters;
+            
+            if (CharactersToIgnore.Contains(c))
+                continue;
+
+            if (Punctuation.Contains(c))
                 currentDelay = delayBetweenLetters * punctuationDelayMultiplier;
 
             AudioManager.Instance.PlaySound(speakerSound);
-            messageText.text += c;
         }
 
         EndMessage();
     }
+    
     public bool IsShowingCurrentMessage() => _currentMessageShowing != null;
 
     public void ShowAllMessage(Message currentMessage)
     {
+        messageText.maxVisibleCharacters = currentMessage.Content.Length;
         EndMessage();
-        messageText.text = currentMessage.Content;
     }
 
     private void EndMessage()

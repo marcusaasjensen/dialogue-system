@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: test2
   m_EditorClassIdentifier: 
   NodeLinks:
+  - BaseNodeGuid: abc633e1-2388-4a36-afae-7e512b14694f
+    PortName: Next
+    TargetNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
   - BaseNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
     PortName: It can be better
     TargetNodeGuid: b47bca0b-4822-41db-acc6-5558bc78f2a5
@@ -150,7 +153,7 @@ MonoBehaviour:
     Dialogue:
     - <Speaker>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: Welcome to my shop!
+      <Content>k__BackingField: <i>Welcome </i> to my <color="green">shop</color>!
       <HideCharacter>k__BackingField: 0
     Position: {x: 336, y: 278.66666}
     TransitionNode: 1

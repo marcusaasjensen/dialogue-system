@@ -5,5 +5,6 @@ using UnityEngine;
 public class Speaker : ScriptableObject
 {
     public string characterName;
+    public CharacterNarrativeBehaviour defaultBehaviour;
     public List<CharacterNarrativeBehaviour> narrativeBehaviours;
 }
