@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
@@ -9,11 +8,12 @@ using UnityEngine.UI;
 
 public class NarrativeUI : MonoBehaviour
 {
-    [Header("Texts")]
+    [Header("UI Texts")]
     [SerializeField] private TextMeshProUGUI speakerNameText;
     [SerializeField] private TextMeshProUGUI messageText;
+    [SerializeField] private NarrativeWriter narrativeWriter;
 
-    [Space, Header("Buttons")] 
+    [Space, Header("UI Buttons")] 
     [SerializeField] private Transform buttonsParent;
     [SerializeField] private Button dialogueOptionButtonPrefab;
     [SerializeField] private Button disabledOptionButtonPrefab;
@@ -21,23 +21,24 @@ public class NarrativeUI : MonoBehaviour
     [SerializeField] private Vector2 buttonOffset;
     [SerializeField, Min(1)] private int numberOfColumns = 2;
 
-    [Space, Header("Rendering")]
+    [Space, Header("UI Rendering")]
     [SerializeField, CanBeNull] private Image speakingCharacterSprite;
 
     [Space, Header("Default Values"), SerializeField]
     private Speaker defaultSpeaker;
-
-    [SerializeField] private int punctuationDelayMultiplier = 10;
-
-    private IEnumerator _currentMessageShowing;
+    
     private bool _disabledButtonPrefabNotNull;
-
-    private static readonly char[] Punctuation = {'.', ',', '!', '?', ':', ';'};
-    private static readonly char[] CharactersToIgnore = {' '};
+    private bool _narrativeWriterNotNull;
+    private bool _speakingCharacterSpriteNull;
 
     public event Action OnMessageEnd;
 
-    private void Awake() => _disabledButtonPrefabNotNull = disabledOptionButtonPrefab != null;
+    private void Awake()
+    {
+        _speakingCharacterSpriteNull = speakingCharacterSprite == null;
+        _narrativeWriterNotNull = narrativeWriter != null;
+        _disabledButtonPrefabNotNull = disabledOptionButtonPrefab != null;
+    }
 
     public List<Button> DisplayDialogueOptionButtons(List<DialogueOption> options, bool disableChosenOptions)
     {
@@ -94,7 +95,7 @@ public class NarrativeUI : MonoBehaviour
         return buttonList;
     }
 
-    public void ShowMessage(Speaker speaker, Message message)
+    public void DisplayMessage(Speaker speaker, Message message)
     {
         if (message == null) return;
         
@@ -109,17 +110,25 @@ public class NarrativeUI : MonoBehaviour
             ?? defaultSpeakerBehaviour;
         
         SetupSpeakerSprite(speakerBehaviour.characterFace, message.HideCharacter);
-        
-        if(_currentMessageShowing != null)
-            StopCoroutine(_currentMessageShowing);
 
-        _currentMessageShowing = TypeMessage(message.Content, speakerBehaviour.speakingRhythm, speakerBehaviour.speakingSound);
-        StartCoroutine(_currentMessageShowing);
+        messageText.text = message.Content;
+        
+        if(narrativeWriter) narrativeWriter.WriteMessage(message, messageText, speakerBehaviour);
+        StartCoroutine(WaitMessageEnd());
+    }
+
+    private IEnumerator WaitMessageEnd()
+    {
+        if (_narrativeWriterNotNull)
+            yield return narrativeWriter.CurrentMessageCoroutine();
+
+        OnMessageEnd?.Invoke();
+        yield return null;
     }
 
     private void SetupSpeakerSprite(Sprite sprite, bool hideCharacter)
     {
-        if (speakingCharacterSprite == null) return;
+        if (_speakingCharacterSpriteNull) return;
         
         if(sprite == null || hideCharacter)
             speakingCharacterSprite.gameObject.SetActive(false);
@@ -128,59 +137,6 @@ public class NarrativeUI : MonoBehaviour
             speakingCharacterSprite.gameObject.SetActive(true);
             speakingCharacterSprite.sprite = sprite;
         }
-    } 
-
-    private IEnumerator TypeMessage(string message, float delayBetweenLetters, AudioClip speakerSound)
-    {
-        messageText.ForceMeshUpdate();
-        messageText.text = message;
-        messageText.maxVisibleCharacters = 0;
-
-        float currentDelay = 0;
-        
-        for (var i = 0; i < message.Length; i++)
-        {
-            if(message[i] == '<')
-            {
-                while (message[i] != '>')
-                    i++;
-                i++;
-            }
-
-            var c = message[i];
-
-            yield return new WaitForSeconds(currentDelay);
-            
-
-            messageText.maxVisibleCharacters++;
-            
-            currentDelay = delayBetweenLetters;
-            
-            if (CharactersToIgnore.Contains(c))
-                continue;
-
-            if (Punctuation.Contains(c))
-                currentDelay = delayBetweenLetters * punctuationDelayMultiplier;
-
-            AudioManager.Instance.PlaySound(speakerSound);
-        }
-
-        EndMessage();
-    }
-    
-    public bool IsShowingCurrentMessage() => _currentMessageShowing != null;
-
-    public void ShowAllMessage(Message currentMessage)
-    {
-        messageText.maxVisibleCharacters = currentMessage.Content.Length;
-        EndMessage();
-    }
-
-    private void EndMessage()
-    {
-        StopCoroutine(_currentMessageShowing);
-        _currentMessageShowing = null;
-        OnMessageEnd?.Invoke();
     }
 
     public void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
@@ -194,5 +150,14 @@ public class NarrativeUI : MonoBehaviour
         messageText.text = "";
         speakerNameText.text = "";
         SetupSpeakerSprite(null, true);
+    }
+
+    public bool IsMessageDisplaying() => _narrativeWriterNotNull && narrativeWriter.IsWritingMessage();
+
+    public void DisplayAllMessage(Message currentMessage)
+    {
+        narrativeWriter.EndMessage();
+        StartCoroutine(WaitMessageEnd());
+        messageText.maxVisibleCharacters = currentMessage.Content.Length;
     }
 }

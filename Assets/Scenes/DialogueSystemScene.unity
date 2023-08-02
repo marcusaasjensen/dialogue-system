@@ -457,6 +457,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1138724646}
   - component: {fileID: 1138724647}
+  - component: {fileID: 1138724648}
   m_Layer: 5
   m_Name: Dialogue UI
   m_TagString: Untagged
@@ -503,6 +504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerNameText: {fileID: 1582010744}
   messageText: {fileID: 366787871}
+  narrativeWriter: {fileID: 1138724648}
   buttonsParent: {fileID: 222693666}
   dialogueOptionButtonPrefab: {fileID: 1851353415986813201, guid: cddc6c7c60e7316439d45cc2baa0952b, type: 3}
   disabledOptionButtonPrefab: {fileID: 1851353415986813201, guid: f052b6a0606a3f747b3ccfac2cd3c684, type: 3}
@@ -511,6 +513,18 @@ MonoBehaviour:
   numberOfColumns: 3
   speakingCharacterSprite: {fileID: 1919876754}
   defaultSpeaker: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
+--- !u!114 &1138724648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138724645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac6f951f0a1417fa3edb50a73b450fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   punctuationDelayMultiplier: 10
 --- !u!1 &1249654691
 GameObject:
