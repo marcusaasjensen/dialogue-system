@@ -2,12 +2,12 @@
 
 public class NarrativeNode
 {
-    public Dialogue Dialogue { get; }
+    public List<Message> Dialogue { get; }
     public string NodeId { get; }
     public List<DialogueOption> Options { get; }
     public NarrativeNode DefaultPath { get; }
 
-    public NarrativeNode(Dialogue dialogue, string nodeId, NarrativeNode defaultPath = null)
+    public NarrativeNode(List<Message> dialogue, string nodeId, NarrativeNode defaultPath = null)
     {
         Dialogue = dialogue;
         NodeId = nodeId;

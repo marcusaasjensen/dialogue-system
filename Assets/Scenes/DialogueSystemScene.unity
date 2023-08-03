@@ -510,7 +510,7 @@ MonoBehaviour:
   disabledOptionButtonPrefab: {fileID: 1851353415986813201, guid: f052b6a0606a3f747b3ccfac2cd3c684, type: 3}
   nextMessageButton: {fileID: 1249654693}
   buttonOffset: {x: 100, y: 50}
-  numberOfColumns: 3
+  numberOfColumns: 2
   speakingCharacterSprite: {fileID: 1919876754}
   defaultSpeaker: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
 --- !u!114 &1138724648
