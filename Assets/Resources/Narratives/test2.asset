@@ -153,8 +153,8 @@ MonoBehaviour:
     Dialogue:
     - <Speaker>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: Welcome to my shop!
+      <Content>k__BackingField: <i>Welcome </i> to my <color="green">shop</color>!
       <HideCharacter>k__BackingField: 0
-    Position: {x: 339.33334, y: 224.66667}
+    Position: {x: 336, y: 278.66666}
     TransitionNode: 1
     EntryPoint: 0

@@ -667,6 +667,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1138724646}
   - component: {fileID: 1138724647}
+  - component: {fileID: 1138724648}
   m_Layer: 5
   m_Name: Dialogue UI
   m_TagString: Untagged
@@ -713,13 +714,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerNameText: {fileID: 1582010744}
   messageText: {fileID: 366787871}
+  narrativeWriter: {fileID: 1138724648}
   buttonsParent: {fileID: 222693666}
   dialogueOptionButtonPrefab: {fileID: 1851353415986813201, guid: 4e2170dc146a1c94e8c4a48ec625ef17, type: 3}
+  disabledOptionButtonPrefab: {fileID: 0}
   nextMessageButton: {fileID: 1249654693}
   buttonOffset: {x: 100, y: 50}
   numberOfColumns: 3
   speakingCharacterSprite: {fileID: 1919876754}
   defaultSpeaker: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
+--- !u!114 &1138724648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138724645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac6f951f0a1417fa3edb50a73b450fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   punctuationDelayMultiplier: 10
 --- !u!1 &1249654691
 GameObject:
@@ -1717,6 +1732,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}
   displayChoicesAutomatically: 1
+  disableAlreadyChosenOptions: 1
 --- !u!114 &2089170441
 MonoBehaviour:
   m_ObjectHideFlags: 0

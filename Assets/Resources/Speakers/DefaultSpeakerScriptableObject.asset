@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: DefaultSpeakerScriptableObject
   m_EditorClassIdentifier: 
   characterName: 
-  narrativeBehaviours:
-  - emotionLabel: 0
+  defaultBehaviour:
+    emotionLabel: 0
     speakingSound: {fileID: 8300000, guid: dec0dd068984f0c419c26b79302cd356, type: 3}
     speakingRhythm: 0.05
     characterFace: {fileID: 0}
+  narrativeBehaviours: []

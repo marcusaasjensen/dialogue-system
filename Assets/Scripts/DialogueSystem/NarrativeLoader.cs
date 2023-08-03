@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class NarrativeLoader : MonoBehaviour
@@ -43,12 +44,12 @@ public class NarrativeLoader : MonoBehaviour
 
                 if (sameExistingNode != null) return sameExistingNode;
 
-                var dialogue = new Dialogue(node.Dialogue);
+                var dialogue = new List<Message>(node.Dialogue);
 
                 return node.TransitionNode ? CreateTransitionNode(node, narrative, dialogue) : CreateChoiceNode(node, narrative, dialogue);
         }
 
-        private NarrativeNode CreateChoiceNode(DialogueNodeData node, Narrative narrative, Dialogue dialogue)
+        private NarrativeNode CreateChoiceNode(DialogueNodeData node, Narrative narrative, List<Message> dialogue)
         {
                 //Options to choose but no default path
                 
@@ -67,7 +68,7 @@ public class NarrativeLoader : MonoBehaviour
                 return choiceNode;
         }
 
-        private NarrativeNode CreateTransitionNode(DialogueNodeData node, Narrative narrative, Dialogue dialogue)
+        private NarrativeNode CreateTransitionNode(DialogueNodeData node, Narrative narrative, List<Message> dialogue)
         {
                 //No option and default path exists
                 

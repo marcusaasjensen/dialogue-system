@@ -52,6 +52,7 @@ public class NarrativeController : MonoBehaviour
 
     private void StartNewDialogue(NarrativeNode narrative)
     {
+        if (narrative == null) return;
         _currentNarrative = narrative;
         _narrativeQueue = new Queue<Message>(narrative.Dialogue);
         NextNarrative();
@@ -60,7 +61,7 @@ public class NarrativeController : MonoBehaviour
     public void NextNarrative()
     {
         IsChoosing = false;
-        if (narrativeUI.IsShowingCurrentMessage())
+        if (narrativeUI.IsMessageDisplaying())
         {
             SkipCurrentMessage(_currentMessage);
             Debug.Log($"<color=#FAE392>Skip</color>");
@@ -72,6 +73,12 @@ public class NarrativeController : MonoBehaviour
 
     private void ContinueNarrative()
     {
+        if (_narrativeQueue == null)
+        {
+            FinishDialogue();
+            return;
+        }
+        
         if (_narrativeQueue.Count == 0)
         {
             FindNextPath();
@@ -82,7 +89,7 @@ public class NarrativeController : MonoBehaviour
         ShowNextMessage(_currentMessage);
     }
 
-    private void SkipCurrentMessage(Message currentMessage) => narrativeUI.ShowAllMessage(currentMessage);
+    private void SkipCurrentMessage(Message currentMessage) => narrativeUI.DisplayAllMessage(currentMessage);
     
     private void FindNextPath()
     {
@@ -120,7 +127,7 @@ public class NarrativeController : MonoBehaviour
     private void ShowNextMessage(Message nextMessage)
     {
         var currentSpeaker = speakers?.Find(speaker => speaker.characterName == nextMessage?.Speaker);
-        narrativeUI.ShowMessage(currentSpeaker, nextMessage);
+        narrativeUI.DisplayMessage(currentSpeaker, nextMessage);
     }
 
     private void ChooseNarrativePath(int choiceIndex)
@@ -143,16 +150,9 @@ public class NarrativeController : MonoBehaviour
         FinishDialogue();
     }
 
-    private void SetupNarrativeEvents()
-    {
-        narrativeUI.OnMessageEnd += ContinueToChoiceAutomatically;
-    }
-    
-    private void UnsetNarrativeEvents()
-    {
-        narrativeUI.OnMessageEnd -= ContinueToChoiceAutomatically;
-    }
-    
+    private void SetupNarrativeEvents() => narrativeUI.OnMessageEnd += ContinueToChoiceAutomatically;
+    private void UnsetNarrativeEvents() => narrativeUI.OnMessageEnd -= ContinueToChoiceAutomatically;
+
     private void FinishDialogue()
     {
         LogResults();
@@ -165,5 +165,4 @@ public class NarrativeController : MonoBehaviour
         Debug.Log("<color=#2CD3E1>Dialogue finished!</color>");
         Debug.Log($"<color=#2CD3E1>Final narrative path ID: {NarrativePathID}</color>");
     }
-
 }
