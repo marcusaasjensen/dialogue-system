@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -11,12 +13,30 @@ public class NarrativeWriter : MonoBehaviour
 
     private static readonly char[] Punctuation = {'.', ',', '!', '?', ':', ';'};
     private static readonly char[] CharactersToIgnore = {' '};
+    
+    //private DialogueVertexAnimator dialogueVertexAnimator;
+    //public TMP_Text textBox;
+    
+    //private event Action OnFinish;
 
+    private void Awake()
+    {
+        //dialogueVertexAnimator = new DialogueVertexAnimator(textBox);
+        //OnFinish += EndMessage;
+    }
+    
     public void WriteMessage(Message message, TextMeshProUGUI textContainer, CharacterNarrativeBehaviour speakerBehaviour)
     {
+        //dialogueVertexAnimator.textAnimating = false;
+        var commands = DialogueUtility.ProcessInputString(message.Content, out var totalTextMessage);
+        Debug.Log(commands.Count);
         if(_currentMessageCoroutine != null)
             StopCoroutine(_currentMessageCoroutine);
         
+        message.Content = totalTextMessage;
+
+        //_currentMessageCoroutine = StartCoroutine(dialogueVertexAnimator.AnimateTextIn(commands, totalTextMessage, speakerBehaviour.speakingSound, OnFinish));
+
         _currentMessageCoroutine = StartCoroutine(
             TypeMessage(message.Content, speakerBehaviour.speakingRhythm, textContainer, speakerBehaviour.speakingSound)
             );
@@ -35,7 +55,9 @@ public class NarrativeWriter : MonoBehaviour
             {
                 while (message[i] != '>')
                     i++;
-                i++;
+                
+                if (++i == message.Length)
+                    break;
             }
 
             var c = message[i];

@@ -26,26 +26,30 @@ public class NarrativeUI : MonoBehaviour
 
     [Space, Header("Default Values"), SerializeField]
     private Speaker defaultSpeaker;
+
+
+    private List<Button> _currentOptionButtonList;
     
     private bool _disabledButtonPrefabNotNull;
     private bool _narrativeWriterNotNull;
     private bool _speakingCharacterSpriteNull;
 
     public event Action OnMessageEnd;
-
+    
     private void Awake()
     {
+        _currentOptionButtonList = new List<Button>();
         _speakingCharacterSpriteNull = speakingCharacterSprite == null;
         _narrativeWriterNotNull = narrativeWriter != null;
         _disabledButtonPrefabNotNull = disabledOptionButtonPrefab != null;
     }
+    
+    public delegate void ChoosePathDelegate(int index);
 
-    public List<Button> DisplayDialogueOptionButtons(List<DialogueOption> options, bool disableChosenOptions)
+    public void DisplayDialogueOptionButtons(List<DialogueOption> options, bool disableChosenOptions, ChoosePathDelegate choosePathFunction)
     {
         DisableNextNarrationUI();
 
-        var buttonList = new List<Button>();
-        
         var buttonRect = dialogueOptionButtonPrefab.GetComponent<RectTransform>().rect;
         var parentRect = buttonsParent.GetComponent<RectTransform>().rect;
         
@@ -85,14 +89,24 @@ public class NarrativeUI : MonoBehaviour
             
             newOptionButton.GetComponent<RectTransform>().localPosition = new Vector3(initialButtonXPosition + xOffset, initialButtonYPosition - yOffset,0);
             newOptionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = option.Text;
-        
+
+            var pathIndex = options.IndexOf(option);
+            
+            newOptionButton.onClick.AddListener(delegate { choosePathFunction(pathIndex); });
+            newOptionButton.onClick.AddListener(EnableNextNarrationUI);
+            newOptionButton.onClick.AddListener(RemoveOptions);
+
             columnIndex++;
             optionsLeft.Dequeue();
 
-            buttonList.Add(newOptionButton);
+            _currentOptionButtonList.Add(newOptionButton);
         }
-        
-        return buttonList;
+    }
+
+    private void RemoveOptions()
+    {
+        _currentOptionButtonList.ForEach(button => Destroy(button.gameObject));
+        _currentOptionButtonList.Clear();
     }
 
     public void DisplayMessage(Speaker speaker, Message message)
@@ -114,6 +128,7 @@ public class NarrativeUI : MonoBehaviour
         messageText.text = message.Content;
         
         if(narrativeWriter) narrativeWriter.WriteMessage(message, messageText, speakerBehaviour);
+
         StartCoroutine(WaitMessageEnd());
     }
 
