@@ -49,9 +49,9 @@ public class DialogueView : EditorWindow
 
             if (element == null) return;
             
-            element.Speaker =
+            element.SpeakerName =
                 EditorGUI.TextField(new Rect(rect.x + GUIOffset, rect.y + GUIOffset, position.width - 50, 20),
-                    new GUIContent("Speaker"), element.Speaker);
+                    new GUIContent("Speaker"), element.SpeakerName);
             element.EmotionDisplayed = (Emotion)
                 EditorGUI.EnumPopup(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 30, position.width - 50, 20),
                     new GUIContent("Emotion"), element.EmotionDisplayed);

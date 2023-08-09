@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System;
 
-public class DialogueUtility : MonoBehaviour
+public class DialogueUtility
 {
     // grab the remainder of the text until ">" or end of string
     private const string REMAINDER_REGEX = "(.*?((?=>)|(/|$)))";
@@ -18,10 +18,12 @@ public class DialogueUtility : MonoBehaviour
     private const string ANIM_END_REGEX_STRING = "</anim>";
     private static readonly Regex animEndRegex = new Regex(ANIM_END_REGEX_STRING);
 
+    public const float DefaultSpeed = 0.05f;
+
     private static readonly Dictionary<string, float> pauseDictionary = new Dictionary<string, float>{
         { "tiny", .1f },
         { "short", .25f },
-        { "normal", 0.666f },
+        { "normal", .666f },
         { "long", 1f },
         { "read", 2f },
     };
@@ -76,11 +78,11 @@ public class DialogueUtility : MonoBehaviour
         MatchCollection speedMatches = speedRegex.Matches(processedMessage);
         foreach (Match match in speedMatches)
         {
-            string stringVal = match.Groups["speed"].Value;
-            if (!float.TryParse(stringVal, out float val))
-            {
-                val = 150f;
-            }
+            var stringVal = match.Groups["speed"].Value;
+
+            if (!float.TryParse(stringVal, out var val))
+                val = DefaultSpeed;
+
             result.Add(new DialogueCommand
             {
                 position = VisibleCharactersUpToIndex(processedMessage, match.Index),
@@ -153,7 +155,7 @@ public class DialogueUtility : MonoBehaviour
         return result;
     }
 }
-public struct DialogueCommand
+public class DialogueCommand
 {
     public int position;
     public DialogueCommandType type;

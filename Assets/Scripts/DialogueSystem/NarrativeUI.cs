@@ -1,16 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class NarrativeUI : MonoBehaviour
 {
     [Header("UI Texts")]
     [SerializeField] private TextMeshProUGUI speakerNameText;
-    [SerializeField] private TextMeshProUGUI messageText;
+    [FormerlySerializedAs("messageText")] [SerializeField] private TextMeshProUGUI messageTextContainer;
     [SerializeField] private NarrativeWriter narrativeWriter;
 
     [Space, Header("UI Buttons")] 
@@ -26,10 +29,8 @@ public class NarrativeUI : MonoBehaviour
 
     [Space, Header("Default Values"), SerializeField]
     private Speaker defaultSpeaker;
-
-
-    private List<Button> _currentOptionButtonList;
     
+    private List<Button> _currentOptionButtonList;
     private bool _disabledButtonPrefabNotNull;
     private bool _narrativeWriterNotNull;
     private bool _speakingCharacterSpriteNull;
@@ -109,12 +110,31 @@ public class NarrativeUI : MonoBehaviour
         _currentOptionButtonList.Clear();
     }
 
-    public void DisplayMessage(Speaker speaker, Message message)
+    private void DisplaySpeakerName(string speakerName, bool hide)
+    {
+        speakerNameText.text = speakerName;
+        speakerNameText.maxVisibleCharacters = hide ? 0 : int.MaxValue;
+    }
+    
+    private void DisplaySpeakerSprite(Speaker speaker, Emotion emotionToDisplay, bool hide)
+    {
+        if (speaker == null) speaker = defaultSpeaker;
+
+        var defaultSpeakerBehaviour = speaker.defaultBehaviour ?? defaultSpeaker.defaultBehaviour;
+        
+        var speakerBehaviour =
+            speaker.narrativeBehaviours.Find(emotion => emotion.emotionLabel == emotionToDisplay)
+            ?? defaultSpeakerBehaviour;
+        SetupSpeakerSprite(speakerBehaviour.characterFace, hide);
+    }
+
+    public void DisplayDialogueBubble(Speaker speaker, Message message)
     {
         if (message == null) return;
         
-        speakerNameText.text = message.HideCharacter ? "" : message.Speaker;
-
+        DisplaySpeakerName(message.SpeakerName, message.HideCharacter);
+        DisplaySpeakerSprite(speaker, message.EmotionDisplayed, message.HideCharacter);
+        
         if (speaker == null) speaker = defaultSpeaker;
 
         var defaultSpeakerBehaviour = speaker.defaultBehaviour ?? defaultSpeaker.defaultBehaviour;
@@ -125,9 +145,7 @@ public class NarrativeUI : MonoBehaviour
         
         SetupSpeakerSprite(speakerBehaviour.characterFace, message.HideCharacter);
 
-        messageText.text = message.Content;
-        
-        if(narrativeWriter) narrativeWriter.WriteMessage(message, messageText, speakerBehaviour);
+        if(narrativeWriter) narrativeWriter.WriteMessage(message.Content, messageTextContainer, speakerBehaviour.speakingSound);
 
         StartCoroutine(WaitMessageEnd());
     }
@@ -162,7 +180,7 @@ public class NarrativeUI : MonoBehaviour
 
     public void InitializeUI()
     {
-        messageText.text = "";
+        messageTextContainer.text = "";
         speakerNameText.text = "";
         SetupSpeakerSprite(null, true);
     }
@@ -173,6 +191,6 @@ public class NarrativeUI : MonoBehaviour
     {
         narrativeWriter.EndMessage();
         StartCoroutine(WaitMessageEnd());
-        messageText.maxVisibleCharacters = currentMessage.Content.Length;
+        messageTextContainer.maxVisibleCharacters = currentMessage.Content.Length;
     }
 }

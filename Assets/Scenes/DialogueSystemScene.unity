@@ -503,7 +503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speakerNameText: {fileID: 1582010744}
-  messageText: {fileID: 366787871}
+  messageTextContainer: {fileID: 366787871}
   narrativeWriter: {fileID: 1138724648}
   buttonsParent: {fileID: 222693666}
   dialogueOptionButtonPrefab: {fileID: 1851353415986813201, guid: cddc6c7c60e7316439d45cc2baa0952b, type: 3}

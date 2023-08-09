@@ -117,8 +117,8 @@ public class NarrativeController : MonoBehaviour
 
     private void ShowNextMessage(Message nextMessage)
     {
-        var currentSpeaker = speakers?.Find(speaker => speaker.characterName == nextMessage?.Speaker);
-        narrativeUI.DisplayMessage(currentSpeaker, nextMessage);
+        var currentSpeaker = speakers?.Find(speaker => speaker.characterName == nextMessage?.SpeakerName);
+        narrativeUI.DisplayDialogueBubble(currentSpeaker, nextMessage);
     }
 
     private void ChooseNarrativePath(int choiceIndex)
