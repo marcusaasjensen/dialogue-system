@@ -7,4 +7,12 @@ public class Speaker : ScriptableObject
     public string characterName;
     public CharacterNarrativeBehaviour defaultBehaviour;
     public List<CharacterNarrativeBehaviour> narrativeBehaviours;
+
+    public CharacterNarrativeBehaviour GetBehaviourByEmotion(Emotion fromEmotion)
+    {
+        var speakerBehaviour =
+            narrativeBehaviours.Find(emotion => emotion.emotionLabel == fromEmotion)
+            ?? defaultBehaviour;
+        return speakerBehaviour;
+    }
 }

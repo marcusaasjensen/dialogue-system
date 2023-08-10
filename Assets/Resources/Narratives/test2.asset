@@ -63,11 +63,11 @@ MonoBehaviour:
     EntryPoint: 1
   - Guid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
     Dialogue:
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: I'm feeling really gooooood today!
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: What about ya?
       <HideCharacter>k__BackingField: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
     Dialogue:
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: "Nice choice. A coffee for 1.50\u20AC!"
       <HideCharacter>k__BackingField: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
     Dialogue:
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: "Okay then. That would cost 1.00\u20AC."
       <HideCharacter>k__BackingField: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
     Dialogue:
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: 'Thank you very much, here is your cup of coffee.
 
@@ -106,7 +106,7 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
     Dialogue:
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Thank you. Here is your bread!
       <HideCharacter>k__BackingField: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: 5da6a15c-8cc3-439a-8360-8132191fae29
     Dialogue:
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Do you want anything else?
       <HideCharacter>k__BackingField: 0
@@ -124,11 +124,11 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
     Dialogue:
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Thank you for coming. Have a wonderful day!
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Me
+    - <SpeakerName>k__BackingField: Me
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Thank you, bye.
       <HideCharacter>k__BackingField: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: b47bca0b-4822-41db-acc6-5558bc78f2a5
     Dialogue:
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: I guess, I can make your day better!
       <HideCharacter>k__BackingField: 0
@@ -151,10 +151,10 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: b551527d-3554-405b-bd0d-5949924857ec
     Dialogue:
-    - <Speaker>k__BackingField: X
+    - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: <sp:0,05><i>Welcome</i><p:normal> to my<p:normal>
-        <sp:0,01><color="green">shop</color>!
+      <Content>k__BackingField: <sp:0,03><i>Welcome</i><p:normal> to my<p:normal>
+        <sp:0,02><color="green">shop</color>!!!!!!!!!!!
       <HideCharacter>k__BackingField: 0
     Position: {x: 336, y: 278.66666}
     TransitionNode: 1

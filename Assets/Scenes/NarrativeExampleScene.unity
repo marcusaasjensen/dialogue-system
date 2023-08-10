@@ -713,7 +713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speakerNameText: {fileID: 1582010744}
-  messageText: {fileID: 366787871}
+  messageTextContainer: {fileID: 366787871}
   narrativeWriter: {fileID: 1138724648}
   buttonsParent: {fileID: 222693666}
   dialogueOptionButtonPrefab: {fileID: 1851353415986813201, guid: 4e2170dc146a1c94e8c4a48ec625ef17, type: 3}
@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac6f951f0a1417fa3edb50a73b450fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  punctuationDelayMultiplier: 10
+  defaultSpeed: 0.05
 --- !u!1 &1249654691
 GameObject:
   m_ObjectHideFlags: 0

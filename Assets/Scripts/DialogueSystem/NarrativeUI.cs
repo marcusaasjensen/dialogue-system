@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -116,34 +114,14 @@ public class NarrativeUI : MonoBehaviour
         speakerNameText.maxVisibleCharacters = hide ? 0 : int.MaxValue;
     }
     
-    private void DisplaySpeakerSprite(Speaker speaker, Emotion emotionToDisplay, bool hide)
-    {
-        if (speaker == null) speaker = defaultSpeaker;
-
-        var defaultSpeakerBehaviour = speaker.defaultBehaviour ?? defaultSpeaker.defaultBehaviour;
-        
-        var speakerBehaviour =
-            speaker.narrativeBehaviours.Find(emotion => emotion.emotionLabel == emotionToDisplay)
-            ?? defaultSpeakerBehaviour;
-        SetupSpeakerSprite(speakerBehaviour.characterFace, hide);
-    }
-
-    public void DisplayDialogueBubble(Speaker speaker, Message message)
+    public void DisplayMessageWithSpeaker(Speaker speaker, Message message)
     {
         if (message == null) return;
+        if (speaker == null) speaker = defaultSpeaker;
+        var speakerBehaviour = speaker.GetBehaviourByEmotion(message.EmotionDisplayed);
         
         DisplaySpeakerName(message.SpeakerName, message.HideCharacter);
-        DisplaySpeakerSprite(speaker, message.EmotionDisplayed, message.HideCharacter);
-        
-        if (speaker == null) speaker = defaultSpeaker;
-
-        var defaultSpeakerBehaviour = speaker.defaultBehaviour ?? defaultSpeaker.defaultBehaviour;
-        
-        var speakerBehaviour =
-            speaker.narrativeBehaviours.Find(emotion => emotion.emotionLabel == message.EmotionDisplayed)
-            ?? defaultSpeakerBehaviour;
-        
-        SetupSpeakerSprite(speakerBehaviour.characterFace, message.HideCharacter);
+        DisplaySpeakerSprite(speakerBehaviour.characterFace, message.HideCharacter);
 
         if(narrativeWriter) narrativeWriter.WriteMessage(message.Content, messageTextContainer, speakerBehaviour.speakingSound);
 
@@ -153,13 +131,13 @@ public class NarrativeUI : MonoBehaviour
     private IEnumerator WaitMessageEnd()
     {
         if (_narrativeWriterNotNull)
-            yield return narrativeWriter.CurrentMessageCoroutine();
+            yield return new WaitUntil(() => narrativeWriter.IsTyping == false);
 
         OnMessageEnd?.Invoke();
         yield return null;
     }
 
-    private void SetupSpeakerSprite(Sprite sprite, bool hideCharacter)
+    private void DisplaySpeakerSprite(Sprite sprite, bool hideCharacter)
     {
         if (_speakingCharacterSpriteNull) return;
         
@@ -172,8 +150,7 @@ public class NarrativeUI : MonoBehaviour
         }
     }
 
-    public void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
-
+    private void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
     private void DisableNextNarrationUI() => nextMessageButton.gameObject.SetActive(false);
 
     public void CloseDialogue() => gameObject.SetActive(false);
@@ -182,10 +159,10 @@ public class NarrativeUI : MonoBehaviour
     {
         messageTextContainer.text = "";
         speakerNameText.text = "";
-        SetupSpeakerSprite(null, true);
+        DisplaySpeakerSprite(null, true);
     }
 
-    public bool IsMessageDisplaying() => _narrativeWriterNotNull && narrativeWriter.IsWritingMessage();
+    public bool IsMessageDisplaying() => _narrativeWriterNotNull && narrativeWriter.IsTyping;
 
     public void DisplayAllMessage(Message currentMessage)
     {

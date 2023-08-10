@@ -525,7 +525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac6f951f0a1417fa3edb50a73b450fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  punctuationDelayMultiplier: 10
+  defaultSpeed: 0.05
 --- !u!1 &1249654691
 GameObject:
   m_ObjectHideFlags: 0
