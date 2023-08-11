@@ -1,71 +1,131 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class NarrativeWriter : MonoBehaviour
 {
-    [SerializeField] private int punctuationDelayMultiplier = 10;
+    [SerializeField] private float defaultSpeed = 0.05f;
     
+    private List<DialogueCommand> _dialogueCommands = new();
     private Coroutine _currentMessageCoroutine;
-
-    private static readonly char[] Punctuation = {'.', ',', '!', '?', ':', ';'};
     private static readonly char[] CharactersToIgnore = {' '};
 
-    public void WriteMessage(Message message, TextMeshProUGUI textContainer, CharacterNarrativeBehaviour speakerBehaviour)
+    public bool IsTyping { get; private set; }
+
+    public void WriteMessage(string message, TextMeshProUGUI textContainer, AudioClip speakingSound = null)
+    {
+        _dialogueCommands = DialogueUtility.ProcessInputString(message, out var processedMessageWithTags);
+        
+        textContainer.text = processedMessageWithTags;
+
+        var processedMessage = RemoveMessageTags(processedMessageWithTags);
+        
+        var delays = DelaysBetweenEachCharacter(processedMessage.Length);
+
+        TypeMessage(message, delays, textContainer, speakingSound);
+    }
+
+
+    private void TypeMessage(string message, IReadOnlyList<float> delayBetweenLetters, TMP_Text textContainer, AudioClip speakingSound = null)
     {
         if(_currentMessageCoroutine != null)
             StopCoroutine(_currentMessageCoroutine);
         
         _currentMessageCoroutine = StartCoroutine(
-            TypeMessage(message.Content, speakerBehaviour.speakingRhythm, textContainer, speakerBehaviour.speakingSound)
-            );
+            TypeMessageCoroutine(message, delayBetweenLetters, textContainer, speakingSound)
+        );
     }
     
-    private IEnumerator TypeMessage(string message, float delayBetweenLetters, TMP_Text textContainer, AudioClip speakerSound)
+    private float[] DelaysBetweenEachCharacter(int messageLength)
     {
-        textContainer.ForceMeshUpdate();
-        textContainer.maxVisibleCharacters = 0;
+        var delays = new float[messageLength];
 
-        float currentDelay = 0;
-        
-        for (var i = 0; i < message.Length; i++)
+        var defaultDelay = defaultSpeed;
+
+        for (var i = 0; i < delays.Length; i++)
         {
-            if(message[i] == '<')
+            var commandAtPosition = _dialogueCommands.Find(command => command.Position == i);
+
+            if (commandAtPosition == null)
             {
-                while (message[i] != '>')
+                delays[i] = defaultDelay;
+                continue;
+            }
+
+            switch (commandAtPosition.Type)
+            {
+                case DialogueCommandType.TextSpeedChange:
+                    defaultDelay = commandAtPosition.FloatValue;
+                    delays[i] = defaultDelay;
+                    break;
+                case DialogueCommandType.Pause:
+                    delays[i] = commandAtPosition.FloatValue;
+                    break;
+                case DialogueCommandType.AnimStart:
+                case DialogueCommandType.AnimEnd:
+                default:
+                    break;
+            }
+        }
+
+        return delays;
+    }
+
+    private static string RemoveMessageTags(string message)
+    {
+        var result = string.Empty;
+        var i = 0;
+
+        while (i < message.Length)
+        {
+            if (message[i] == '<')
+            {
+                while (i < message.Length && message[i] != '>') 
                     i++;
                 i++;
             }
-
-            var c = message[i];
-
-            yield return new WaitForSeconds(currentDelay);
-            
-            textContainer.maxVisibleCharacters++;
-            
-            currentDelay = delayBetweenLetters;
-            
-            if (CharactersToIgnore.Contains(c))
-                continue;
-
-            if (Punctuation.Contains(c))
-                currentDelay = delayBetweenLetters * punctuationDelayMultiplier;
-
-            AudioManager.Instance.PlaySound(speakerSound);
+            else
+            {
+                result += message[i];
+                i++;
+            }
         }
 
+        return result;
+    }
+    
+    private IEnumerator TypeMessageCoroutine(string message, IReadOnlyList<float> delayBetweenLetters, TMP_Text textContainer, AudioClip speakingSound = null)
+    {
+        IsTyping = true;
+        textContainer.ForceMeshUpdate();
+
+        textContainer.maxVisibleCharacters = 0;
+
+        var currentDelay = defaultSpeed;
+
+        for (var i = 0; i < textContainer.textInfo.characterCount; i++)
+        {
+            var c = message[i];
+
+            if (!CharactersToIgnore.Contains(c))
+            {
+                yield return new WaitForSeconds(currentDelay);
+                AudioManager.Instance.PlaySound(speakingSound);
+            }
+
+            currentDelay = delayBetweenLetters[i];
+            textContainer.maxVisibleCharacters++;
+        }
+        
         EndMessage();
     }
-
-    public Coroutine CurrentMessageCoroutine() => _currentMessageCoroutine;
-
-    public bool IsWritingMessage() => _currentMessageCoroutine != null;
 
     public void EndMessage()
     {
         if (_currentMessageCoroutine == null) return;
         StopCoroutine(_currentMessageCoroutine);
-        _currentMessageCoroutine = null;
+        IsTyping = false;
     }
 }

@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class NarrativeUI : MonoBehaviour
 {
     [Header("UI Texts")]
     [SerializeField] private TextMeshProUGUI speakerNameText;
-    [SerializeField] private TextMeshProUGUI messageText;
+    [FormerlySerializedAs("messageText")] [SerializeField] private TextMeshProUGUI messageTextContainer;
     [SerializeField] private NarrativeWriter narrativeWriter;
 
     [Space, Header("UI Buttons")] 
@@ -27,25 +28,27 @@ public class NarrativeUI : MonoBehaviour
     [Space, Header("Default Values"), SerializeField]
     private Speaker defaultSpeaker;
     
+    private List<Button> _currentOptionButtonList;
     private bool _disabledButtonPrefabNotNull;
     private bool _narrativeWriterNotNull;
     private bool _speakingCharacterSpriteNull;
 
     public event Action OnMessageEnd;
-
+    
     private void Awake()
     {
+        _currentOptionButtonList = new List<Button>();
         _speakingCharacterSpriteNull = speakingCharacterSprite == null;
         _narrativeWriterNotNull = narrativeWriter != null;
         _disabledButtonPrefabNotNull = disabledOptionButtonPrefab != null;
     }
+    
+    public delegate void ChoosePathDelegate(int index);
 
-    public List<Button> DisplayDialogueOptionButtons(List<DialogueOption> options, bool disableChosenOptions)
+    public void DisplayDialogueOptionButtons(List<DialogueOption> options, bool disableChosenOptions, ChoosePathDelegate choosePathFunction)
     {
         DisableNextNarrationUI();
 
-        var buttonList = new List<Button>();
-        
         var buttonRect = dialogueOptionButtonPrefab.GetComponent<RectTransform>().rect;
         var parentRect = buttonsParent.GetComponent<RectTransform>().rect;
         
@@ -85,48 +88,56 @@ public class NarrativeUI : MonoBehaviour
             
             newOptionButton.GetComponent<RectTransform>().localPosition = new Vector3(initialButtonXPosition + xOffset, initialButtonYPosition - yOffset,0);
             newOptionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = option.Text;
-        
+
+            var pathIndex = options.IndexOf(option);
+            
+            newOptionButton.onClick.AddListener(delegate { choosePathFunction(pathIndex); });
+            newOptionButton.onClick.AddListener(EnableNextNarrationUI);
+            newOptionButton.onClick.AddListener(RemoveOptions);
+
             columnIndex++;
             optionsLeft.Dequeue();
 
-            buttonList.Add(newOptionButton);
+            _currentOptionButtonList.Add(newOptionButton);
         }
-        
-        return buttonList;
     }
 
-    public void DisplayMessage(Speaker speaker, Message message)
+    private void RemoveOptions()
+    {
+        _currentOptionButtonList.ForEach(button => Destroy(button.gameObject));
+        _currentOptionButtonList.Clear();
+    }
+
+    private void DisplaySpeakerName(string speakerName, bool hide)
+    {
+        speakerNameText.text = speakerName;
+        speakerNameText.maxVisibleCharacters = hide ? 0 : int.MaxValue;
+    }
+    
+    public void DisplayMessageWithSpeaker(Speaker speaker, Message message)
     {
         if (message == null) return;
-        
-        speakerNameText.text = message.HideCharacter ? "" : message.Speaker;
-
         if (speaker == null) speaker = defaultSpeaker;
+        var speakerBehaviour = speaker.GetBehaviourByEmotion(message.EmotionDisplayed);
+        
+        DisplaySpeakerName(message.SpeakerName, message.HideCharacter);
+        DisplaySpeakerSprite(speakerBehaviour.characterFace, message.HideCharacter);
 
-        var defaultSpeakerBehaviour = speaker.defaultBehaviour ?? defaultSpeaker.defaultBehaviour;
-        
-        var speakerBehaviour =
-            speaker.narrativeBehaviours.Find(emotion => emotion.emotionLabel == message.EmotionDisplayed)
-            ?? defaultSpeakerBehaviour;
-        
-        SetupSpeakerSprite(speakerBehaviour.characterFace, message.HideCharacter);
+        if(narrativeWriter) narrativeWriter.WriteMessage(message.Content, messageTextContainer, speakerBehaviour.speakingSound);
 
-        messageText.text = message.Content;
-        
-        if(narrativeWriter) narrativeWriter.WriteMessage(message, messageText, speakerBehaviour);
         StartCoroutine(WaitMessageEnd());
     }
 
     private IEnumerator WaitMessageEnd()
     {
         if (_narrativeWriterNotNull)
-            yield return narrativeWriter.CurrentMessageCoroutine();
+            yield return new WaitUntil(() => narrativeWriter.IsTyping == false);
 
         OnMessageEnd?.Invoke();
         yield return null;
     }
 
-    private void SetupSpeakerSprite(Sprite sprite, bool hideCharacter)
+    private void DisplaySpeakerSprite(Sprite sprite, bool hideCharacter)
     {
         if (_speakingCharacterSpriteNull) return;
         
@@ -139,25 +150,24 @@ public class NarrativeUI : MonoBehaviour
         }
     }
 
-    public void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
-
+    private void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
     private void DisableNextNarrationUI() => nextMessageButton.gameObject.SetActive(false);
 
     public void CloseDialogue() => gameObject.SetActive(false);
 
     public void InitializeUI()
     {
-        messageText.text = "";
+        messageTextContainer.text = "";
         speakerNameText.text = "";
-        SetupSpeakerSprite(null, true);
+        DisplaySpeakerSprite(null, true);
     }
 
-    public bool IsMessageDisplaying() => _narrativeWriterNotNull && narrativeWriter.IsWritingMessage();
+    public bool IsMessageDisplaying() => _narrativeWriterNotNull && narrativeWriter.IsTyping;
 
     public void DisplayAllMessage(Message currentMessage)
     {
         narrativeWriter.EndMessage();
         StartCoroutine(WaitMessageEnd());
-        messageText.maxVisibleCharacters = currentMessage.Content.Length;
+        messageTextContainer.maxVisibleCharacters = currentMessage.Content.Length;
     }
 }

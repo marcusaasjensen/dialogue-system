@@ -112,22 +112,13 @@ public class NarrativeController : MonoBehaviour
     private void SetupDialogueOptions()
     {
         IsChoosing = true;
-
-        var buttonList = narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, disableAlreadyChosenOptions);
-
-        for (var i = 0; i < buttonList.Count; i++)
-        {
-            var newIndex = i;
-            buttonList[i].onClick.AddListener(() => ChooseNarrativePath(newIndex));
-            buttonList[i].onClick.AddListener(() => narrativeUI.EnableNextNarrationUI());
-            buttonList[i].onClick.AddListener(() => buttonList.ForEach(button => Destroy(button.gameObject)));
-        }
+        narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, disableAlreadyChosenOptions, ChooseNarrativePath);
     }
 
     private void ShowNextMessage(Message nextMessage)
     {
-        var currentSpeaker = speakers?.Find(speaker => speaker.characterName == nextMessage?.Speaker);
-        narrativeUI.DisplayMessage(currentSpeaker, nextMessage);
+        var currentSpeaker = speakers?.Find(speaker => speaker.characterName == nextMessage?.SpeakerName);
+        narrativeUI.DisplayMessageWithSpeaker(currentSpeaker, nextMessage);
     }
 
     private void ChooseNarrativePath(int choiceIndex)

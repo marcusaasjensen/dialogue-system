@@ -13,12 +13,9 @@ MonoBehaviour:
   m_Name: shy meets victor
   m_EditorClassIdentifier: 
   NodeLinks:
-  - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
-    PortName: This tree needs a friend.
-    TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-  - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
-    PortName: I enjoy being alone.
-    TargetNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+  - BaseNodeGuid: abf78271-4a17-4188-8cbf-5028b16f2613
+    PortName: Next
+    TargetNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
   - BaseNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
     PortName: You can sit with me if you want.
     TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
@@ -37,9 +34,12 @@ MonoBehaviour:
   - BaseNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
     PortName: You seem to be lonely.
     TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-  - BaseNodeGuid: abf78271-4a17-4188-8cbf-5028b16f2613
-    PortName: Next
-    TargetNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
+  - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
+    PortName: This tree needs a friend.
+    TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+  - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
+    PortName: I enjoy being alone.
+    TargetNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
   DialogueNodeData:
   - Guid: abf78271-4a17-4188-8cbf-5028b16f2613
     Dialogue: []
@@ -48,27 +48,27 @@ MonoBehaviour:
     EntryPoint: 1
   - Guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
     Dialogue:
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 11
       <Content>k__BackingField: I guess, everybody needs a friend. Right?
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Shy
+    - <SpeakerName>k__BackingField: Shy
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: I guess.
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Yeah. But I do have A LOT of friends though.
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: By the way I'm victor. What is your name?
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Shy
+    - <SpeakerName>k__BackingField: Shy
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: My name is Shy.
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 11
       <Content>k__BackingField: Do you want to be my friend?
       <HideCharacter>k__BackingField: 0
@@ -77,11 +77,11 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: eceb53b7-9d18-4fa8-886b-396253d99edf
     Dialogue:
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Oh... Sure.
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Me and my friends are playing some basketball. Do
         you want to come and join us?
@@ -91,15 +91,15 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: de7315c5-fcfa-4683-a39f-6bebae69c4eb
     Dialogue:
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Okay then!
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Just follow me.
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Shy
+    - <SpeakerName>k__BackingField: Shy
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Okay.
       <HideCharacter>k__BackingField: 0
@@ -108,24 +108,24 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
     Dialogue:
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Wait, you have a robot?!
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: I can help you fixing that robot!
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Shy
+    - <SpeakerName>k__BackingField: Shy
       <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: You know that model?
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: Of course! I have one at home. Let me fix it for
         you.
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Shy
+    - <SpeakerName>k__BackingField: Shy
       <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: Thank you I guess.
       <HideCharacter>k__BackingField: 0
@@ -134,23 +134,23 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
     Dialogue:
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 10
       <Content>k__BackingField: How can you even enjoy that?
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: NOBODY likes to be alone!
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Shy
+    - <SpeakerName>k__BackingField: Shy
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: I do.
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Mmmh.
       <HideCharacter>k__BackingField: 0
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 11
       <Content>k__BackingField: I wish I could be like you...
       <HideCharacter>k__BackingField: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
     EntryPoint: 0
   - Guid: 63dc8710-439f-48c0-8e63-75898d75b09f
     Dialogue:
-    - <Speaker>k__BackingField: Victor
+    - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 1
       <Content>k__BackingField: Why are you sitting on that bench alone?
       <HideCharacter>k__BackingField: 1
