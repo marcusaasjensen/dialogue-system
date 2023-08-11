@@ -14,7 +14,7 @@ public class GraphSaveUtility
     private List<DialogueNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueNode>().ToList();
 
     private const string PathToResources = "Assets/Resources";
-    private const string PathInResourcesFolder = "Narratives";
+    private const string ResourcesPath = "Narratives";
     
     public static GraphSaveUtility GetInstance(DialogueGraphView targetGraphView)
     {
@@ -28,15 +28,15 @@ public class GraphSaveUtility
     {
         var dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
         var connectedPorts = Edges.Where(x => x.input.node != null).ToArray();
-        for (var i = 0; i < connectedPorts.Length; i++)
+        foreach (var edge in connectedPorts)
         {
-            var outputNode = connectedPorts[i].output.node as DialogueNode;
-            var inputNode = connectedPorts[i].input.node as DialogueNode;
+            var outputNode = edge.output.node as DialogueNode;
+            var inputNode = edge.input.node as DialogueNode;
 
             dialogueContainer.NodeLinks.Add(new NodeLinkData
             {
                 BaseNodeGuid = outputNode.GUID,
-                PortName = connectedPorts[i].output.portName,
+                PortName = edge.output.portName,
                 TargetNodeGuid = inputNode.GUID
             });
         }
@@ -64,17 +64,17 @@ public class GraphSaveUtility
             });
         }
 
-        if (!AssetDatabase.IsValidFolder($"{PathToResources}/{PathInResourcesFolder}"))
-            Directory.CreateDirectory($"{PathToResources}/{PathInResourcesFolder}");
+        if (!AssetDatabase.IsValidFolder($"{PathToResources}/{ResourcesPath}"))
+            Directory.CreateDirectory($"{PathToResources}/{ResourcesPath}");
         
-        AssetDatabase.DeleteAsset($"{PathToResources}/{PathInResourcesFolder}/{fileName}.asset");
-        AssetDatabase.CreateAsset(dialogueContainer, $"{PathToResources}/{PathInResourcesFolder}/{fileName}.asset");
+        AssetDatabase.DeleteAsset($"{PathToResources}/{ResourcesPath}/{fileName}.asset");
+        AssetDatabase.CreateAsset(dialogueContainer, $"{PathToResources}/{ResourcesPath}/{fileName}.asset");
         AssetDatabase.SaveAssets();
     }
 
     public void LoadGraph(string fileName)
     {
-        _containerCache = Resources.Load<DialogueContainer>($"{PathInResourcesFolder}/{fileName}");
+        _containerCache = Resources.Load<DialogueContainer>($"{ResourcesPath}/{fileName}");
 
         if (_containerCache == null)
         {

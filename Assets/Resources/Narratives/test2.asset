@@ -87,7 +87,7 @@ MonoBehaviour:
     Dialogue:
     - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: "Okay then. That would cost 1.00\u20AC."
+      <Content>k__BackingField: "Okay then. That would cost <val:cost>\u20AC."
       <HideCharacter>k__BackingField: 0
     Position: {x: 1126.6666, y: 318}
     TransitionNode: 0

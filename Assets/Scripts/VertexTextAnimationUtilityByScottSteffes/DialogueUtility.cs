@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System;
+using Unity.VisualScripting.FullSerializer;
 
 public class DialogueUtility
 {
@@ -14,6 +15,8 @@ public class DialogueUtility
     private static readonly Regex PauseRegex = new Regex(PauseRegexString);
     private const string SpeedRegexString = "<sp:(?<speed>" + RemainderRegex + ")>";
     private static readonly Regex SpeedRegex = new Regex(SpeedRegexString);
+    private const string ValueRegexString = "<val:(?<value>" + RemainderRegex + ")>";
+    private static readonly Regex ValueRegex = new Regex(ValueRegexString);
     private const string AnimStartRegexString = "<anim:(?<anim>" + RemainderRegex + ")>";
     private static readonly Regex AnimStartRegex = new Regex(AnimStartRegexString);
     private const string AnimEndRegexString = "</anim>";
@@ -33,12 +36,31 @@ public class DialogueUtility
         var result = new List<DialogueCommand>();
         processedMessage = message;
 
+        processedMessage = HandleValueTags(processedMessage, result);
         processedMessage = HandlePauseTags(processedMessage, result);
         processedMessage = HandleSpeedTags(processedMessage, result);
         processedMessage = HandleAnimStartTags(processedMessage, result);
         processedMessage = HandleAnimEndTags(processedMessage, result);
 
         return result;
+    }
+
+    private static string HandleValueTags(string processedMessage, List<DialogueCommand> result)
+    {
+        var valueMatches = ValueRegex.Matches(processedMessage);
+        
+        foreach (Match match in valueMatches)
+        {
+            var variableName = match.Groups["value"].Value;
+            var value = DialogueVariables.Instance.GetValue(variableName);
+            
+            if (string.IsNullOrEmpty(value))
+                value = "X";
+            
+            processedMessage = Regex.Replace(processedMessage, match.Value, value);
+        }
+
+        return processedMessage;
     }
 
     private static string HandleAnimEndTags(string processedMessage, List<DialogueCommand> result)
@@ -170,6 +192,7 @@ public enum DialogueCommandType
 {
     Pause,
     TextSpeedChange,
+    Value,
     AnimStart,
     AnimEnd
 }
