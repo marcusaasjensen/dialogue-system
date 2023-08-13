@@ -17,16 +17,16 @@ MonoBehaviour:
     PortName: Next
     TargetNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
   - BaseNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
-    PortName: It can be better
+    PortName: <color="green">It can be better
     TargetNodeGuid: b47bca0b-4822-41db-acc6-5558bc78f2a5
   - BaseNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
-    PortName: I'm guud
+    PortName: <i>I'm guud</i>
     TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
   - BaseNodeGuid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
-    PortName: "Pay 1.50\u20AC"
+    PortName: "Pay <val:cost>\u20AC"
     TargetNodeGuid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
   - BaseNodeGuid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
-    PortName: "Pay 1.00\u20AC"
+    PortName: "Pay <val:cost>\u20AC"
     TargetNodeGuid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
   - BaseNodeGuid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
     PortName: Output
@@ -78,7 +78,7 @@ MonoBehaviour:
     Dialogue:
     - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: "Nice choice. A coffee for 1.50\u20AC!"
+      <Content>k__BackingField: "Nice choice. A coffee for <val:cost>\u20AC!"
       <HideCharacter>k__BackingField: 0
     Position: {x: 1126.6666, y: 429.3333}
     TransitionNode: 0
