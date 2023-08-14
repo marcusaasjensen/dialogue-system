@@ -10,6 +10,7 @@ public class NarrativeController : MonoBehaviour
     [SerializeField] private List<Speaker> speakers;
     [SerializeField] private bool displayChoicesAutomatically = true;
     [SerializeField] private bool disableAlreadyChosenOptions = true;
+    [SerializeField] private bool startFromPreviousNarrativePath; //save dialogue state to scriptable object and starts to where the dialogue was left off
 
     private string NarrativePathID { get; set; }
     
@@ -21,13 +22,17 @@ public class NarrativeController : MonoBehaviour
     private Queue<Message> _narrativeQueue;
     private Narrative _narrativeStructure;
 
+    private NarrativeNode _startNode;
+
     private void Awake() => _narrativeStructure = narrativeLoader.LoadNarrativeFromData();
     private void Start() => StartNarrative();
 
     private void StartNarrative()
     {
         IsDialogueFinished = false;
+        
         narrativeUI.InitializeUI();
+        
         if (_narrativeStructure == null)
         {
             Debug.LogError("Can't start narrative because the narrative was not loaded properly.");
@@ -37,7 +42,46 @@ public class NarrativeController : MonoBehaviour
         AudioManager.Instance.PlayMusic(narrativeMusic);
 
         SetupNarrativeEvents();
-        StartNewDialogue(_narrativeStructure.NarrativeEntryNode);
+        
+        _startNode ??= FindStartNode();
+        StartNewDialogue(_startNode);
+    }
+
+    private NarrativeNode FindStartNode()
+    {
+        NarrativePathID = startFromPreviousNarrativePath ? narrativeLoader.GetSavedNarrativePathID() : string.Empty;
+        return FindStartNodeFromPath(NarrativePathID, _narrativeStructure.NarrativeEntryNode);
+    }
+
+    private static NarrativeNode FindStartNodeFromPath(string pathID, NarrativeNode entryNode)
+    {
+        if (string.IsNullOrEmpty(pathID))
+            return entryNode;
+
+        var node = entryNode?.DefaultPath;
+        
+        while (node != null)
+        {
+            if (string.IsNullOrEmpty(pathID)) return node;
+
+            if (node.IsTransitionNode())
+            {
+                node = node.DefaultPath;
+                continue;
+            }
+
+            if (node.Options.Count == 0)
+                return null;
+
+            var optionIndex = (int)char.GetNumericValue(pathID[0]);
+
+            node.Options[optionIndex].HasAlreadyBeenChosen = true;
+            node = node.Options[optionIndex].TargetNarrative;
+            
+            pathID = pathID.Substring(1, pathID.Length - 1);
+        }
+
+        return null;
     }
 
     private void ContinueToChoiceAutomatically()
@@ -147,6 +191,9 @@ public class NarrativeController : MonoBehaviour
     private void FinishDialogue()
     {
         LogResults();
+        
+        narrativeLoader.SaveNarrativePath(NarrativePathID);
+        
         narrativeUI.CloseDialogue();
         IsDialogueFinished = true;
     }
