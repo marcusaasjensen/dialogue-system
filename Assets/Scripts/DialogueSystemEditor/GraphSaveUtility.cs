@@ -60,7 +60,8 @@ public class GraphSaveUtility
                 Guid = dialogueNode.GUID,
                 Dialogue = dialogueNode.Messages,
                 Position = dialogueNode.GetPosition().position,
-                TransitionNode = dialogueNode.TransitionNode
+                TransitionNode = dialogueNode.TransitionNode,
+                IsCheckpoint = dialogueNode.Checkpoint
             });
         }
 
@@ -123,7 +124,7 @@ public class GraphSaveUtility
             if (nodeData.EntryPoint) continue;
             
             var tempNode =  nodeData.TransitionNode 
-                ? _targetGraphView.CreateDialogueTransitionNode("Transition Node", nodeData.Dialogue)
+                ? _targetGraphView.CreateDialogueTransitionNode("Transition Node", nodeData.Dialogue, nodeData.IsCheckpoint)
                 : _targetGraphView.CreateDialogueNode("Multiple Choice Node", nodeData.Dialogue);
             tempNode.GUID = nodeData.Guid;
             

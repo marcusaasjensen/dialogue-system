@@ -7,4 +7,5 @@ public class DialogueNode : Node
     public List<Message> Messages;
     public bool EntryPoint = false;
     public bool TransitionNode = false;
+    public bool Checkpoint = false;
 }
