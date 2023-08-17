@@ -15,7 +15,8 @@ public class NarrativeController : MonoBehaviour
     private string NarrativePathID { get; set; }
     
     public bool IsChoosing { get; private set; }
-    public bool IsDialogueFinished { get; private set; }
+    public bool IsNarrating { get; private set; }
+    public bool IsNarrativeEndReached { get; private set; }
     
     private NarrativeNode _currentNarrative;
     private Message _currentMessage = new();
@@ -25,12 +26,20 @@ public class NarrativeController : MonoBehaviour
     private NarrativeNode _startNode;
 
     private void Awake() => _narrativeStructure = narrativeLoader.LoadNarrativeFromData();
-    private void Start() => StartNarrative();
+    private void Start() => BeginNarration();
 
-    private void StartNarrative()
+    private void BeginNarration() //extract method to other responsible class
     {
-        IsDialogueFinished = false;
+        AudioManager.Instance.PlayMusic(narrativeMusic);
+        StartNarrative();
+    }
+
+    public void StartNarrative()
+    {
+        IsNarrativeEndReached = false;
+        IsNarrating = true;
         
+        narrativeUI.gameObject.SetActive(true); //to change with close dialogue that completely deactivate gameobject!
         narrativeUI.InitializeUI();
         
         if (_narrativeStructure == null)
@@ -38,12 +47,10 @@ public class NarrativeController : MonoBehaviour
             Debug.LogError("Can't start narrative because the narrative was not loaded properly.");
             return;
         }
-        
-        AudioManager.Instance.PlayMusic(narrativeMusic);
 
         SetupNarrativeEvents();
         
-        _startNode ??= FindStartNode();
+        _startNode = FindStartNode();
         StartNewDialogue(_startNode);
     }
 
@@ -53,17 +60,24 @@ public class NarrativeController : MonoBehaviour
         return FindStartNodeFromPath(NarrativePathID, _narrativeStructure.NarrativeEntryNode);
     }
 
-    private static NarrativeNode FindStartNodeFromPath(string pathID, NarrativeNode entryNode)
+    private static NarrativeNode FindStartNodeFromPath(string pathID, NarrativeNode firstNode)
     {
         if (string.IsNullOrEmpty(pathID))
-            return entryNode;
+            return firstNode;
 
-        var node = entryNode?.DefaultPath;
-        
+        var node = firstNode;
+
         while (node != null)
         {
             if (string.IsNullOrEmpty(pathID)) return node;
 
+            if (node.IsCheckpoint)
+            {
+                pathID = pathID.Substring(1, pathID.Length - 1);
+                node = node.DefaultPath;
+                continue;
+            }
+            
             if (node.IsTransitionNode())
             {
                 node = node.DefaultPath;
@@ -73,7 +87,7 @@ public class NarrativeController : MonoBehaviour
             if (node.Options.Count == 0)
                 return null;
 
-            var optionIndex = (int)char.GetNumericValue(pathID[0]);
+            var optionIndex = (int) char.GetNumericValue(pathID[0]);
 
             node.Options[optionIndex].HasAlreadyBeenChosen = true;
             node = node.Options[optionIndex].TargetNarrative;
@@ -87,7 +101,8 @@ public class NarrativeController : MonoBehaviour
     private void ContinueToChoiceAutomatically()
     {
         var continueAutomatically = displayChoicesAutomatically && _narrativeQueue.Count == 0 && 
-                                    (_currentNarrative.HasNextChoice() || _currentNarrative.HasChoiceAfterTransition());
+                                    (_currentNarrative.HasNextChoice() || _currentNarrative.HasChoiceAfterTransition() 
+                                        && !_currentNarrative.IsCheckpoint);
         
         if (!continueAutomatically) return;
 
@@ -137,6 +152,13 @@ public class NarrativeController : MonoBehaviour
     
     private void FindNextPath()
     {
+        if (_currentNarrative.IsCheckpoint)
+        {
+            NarrativePathID += ".";
+            FinishDialogue();
+            return;
+        }
+        
         if (_currentNarrative.IsTransitionNode())
         {
             StartNewDialogue(_currentNarrative.DefaultPath);
@@ -195,7 +217,10 @@ public class NarrativeController : MonoBehaviour
         narrativeLoader.SaveNarrativePath(NarrativePathID);
         
         narrativeUI.CloseDialogue();
-        IsDialogueFinished = true;
+        IsNarrating = false;
+        
+        if(_currentNarrative.IsTipNarrativeNode())
+            IsNarrativeEndReached = true;
     }
 
     private void LogResults()

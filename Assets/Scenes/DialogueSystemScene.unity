@@ -1505,3 +1505,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   narrativeController: {fileID: 2089170440}
+  stopInteractAtNarrativeEnd: 0

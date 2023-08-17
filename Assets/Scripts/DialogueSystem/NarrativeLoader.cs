@@ -78,7 +78,7 @@ public class NarrativeLoader : MonoBehaviour
 
                 var nextNode = nextPath == null ? null : narrativeToLoad.DialogueNodeData.Find(dialogueNode => nextPath.TargetNodeGuid == dialogueNode.Guid);
 
-                var transitionNode = new NarrativeNode(dialogue, node.Guid, CreateNextNode(nextNode, narrative));
+                var transitionNode = new NarrativeNode(dialogue, node.Guid, node.IsCheckpoint, CreateNextNode(nextNode, narrative));
                 
                 narrative.AddNarrativeNode(transitionNode);
                 return transitionNode;

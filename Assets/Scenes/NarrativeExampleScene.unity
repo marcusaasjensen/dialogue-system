@@ -1733,6 +1733,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}
   displayChoicesAutomatically: 1
   disableAlreadyChosenOptions: 1
+  startFromPreviousNarrativePath: 1
 --- !u!114 &2089170441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,3 +1747,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   narrativeController: {fileID: 2089170440}
+  stopInteractAtNarrativeEnd: 1

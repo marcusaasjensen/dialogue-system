@@ -6,13 +6,15 @@ public class NarrativeNode
     public string NodeId { get; }
     public List<DialogueOption> Options { get; }
     public NarrativeNode DefaultPath { get; }
+    public bool IsCheckpoint { get; }
 
-    public NarrativeNode(List<Message> dialogue, string nodeId, NarrativeNode defaultPath = null)
+    public NarrativeNode(List<Message> dialogue, string nodeId, bool isCheckpoint = false, NarrativeNode defaultPath = null)
     {
         Dialogue = dialogue;
         NodeId = nodeId;
         DefaultPath = defaultPath;
         Options = new List<DialogueOption>();
+        IsCheckpoint = isCheckpoint;
     }
     
     public void AddOption(string newOption, NarrativeNode targetNode)
