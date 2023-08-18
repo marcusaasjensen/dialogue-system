@@ -6,6 +6,8 @@ public class NarrativeLoader : MonoBehaviour
 {
         [SerializeField] private DialogueContainer narrativeToLoad;
 
+        public string GetSavedNarrativePathID() => narrativeToLoad == null ? string.Empty : narrativeToLoad.PathToCheckpoint;
+
         public Narrative LoadNarrativeFromData()
         {
                 if (narrativeToLoad == null)
@@ -17,7 +19,7 @@ public class NarrativeLoader : MonoBehaviour
                 }
                 
                 var loadedNarrative = new Narrative();
-                
+
                 //Entry node is the first element node of all dialogue nodes in saved narrative
                 var entryNode = narrativeToLoad.DialogueNodeData.Find(node => node.EntryPoint);
                 CreateNodesFromEntryNode(entryNode, loadedNarrative);
@@ -76,10 +78,15 @@ public class NarrativeLoader : MonoBehaviour
 
                 var nextNode = nextPath == null ? null : narrativeToLoad.DialogueNodeData.Find(dialogueNode => nextPath.TargetNodeGuid == dialogueNode.Guid);
 
-                var transitionNode = new NarrativeNode(dialogue, node.Guid, CreateNextNode(nextNode, narrative));
+                var transitionNode = new NarrativeNode(dialogue, node.Guid, node.IsCheckpoint, CreateNextNode(nextNode, narrative));
                 
                 narrative.AddNarrativeNode(transitionNode);
                 return transitionNode;
+        }
+
+        public void SaveNarrativePath(string narrativePathID)
+        {
+                narrativeToLoad.PathToCheckpoint = narrativePathID;
         }
 }
 

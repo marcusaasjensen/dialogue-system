@@ -43,3 +43,7 @@ DialogueNode #title {
     height:30px;
     justify-content: flex-end;
 }
+
+.toggle{
+    align-self: center;
+}

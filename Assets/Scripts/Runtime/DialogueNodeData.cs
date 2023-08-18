@@ -10,4 +10,5 @@ public class DialogueNodeData
     public Vector2 Position;
     public bool TransitionNode;
     public bool EntryPoint;
+    public bool IsCheckpoint;
 }

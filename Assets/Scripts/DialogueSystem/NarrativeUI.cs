@@ -87,7 +87,10 @@ public class NarrativeUI : MonoBehaviour
             var yOffset = rowIndex * (buttonRect.height + buttonOffset.y);
             
             newOptionButton.GetComponent<RectTransform>().localPosition = new Vector3(initialButtonXPosition + xOffset, initialButtonYPosition - yOffset,0);
-            newOptionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = option.Text;
+
+            var optionTextContainer = newOptionButton.transform.GetComponentInChildren<TextMeshProUGUI>();
+            DialogueUtility.ProcessInputString(option.Text, out var processedMessageWithTags);
+            optionTextContainer.text = processedMessageWithTags;
 
             var pathIndex = options.IndexOf(option);
             

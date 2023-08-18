@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class DialogueGraphView : GraphView
 {
     public readonly Vector2 DefaultNodeSize = new(150, 200);
-    private const int MaxChoiceTextLength = 35;
+    private const int MaxChoiceTextLength = 50;
     
     public DialogueGraphView()
     {
@@ -82,6 +82,7 @@ public class DialogueGraphView : GraphView
             DialogueView.CloseWindow();
             DialogueView.OpenWindow(dialogueNode.Messages);
         }) { text = "Edit Dialogue" };
+        
         var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode); }) { text = "New Choice" };
         
         dialogueNode.titleContainer.Add(openDialogueButton);
@@ -165,14 +166,15 @@ public class DialogueGraphView : GraphView
 
     public void CreateTransitionNode(string transitionNode) => AddElement(CreateDialogueTransitionNode(transitionNode, new List<Message>()));
 
-    public DialogueNode CreateDialogueTransitionNode(string transitionNode, List<Message> messages)
+    public DialogueNode CreateDialogueTransitionNode(string transitionNode, List<Message> messages, bool isCheckpoint = false)
     {
         var dialogueNode = new DialogueNode
         {
             title = transitionNode,
             Messages = messages,
             GUID = Guid.NewGuid().ToString(),
-            TransitionNode = true
+            TransitionNode = true,
+            Checkpoint = isCheckpoint
         };
 
         SetupStyleSheet(dialogueNode);
@@ -186,7 +188,14 @@ public class DialogueGraphView : GraphView
             DialogueView.OpenWindow(dialogueNode.Messages);
         }) { text = "Edit Dialogue" };
 
+        var checkpointToggle = new Toggle("Checkpoint") { value = isCheckpoint };
+        
+        checkpointToggle.RegisterValueChangedCallback(evt=> dialogueNode.Checkpoint = checkpointToggle.value);
+        
+        checkpointToggle.AddToClassList("toggle");
+        
         dialogueNode.titleContainer.Add(openDialogueButton);
+        dialogueNode.mainContainer.Add(checkpointToggle);
 
         dialogueNode.SetPosition(new Rect(Vector2.zero, DefaultNodeSize));
         
