@@ -188,7 +188,7 @@ public class DialogueGraphView : GraphView
             DialogueView.OpenWindow(dialogueNode.Messages);
         }) { text = "Edit Dialogue" };
 
-        var checkpointToggle = new Toggle("Checkpoint") { value = isCheckpoint };
+        var checkpointToggle = new Toggle("Close and reopen to next node") { value = isCheckpoint };
         
         checkpointToggle.RegisterValueChangedCallback(evt=> dialogueNode.Checkpoint = checkpointToggle.value);
         

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Speaker : ScriptableObject
 {
     public string characterName;
+    public AudioClip SpeakingSound;
     public CharacterNarrativeBehaviour defaultBehaviour;
     public List<CharacterNarrativeBehaviour> narrativeBehaviours;
 

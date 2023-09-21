@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -14,27 +15,25 @@ public class NarrativeWriter : MonoBehaviour
 
     public bool IsTyping { get; private set; }
 
-    public void WriteMessage(string message, TextMeshProUGUI textContainer, AudioClip speakingSound = null)
+    public void WriteMessage(string message, TextMeshProUGUI textContainer, CharacterNarrativeBehaviour behaviour, AudioClip speakingSound)
     {
         _dialogueCommands = DialogueUtility.ProcessInputString(message, out var processedMessageWithTags);
         
         textContainer.text = processedMessageWithTags;
 
         var processedMessage = RemoveMessageTags(processedMessageWithTags);
-        
         var delays = DelaysBetweenEachCharacter(processedMessage.Length);
-
-        TypeMessage(message, delays, textContainer, speakingSound);
+        
+        TypeMessage(processedMessage, delays, textContainer, speakingSound, behaviour);
     }
 
-
-    private void TypeMessage(string message, IReadOnlyList<float> delayBetweenLetters, TMP_Text textContainer, AudioClip speakingSound = null)
+    private void TypeMessage(string message, IReadOnlyList<float> delayBetweenLetters, TMP_Text textContainer, AudioClip speakingSound, CharacterNarrativeBehaviour behaviour)
     {
         if(_currentMessageCoroutine != null)
             StopCoroutine(_currentMessageCoroutine);
         
         _currentMessageCoroutine = StartCoroutine(
-            TypeMessageCoroutine(message, delayBetweenLetters, textContainer, speakingSound)
+            TypeMessageCoroutine(message, delayBetweenLetters, textContainer, speakingSound, behaviour)
         );
     }
     
@@ -96,29 +95,31 @@ public class NarrativeWriter : MonoBehaviour
         return result;
     }
     
-    private IEnumerator TypeMessageCoroutine(string message, IReadOnlyList<float> delayBetweenLetters, TMP_Text textContainer, AudioClip speakingSound = null)
+    private IEnumerator TypeMessageCoroutine(string message, IReadOnlyList<float> delayBetweenLetters, TMP_Text textContainer, AudioClip speakingSound, CharacterNarrativeBehaviour behaviour)
     {
         IsTyping = true;
         textContainer.ForceMeshUpdate();
 
         textContainer.maxVisibleCharacters = 0;
 
-        var currentDelay = defaultSpeed;
+        var currentDelay = 0.0f;
 
-        for (var i = 0; i < textContainer.textInfo.characterCount; i++)
+        AudioManager.Instance.PlaySoundAfterDelay(behaviour.emotionSound, currentDelay);
+
+        for (var i = 0; i < message.Length; i++)
         {
             var c = message[i];
-
+            
             if (!CharactersToIgnore.Contains(c))
             {
                 yield return new WaitForSeconds(currentDelay);
-                AudioManager.Instance.PlaySound(speakingSound);
+                AudioManager.Instance.PlaySoundAtPitch(speakingSound, behaviour.SpeakingSoundPitch);
             }
-
+            
             currentDelay = delayBetweenLetters[i];
             textContainer.maxVisibleCharacters++;
         }
-        
+
         EndMessage();
     }
 

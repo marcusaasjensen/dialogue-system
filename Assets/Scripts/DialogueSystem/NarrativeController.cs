@@ -6,7 +6,6 @@ public class NarrativeController : MonoBehaviour
     [SerializeField] private NarrativeUI narrativeUI;
     [SerializeField] private NarrativeLoader narrativeLoader;
     [SerializeField] private AudioClip narrativeMusic;
-    [SerializeField] private bool isLockingPlayer;
     [SerializeField] private List<Speaker> speakers;
     [SerializeField] private bool displayChoicesAutomatically = true;
     [SerializeField] private bool disableAlreadyChosenOptions = true;
@@ -225,7 +224,7 @@ public class NarrativeController : MonoBehaviour
 
     private void LogResults()
     {
-        Debug.Log("<color=#2CD3E1>Dialogue finished!</color>");
-        Debug.Log($"<color=#2CD3E1>Final narrative path ID: {NarrativePathID}</color>");
+        LogHandler.Log("Dialogue finished!", "#2CD3E1");
+        LogHandler.Log($"Final narrative path ID: {NarrativePathID}", "#2CD3E1");
     }
 }

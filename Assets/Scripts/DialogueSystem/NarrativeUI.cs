@@ -125,8 +125,8 @@ public class NarrativeUI : MonoBehaviour
         
         DisplaySpeakerName(message.SpeakerName, message.HideCharacter);
         DisplaySpeakerSprite(speakerBehaviour.characterFace, message.HideCharacter);
-
-        if(narrativeWriter) narrativeWriter.WriteMessage(message.Content, messageTextContainer, speakerBehaviour.speakingSound);
+        
+        if(narrativeWriter) narrativeWriter.WriteMessage(message.Content, messageTextContainer, speakerBehaviour, speaker.SpeakingSound);
 
         StartCoroutine(WaitMessageEnd());
     }
