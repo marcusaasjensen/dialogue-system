@@ -41,6 +41,7 @@ public class NarrativeUI : MonoBehaviour
         _speakingCharacterSpriteNull = speakingCharacterSprite == null;
         _narrativeWriterNotNull = narrativeWriter != null;
         _disabledButtonPrefabNotNull = disabledOptionButtonPrefab != null;
+        CloseDialogue();
     }
     
     public delegate void ChoosePathDelegate(int index);
@@ -157,7 +158,8 @@ public class NarrativeUI : MonoBehaviour
     private void DisableNextNarrationUI() => nextMessageButton.gameObject.SetActive(false);
 
     public void CloseDialogue() => gameObject.SetActive(false);
-
+    public void OpenDialogue() => gameObject.SetActive(true);
+    
     public void InitializeUI()
     {
         messageTextContainer.text = "";

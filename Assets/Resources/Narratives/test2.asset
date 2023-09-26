@@ -142,7 +142,7 @@ MonoBehaviour:
     Dialogue:
     - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: <sp:1><i>Welcome</i><p:long> to my<p:normal> <sp:0,01><color="green">shop</color>!!!!!!!!!!!
+      <Content>k__BackingField: <sp:0,06><i>Welcome</i><p:long> to my<p:normal> <sp:0,01><color="green">shop</color>!!!!!!!!!!!
       <HideCharacter>k__BackingField: 0
     Position: {x: 336, y: 278.66666}
     TransitionNode: 1

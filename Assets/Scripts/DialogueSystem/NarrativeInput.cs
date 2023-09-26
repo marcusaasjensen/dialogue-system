@@ -6,13 +6,12 @@ public class NarrativeInput : MonoBehaviour
     [SerializeField] private NarrativeController narrativeController;
     [SerializeField] private bool stopInteractAtNarrativeEnd;
 
-
     private void Awake() => DialogueVariables.Instance.AddDialogueVariable("cost",1.5f.ToString(CultureInfo.InvariantCulture));
 
     private void Update()
     {
         SkipDialogueWithSpaceBar();
-        InteractWithCharacter();
+        //InteractWithCharacter();
     }
 
     private void InteractWithCharacter()

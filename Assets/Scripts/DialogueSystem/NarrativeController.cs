@@ -24,8 +24,8 @@ public class NarrativeController : MonoBehaviour
 
     private NarrativeNode _startNode;
 
-    private void Awake() => _narrativeStructure = narrativeLoader.LoadNarrativeFromData();
-    private void Start() => BeginNarration();
+    private void Awake() => _narrativeStructure = narrativeLoader.LoadNarrativeFromData(); //to adapt with dialogue that is not loaded at start of interaction
+    //private void Start() => BeginNarration();
 
     private void BeginNarration() //extract method to other responsible class
     {
