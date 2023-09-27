@@ -6,46 +6,44 @@ public class Interactor : MonoBehaviour
     [SerializeField] private Transform interactSource;
     [SerializeField] private float interactionDistance;
     [SerializeField] private LayerMask interactableLayer;
+    [SerializeField] private PlayerController playerController;
 
     private const KeyCode InteractionKey = KeyCode.Return;
-
-    private float _inputDirection = 1;
-
+    private Vector3 _rayDirection = default;
+    
     private void Update()
     {
         CalculateInputDirection();
         InteractWithCharacter();
     }
+    
+    private void CalculateInputDirection() => 
+        _rayDirection = playerController.InputDirection == Vector3.zero ? _rayDirection : playerController.InputDirection;
+
 
     private void InteractWithCharacter()
     {
         if (!Input.GetKeyDown(InteractionKey)) return;
 
-        var hit = Physics2D.Raycast(interactSource.position, interactSource.right * _inputDirection, interactionDistance, interactableLayer);
+        var ray = new Ray(interactSource.position, _rayDirection);
 
-        if (hit.collider == null) return;
-        
+        if (!Physics.Raycast(ray, out var hit, interactionDistance, interactableLayer)) return;
+
         var interactable = hit.collider.GetComponent<IInteractable>();
-        
+
         if (interactable is { CanInteract: true })
             interactable.Interact();
     }
 
-
-
-    private void CalculateInputDirection()
-    {
-        var inputValue = Input.GetAxisRaw("Horizontal");
-        _inputDirection = inputValue == 0 ? _inputDirection : Input.GetAxisRaw("Horizontal");
-    }
-    
     private void OnDrawGizmos()
     {
         var rayOrigin = interactSource.position;
-        var rayDirection = interactSource.right * _inputDirection;
-        
+        var rayDirection = _rayDirection;
+
         Gizmos.color = Color.red;
         Gizmos.DrawRay(rayOrigin, rayDirection * interactionDistance);
     }
+    
+    
 
 }

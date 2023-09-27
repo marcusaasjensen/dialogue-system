@@ -7,6 +7,7 @@ public class NarrativeController : MonoBehaviour
     [SerializeField] private NarrativeLoader narrativeLoader;
     [SerializeField] private AudioClip narrativeMusic;
     [SerializeField] private List<Speaker> speakers;
+    [SerializeField] private bool startNarrationOnStart = false;
     [SerializeField] private bool displayChoicesAutomatically = true;
     [SerializeField] private bool disableAlreadyChosenOptions = true;
     [SerializeField] private bool startFromPreviousNarrativePath; //save dialogue state to scriptable object and starts to where the dialogue was left off
@@ -25,7 +26,12 @@ public class NarrativeController : MonoBehaviour
     private NarrativeNode _startNode;
 
     private void Awake() => _narrativeStructure = narrativeLoader.LoadNarrativeFromData(); //to adapt with dialogue that is not loaded at start of interaction
-    //private void Start() => BeginNarration();
+
+    private void Start()
+    {
+        if(startNarrationOnStart)
+            BeginNarration();
+    }
 
     private void BeginNarration() //extract method to other responsible class
     {
