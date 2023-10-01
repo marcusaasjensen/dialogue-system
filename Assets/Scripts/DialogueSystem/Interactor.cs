@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Interactor : MonoBehaviour
 {
@@ -9,7 +8,7 @@ public class Interactor : MonoBehaviour
     [SerializeField] private PlayerController playerController;
 
     private const KeyCode InteractionKey = KeyCode.Return;
-    private Vector3 _rayDirection = default;
+    private Vector3 _rayDirection;
     
     private void Update()
     {
@@ -31,7 +30,7 @@ public class Interactor : MonoBehaviour
 
         var interactable = hit.collider.GetComponent<IInteractable>();
 
-        if (interactable is { CanInteract: true })
+        if (interactable.CanInteract)
             interactable.Interact();
     }
 

@@ -183,3 +183,4 @@ MonoBehaviour:
     EntryPoint: 0
     IsCheckpoint: 1
   PathToCheckpoint: 
+  isNarrativeEndReached: 0

@@ -8,7 +8,16 @@ public class NarrativeLoader : MonoBehaviour
 
         public string GetSavedNarrativePathID() => narrativeToLoad == null ? string.Empty : narrativeToLoad.PathToCheckpoint;
 
-        public Narrative LoadNarrativeFromData()
+        public Narrative LoadNarrative(DialogueContainer narrative)
+        {
+                if(narrative == null) 
+                        return LoadNarrativeFromData();
+                
+                narrativeToLoad = narrative;
+                return LoadNarrativeFromData();
+        }
+
+        private Narrative LoadNarrativeFromData()
         {
                 if (narrativeToLoad == null)
                 { 
@@ -25,7 +34,7 @@ public class NarrativeLoader : MonoBehaviour
                 CreateNodesFromEntryNode(entryNode, loadedNarrative);
                 
                 Debug.Log($"<color=#2CD3E1>Narrative loaded: {loadedNarrative}.</color>", this);
-                
+
                 return loadedNarrative;
         }
 
@@ -84,9 +93,16 @@ public class NarrativeLoader : MonoBehaviour
                 return transitionNode;
         }
 
-        public void SaveNarrativePath(string narrativePathID)
+        public void SaveNarrativePath(string narrativePathID, bool narrativeEndReached)
         {
                 narrativeToLoad.PathToCheckpoint = narrativePathID;
+                narrativeToLoad.isNarrativeEndReached = narrativeEndReached;
+        }
+
+        public void ResetNarrative()
+        {
+                narrativeToLoad.PathToCheckpoint = "";
+                narrativeToLoad.isNarrativeEndReached = false;
         }
 }
 
