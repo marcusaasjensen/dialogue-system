@@ -5,18 +5,17 @@ public class NarrativeController : MonoBehaviour
 {
     [SerializeField] private NarrativeUI narrativeUI;
     [SerializeField] private NarrativeLoader narrativeLoader;
-    [SerializeField] private AudioClip narrativeMusic;
-    [SerializeField] private bool isLockingPlayer;
     [SerializeField] private List<Speaker> speakers;
     [SerializeField] private bool displayChoicesAutomatically = true;
     [SerializeField] private bool disableAlreadyChosenOptions = true;
     [SerializeField] private bool startFromPreviousNarrativePath; //save dialogue state to scriptable object and starts to where the dialogue was left off
+    [SerializeField] private bool startNarrationOnStart;
+    [SerializeField] private bool resetNarrativeOnLoad;
 
     private string NarrativePathID { get; set; }
     
     public bool IsChoosing { get; private set; }
     public bool IsNarrating { get; private set; }
-    public bool IsNarrativeEndReached { get; private set; }
     
     private NarrativeNode _currentNarrative;
     private Message _currentMessage = new();
@@ -25,28 +24,35 @@ public class NarrativeController : MonoBehaviour
 
     private NarrativeNode _startNode;
 
-    private void Awake() => _narrativeStructure = narrativeLoader.LoadNarrativeFromData();
-    private void Start() => BeginNarration();
-
-    private void BeginNarration() //extract method to other responsible class
+    private void Start()
     {
-        AudioManager.Instance.PlayMusic(narrativeMusic);
-        StartNarrative();
+        //In this case, a default narration must be assigned to narrative loader.
+        //It allows narration starting without interactions, like in specific scenes.
+        if(startNarrationOnStart) BeginNarration();
     }
 
-    public void StartNarrative()
+    public void BeginNarration(DialogueContainer narrativeToLoad = null)
     {
-        IsNarrativeEndReached = false;
-        IsNarrating = true;
+        if(resetNarrativeOnLoad)
+            narrativeLoader.ResetNarrative();
         
-        narrativeUI.gameObject.SetActive(true); //to change with close dialogue that completely deactivate gameobject!
-        narrativeUI.InitializeUI();
+        _narrativeStructure = narrativeLoader.LoadNarrative(narrativeToLoad);
         
         if (_narrativeStructure == null)
         {
             Debug.LogError("Can't start narrative because the narrative was not loaded properly.");
             return;
         }
+        
+        StartNarrative();
+    }
+
+    private void StartNarrative()
+    {
+        IsNarrating = true;
+        
+        narrativeUI.gameObject.SetActive(true); //to change with close dialogue that completely deactivate gameobject!
+        narrativeUI.InitializeUI();
 
         SetupNarrativeEvents();
         
@@ -212,20 +218,21 @@ public class NarrativeController : MonoBehaviour
 
     private void FinishDialogue()
     {
+        var isNarrativeEndReached = false;
         LogResults();
-        
-        narrativeLoader.SaveNarrativePath(NarrativePathID);
         
         narrativeUI.CloseDialogue();
         IsNarrating = false;
         
         if(_currentNarrative.IsTipNarrativeNode())
-            IsNarrativeEndReached = true;
+            isNarrativeEndReached = true;
+        
+        narrativeLoader.SaveNarrativePath(NarrativePathID, isNarrativeEndReached);
     }
 
     private void LogResults()
     {
-        Debug.Log("<color=#2CD3E1>Dialogue finished!</color>");
-        Debug.Log($"<color=#2CD3E1>Final narrative path ID: {NarrativePathID}</color>");
+        LogHandler.Log("Dialogue finished!", "#2CD3E1");
+        LogHandler.Log($"Final narrative path ID: {NarrativePathID}", "#2CD3E1");
     }
 }

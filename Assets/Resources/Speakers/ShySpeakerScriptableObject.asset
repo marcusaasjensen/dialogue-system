@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: ShySpeakerScriptableObject
   m_EditorClassIdentifier: 
   characterName: Shy
+  SpeakingSound: {fileID: 8300000, guid: b346cd7f5fc97624a8f1b4fe99722024, type: 3}
   defaultBehaviour:
     emotionLabel: 0
-    speakingSound: {fileID: 8300000, guid: dec0dd068984f0c419c26b79302cd356, type: 3}
-    speakingRhythm: 0.09
+    emotionSound: {fileID: 0}
+    SpeakingSoundPitch: 1
     characterFace: {fileID: 21300000, guid: 3531c70f8daa4fb4781b059d4d81ee02, type: 3}
   narrativeBehaviours: []
