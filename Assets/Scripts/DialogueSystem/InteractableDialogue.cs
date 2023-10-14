@@ -11,14 +11,10 @@ public class InteractableDialogue : MonoBehaviour, IInteractable
     [SerializeField] private Transform player;
     [SerializeField] private float hintRadius;
     [SerializeField] private GameObject hint;
-    
-    [Header("Music")]
-    [SerializeField] private AudioClip narrativeMusic;
-    // move narrative loader here?
 
-    private bool _hintNull;
+    public GameObject InteractionHint => hint;
     
-    public string InteractionHint { get; }
+    private bool _hintNull;
 
     public bool CanInteract => !((stopInteractAtNarrativeEnd && (narrativeScriptableObject?.isNarrativeEndReached ?? false)) || narrativeController.IsNarrating);
 
@@ -37,7 +33,6 @@ public class InteractableDialogue : MonoBehaviour, IInteractable
     public void Interact()
     {
         // We assume it can interact when using the function
-        AudioManager.Instance.PlayMusic(narrativeMusic); //make custom tags to play or stop music
         narrativeController.BeginNarration(narrativeScriptableObject);
     }
     

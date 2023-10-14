@@ -1,16 +1,12 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class NarrativeController : MonoBehaviour
 {
     [SerializeField] private NarrativeUI narrativeUI;
     [SerializeField] private NarrativeLoader narrativeLoader;
-    [SerializeField] private List<Speaker> speakers;
     [SerializeField] private bool displayChoicesAutomatically = true;
     [SerializeField] private bool disableAlreadyChosenOptions = true;
-    [SerializeField] private bool startFromPreviousNarrativePath; //save dialogue state to scriptable object and starts to where the dialogue was left off
-    [SerializeField] private bool startNarrationOnStart;
     [SerializeField] private bool resetNarrativeOnLoad;
 
     private string NarrativePathID { get; set; }
@@ -22,28 +18,22 @@ public class NarrativeController : MonoBehaviour
     private Message _currentMessage = new();
     private Queue<Message> _narrativeQueue;
     private Narrative _narrativeStructure;
-
     private NarrativeNode _startNode;
 
-    private void Start()
-    {
-        //In this case, a default narration must be assigned to narrative loader.
-        //It allows narration starting without interactions, like in specific scenes.
-        if(startNarrationOnStart) BeginNarration();
-    }
+    private const string PathSeparator = ".";
 
     public void BeginNarration(DialogueContainer narrativeToLoad = null)
     {
-        if(resetNarrativeOnLoad)
-            narrativeLoader.ResetNarrative();
-        
         _narrativeStructure = narrativeLoader.LoadNarrative(narrativeToLoad);
-        
+
         if (_narrativeStructure == null)
         {
             LogHandler.LogError("Can't start narrative because the narrative was not loaded properly.");
             return;
         }
+        
+        if(resetNarrativeOnLoad)
+            narrativeLoader.ResetNarrative();
         
         StartNarrative();
     }
@@ -63,7 +53,7 @@ public class NarrativeController : MonoBehaviour
 
     private NarrativeNode GetStartNode()
     {
-        NarrativePathID = startFromPreviousNarrativePath ? narrativeLoader.GetSavedNarrativePathID() : string.Empty;
+        NarrativePathID = narrativeLoader.GetSavedNarrativePathID();
         return _narrativeStructure.FindStartNodeFromPath(NarrativePathID);
     }
 
@@ -123,7 +113,7 @@ public class NarrativeController : MonoBehaviour
     {
         if (_currentNarrative.IsCheckpoint)
         {
-            NarrativePathID += ".";
+            NarrativePathID += PathSeparator;
             FinishDialogue();
             return;
         }
@@ -152,7 +142,7 @@ public class NarrativeController : MonoBehaviour
 
     private void ShowNextMessage(Message nextMessage)
     {
-        var currentSpeaker = speakers?.Find(speaker => speaker.characterName == nextMessage?.SpeakerName);
+        var currentSpeaker = _narrativeStructure.Speakers?.Find(speaker => speaker.characterName == nextMessage?.SpeakerName);
         narrativeUI.DisplayMessageWithSpeaker(currentSpeaker, nextMessage);
     }
 
@@ -181,7 +171,6 @@ public class NarrativeController : MonoBehaviour
 
     private void FinishDialogue()
     {
-        
         narrativeUI.CloseDialogue();
         IsNarrating = false;
 

@@ -1367,7 +1367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeScriptableObject: {fileID: 11400000, guid: 1c1c9d1ab11b4a241b2ed4ceb58af6b2, type: 2}
   narrativeController: {fileID: 2089170440}
-  stopInteractAtNarrativeEnd: 1
+  stopInteractAtNarrativeEnd: 0
   player: {fileID: 1222860799}
   hintRadius: 4
   hint: {fileID: 1528481294}
@@ -2125,11 +2125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeUI: {fileID: 1138724647}
   narrativeLoader: {fileID: 2089170439}
-  speakers:
-  - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
-  - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}
   displayChoicesAutomatically: 1
   disableAlreadyChosenOptions: 1
-  startFromPreviousNarrativePath: 1
   startNarrationOnStart: 0
-  resetNarrativeOnLoad: 0
+  resetNarrativeOnLoad: 1

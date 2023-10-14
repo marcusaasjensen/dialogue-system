@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,13 +10,13 @@ public class NarrativeLoader : MonoBehaviour
     private const string missingReferenceError = "Narrative's reference missing.";
     private const string missingReferenceHint = "Hint: if you have made any changes to your current narrative, do not forget to set up its new reference in the NarrativeLoader component!";
     
-    public string GetSavedNarrativePathID() => narrativeToLoad.pathToCheckpoint;
+    public string GetSavedNarrativePathID() => narrativeToLoad.StartFromPreviousNarrativePath ? narrativeToLoad.pathToCheckpoint : string.Empty;
 
     public Narrative LoadNarrative(DialogueContainer narrative)
     {
         if (narrative != null)
             narrativeToLoad = narrative;
-        
+
         return LoadNarrativeFromData();
     }
 
@@ -30,7 +31,7 @@ public class NarrativeLoader : MonoBehaviour
         
         LogHandler.Log($"Narrative loaded: {narrativeToLoad}", LogHandler.Color.Blue);
 
-        var loadedNarrative = new Narrative();
+        var loadedNarrative = new Narrative(narrativeToLoad.Speakers);
 
         var entryNode = narrativeToLoad.dialogueNodeData.Find(node => node.EntryPoint);
         CreateNodesFromEntryNode(entryNode, loadedNarrative);

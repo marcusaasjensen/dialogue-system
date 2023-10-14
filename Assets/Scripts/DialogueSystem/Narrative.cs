@@ -4,8 +4,14 @@ public class Narrative
 {
     public List<NarrativeNode> NarrativeNodes { get; }
     public NarrativeNode NarrativeEntryNode { get; set; }
+    public List<Speaker> Speakers { get; }
 
-    public Narrative() => NarrativeNodes = new List<NarrativeNode>();
+    public Narrative(List<Speaker> speakers)
+    {
+        NarrativeNodes = new List<NarrativeNode>();
+        Speakers = speakers;
+    }
+    
     public void AddNarrativeNode(NarrativeNode node) => NarrativeNodes.Add(node);
     
     public NarrativeNode FindStartNodeFromPath(string pathID)

@@ -1,11 +1,10 @@
 ﻿//By Scott Steffes: https://github.com/markv12/VertexTextAnimationDemo/tree/master/Assets/Scripts
-//Modified by Marcus Aas Jensen
+//Modified by Marcus Jnsn
 
 using UnityEngine;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System;
-using Unity.VisualScripting.FullSerializer;
 
 public class DialogueUtility
 {

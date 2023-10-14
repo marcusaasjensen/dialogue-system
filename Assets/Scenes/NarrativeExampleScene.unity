@@ -1824,14 +1824,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeUI: {fileID: 1138724647}
   narrativeLoader: {fileID: 2089170439}
-  narrativeMusic: {fileID: 8300000, guid: ebd04bea60accfa44a671d7ad562a416, type: 3}
-  speakers:
-  - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
-  - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}
-  startNarrationOnStart: 1
   displayChoicesAutomatically: 1
   disableAlreadyChosenOptions: 1
-  startFromPreviousNarrativePath: 0
+  resetNarrativeOnLoad: 0
 --- !u!114 &2089170441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1841,8 +1836,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2089170436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dd5146737e7d954c977e604111b6e88, type: 3}
+  m_Script: {fileID: 11500000, guid: 34f68b1441294213a63cd22598f48e2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  narrativeScriptableObject: {fileID: 11400000, guid: 49b663f3268ddcb41a9e511e08c1a07f, type: 2}
   narrativeController: {fileID: 2089170440}
-  stopInteractAtNarrativeEnd: 1
+  narrativeMusic: {fileID: 8300000, guid: ebd04bea60accfa44a671d7ad562a416, type: 3}
