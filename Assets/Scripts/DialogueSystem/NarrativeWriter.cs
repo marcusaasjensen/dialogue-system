@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -109,13 +108,13 @@ public class NarrativeWriter : MonoBehaviour
         for (var i = 0; i < message.Length; i++)
         {
             var c = message[i];
-            
-            if (!CharactersToIgnore.Contains(c))
+
+            if (!CharactersToIgnore.Contains(c) && currentDelay != 0)
             {
                 yield return new WaitForSeconds(currentDelay);
                 AudioManager.Instance.PlaySoundAtPitch(speakingSound, behaviour.SpeakingSoundPitch);
             }
-            
+
             currentDelay = delayBetweenLetters[i];
             textContainer.maxVisibleCharacters++;
         }

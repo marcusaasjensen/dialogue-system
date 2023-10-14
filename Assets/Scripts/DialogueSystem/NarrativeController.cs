@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NarrativeController : MonoBehaviour
@@ -40,7 +41,7 @@ public class NarrativeController : MonoBehaviour
         
         if (_narrativeStructure == null)
         {
-            Debug.LogError("Can't start narrative because the narrative was not loaded properly.");
+            LogHandler.LogError("Can't start narrative because the narrative was not loaded properly.");
             return;
         }
         
@@ -56,52 +57,14 @@ public class NarrativeController : MonoBehaviour
 
         SetupNarrativeEvents();
         
-        _startNode = FindStartNode();
+        _startNode = GetStartNode();
         StartNewDialogue(_startNode);
     }
 
-    private NarrativeNode FindStartNode()
+    private NarrativeNode GetStartNode()
     {
         NarrativePathID = startFromPreviousNarrativePath ? narrativeLoader.GetSavedNarrativePathID() : string.Empty;
-        return FindStartNodeFromPath(NarrativePathID, _narrativeStructure.NarrativeEntryNode);
-    }
-
-    private static NarrativeNode FindStartNodeFromPath(string pathID, NarrativeNode firstNode)
-    {
-        if (string.IsNullOrEmpty(pathID))
-            return firstNode;
-
-        var node = firstNode;
-
-        while (node != null)
-        {
-            if (string.IsNullOrEmpty(pathID)) return node;
-
-            if (node.IsCheckpoint)
-            {
-                pathID = pathID.Substring(1, pathID.Length - 1);
-                node = node.DefaultPath;
-                continue;
-            }
-            
-            if (node.IsTransitionNode())
-            {
-                node = node.DefaultPath;
-                continue;
-            }
-
-            if (node.Options.Count == 0)
-                return null;
-
-            var optionIndex = (int) char.GetNumericValue(pathID[0]);
-
-            node.Options[optionIndex].HasAlreadyBeenChosen = true;
-            node = node.Options[optionIndex].TargetNarrative;
-            
-            pathID = pathID.Substring(1, pathID.Length - 1);
-        }
-
-        return null;
+        return _narrativeStructure.FindStartNodeFromPath(NarrativePathID);
     }
 
     private void ContinueToChoiceAutomatically()
@@ -129,7 +92,7 @@ public class NarrativeController : MonoBehaviour
         if (narrativeUI.IsMessageDisplaying())
         {
             SkipCurrentMessage(_currentMessage);
-            Debug.Log($"<color=#FAE392>Skip</color>");
+            LogHandler.Log("Skip", LogHandler.Color.Yellow);
             return;
         }
         
@@ -218,21 +181,18 @@ public class NarrativeController : MonoBehaviour
 
     private void FinishDialogue()
     {
-        var isNarrativeEndReached = false;
-        LogResults();
         
         narrativeUI.CloseDialogue();
         IsNarrating = false;
+
+        narrativeLoader.SaveNarrativePath(NarrativePathID, _currentNarrative?.IsTipNarrativeNode() ?? false);
         
-        if(_currentNarrative.IsTipNarrativeNode())
-            isNarrativeEndReached = true;
-        
-        narrativeLoader.SaveNarrativePath(NarrativePathID, isNarrativeEndReached);
+        LogResults();
     }
 
     private void LogResults()
     {
-        LogHandler.Log("Dialogue finished!", "#2CD3E1");
-        LogHandler.Log($"Final narrative path ID: {NarrativePathID}", "#2CD3E1");
+        LogHandler.Log("Dialogue finished!", LogHandler.Color.Blue);
+        LogHandler.Log($"Final narrative path ID: {NarrativePathID}", LogHandler.Color.Blue);
     }
 }

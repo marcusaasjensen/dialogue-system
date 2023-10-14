@@ -15,10 +15,12 @@ public class InteractableDialogue : MonoBehaviour, IInteractable
     [Header("Music")]
     [SerializeField] private AudioClip narrativeMusic;
     // move narrative loader here?
+
+    private bool _hintNull;
     
     public string InteractionHint { get; }
 
-    public bool CanInteract => !((stopInteractAtNarrativeEnd && narrativeScriptableObject.isNarrativeEndReached) || narrativeController.IsNarrating);
+    public bool CanInteract => !((stopInteractAtNarrativeEnd && (narrativeScriptableObject?.isNarrativeEndReached ?? false)) || narrativeController.IsNarrating);
 
     private void Update()
     {
@@ -26,7 +28,11 @@ public class InteractableDialogue : MonoBehaviour, IInteractable
         ShowHint();
     }
 
-    private void Awake() => DialogueVariables.Instance.AddDialogueVariable("cost",1.5f.ToString(CultureInfo.InvariantCulture));
+    private void Awake()
+    {
+        _hintNull = hint == null;
+        DialogueVariables.Instance.AddDialogueVariable("cost", 1.5f.ToString(CultureInfo.InvariantCulture));
+    }
 
     public void Interact()
     {
@@ -45,7 +51,7 @@ public class InteractableDialogue : MonoBehaviour, IInteractable
 
     private void ShowHint()
     {
-        if (hint == null) return;
+        if (_hintNull) return;
         
         if (!CanInteract)
         {

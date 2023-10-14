@@ -33,7 +33,7 @@ public class GraphSaveUtility
             var outputNode = edge.output.node as DialogueNode;
             var inputNode = edge.input.node as DialogueNode;
 
-            dialogueContainer.NodeLinks.Add(new NodeLinkData
+            dialogueContainer.nodeLinks.Add(new NodeLinkData
             {
                 BaseNodeGuid = outputNode.GUID,
                 PortName = edge.output.portName,
@@ -43,7 +43,7 @@ public class GraphSaveUtility
 
         var entryPoint = Nodes.Find(node => node.EntryPoint);
         
-        dialogueContainer.DialogueNodeData.Add(new DialogueNodeData
+        dialogueContainer.dialogueNodeData.Add(new DialogueNodeData
             {
                 Guid = entryPoint.GUID,
                 Dialogue = null,
@@ -55,7 +55,7 @@ public class GraphSaveUtility
 
         foreach (var dialogueNode in Nodes.Where(node => !node.EntryPoint))
         {
-            dialogueContainer.DialogueNodeData.Add(new DialogueNodeData
+            dialogueContainer.dialogueNodeData.Add(new DialogueNodeData
             {
                 Guid = dialogueNode.GUID,
                 Dialogue = dialogueNode.Messages,
@@ -93,7 +93,7 @@ public class GraphSaveUtility
         foreach (var currentNode in Nodes)
         {
             var node = currentNode;
-            var connections = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == node.GUID).ToList();
+            var connections = _containerCache.nodeLinks.Where(x => x.BaseNodeGuid == node.GUID).ToList();
   
             for (var j = 0; j < connections.Count; j++)
             {
@@ -119,7 +119,7 @@ public class GraphSaveUtility
     }
     private void CreateNodes()
     {
-        foreach (var nodeData in _containerCache.DialogueNodeData)
+        foreach (var nodeData in _containerCache.dialogueNodeData)
         {
             if (nodeData.EntryPoint) continue;
             
@@ -134,14 +134,14 @@ public class GraphSaveUtility
             
             if (nodeData.TransitionNode) continue;
 
-            var nodePorts = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == nodeData.Guid).ToList();
+            var nodePorts = _containerCache.nodeLinks.Where(x => x.BaseNodeGuid == nodeData.Guid).ToList();
             nodePorts.ForEach(x => _targetGraphView.AddChoicePort(tempNode, x.PortName));
         }
     }
 
     private void ClearGraph()
     {
-        Nodes.Find(node => node.EntryPoint).GUID = _containerCache.DialogueNodeData.Find(node => node.EntryPoint)?.Guid;
+        Nodes.Find(node => node.EntryPoint).GUID = _containerCache.dialogueNodeData.Find(node => node.EntryPoint)?.Guid;
         
         foreach (var node in Nodes.Where(node => !node.EntryPoint))
         {

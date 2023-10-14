@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d50752db9e472b8d367dcf46cdbad8, type: 3}
   m_Name: test2
   m_EditorClassIdentifier: 
-  NodeLinks:
+  nodeLinks:
   - BaseNodeGuid: abc633e1-2388-4a36-afae-7e512b14694f
     PortName: Next
     TargetNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
@@ -58,7 +58,7 @@ MonoBehaviour:
   - BaseNodeGuid: 7779b11c-848f-418a-aca6-89b70a9311d6
     PortName: Output
     TargetNodeGuid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
-  DialogueNodeData:
+  dialogueNodeData:
   - Guid: abc633e1-2388-4a36-afae-7e512b14694f
     Dialogue: []
     Position: {x: 100, y: 200}
@@ -142,7 +142,7 @@ MonoBehaviour:
     Dialogue:
     - <SpeakerName>k__BackingField: X
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: <sp:0,06><i>Welcome</i><p:long> to my<p:normal> <sp:0,01><color="green">shop</color>!!!!!!!!!!!
+      <Content>k__BackingField: <sp:0,06><i>Welcome</i><p:long> to my<p:normal> <sp:0,01><color="green">shop</color><sp:0>!!!!!!!!!!!
       <HideCharacter>k__BackingField: 0
     Position: {x: 336, y: 278.66666}
     TransitionNode: 1
@@ -182,5 +182,5 @@ MonoBehaviour:
     TransitionNode: 1
     EntryPoint: 0
     IsCheckpoint: 1
-  PathToCheckpoint: 
+  pathToCheckpoint: 
   isNarrativeEndReached: 0

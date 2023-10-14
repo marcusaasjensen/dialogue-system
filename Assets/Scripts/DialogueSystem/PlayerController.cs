@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private NarrativeController narrativeController;
+    [SerializeField] private float minMaxPositionValue;
     
     public Vector3 InputDirection { get; private set; }
     
@@ -16,5 +17,8 @@ public class PlayerController : MonoBehaviour
         if (narrativeController.IsNarrating) return;
         InputDirection = new Vector3(Input.GetAxisRaw("Horizontal"),0, Input.GetAxisRaw("Vertical"));
         _transform.Translate( Time.deltaTime * moveSpeed * InputDirection.normalized);
+        var position = _transform.position;
+        position = new Vector3(Mathf.Clamp(position.x, -minMaxPositionValue, minMaxPositionValue), position.y, Mathf.Clamp(position.z, -minMaxPositionValue, minMaxPositionValue));
+        _transform.position = position;
     }
 }

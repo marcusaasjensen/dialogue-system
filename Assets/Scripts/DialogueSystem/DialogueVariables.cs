@@ -19,25 +19,25 @@ public class DialogueVariables : ScriptableObject
         get
         {
             if (_instance != null) return _instance;
-
             _instance = Resources.Load<DialogueVariables>(ResourcesPath);
 
-            if (_instance != null)
-            {
-                return _instance;
-            }
-
+            if (_instance != null) return _instance;
             _instance = CreateInstance<DialogueVariables>();
             
+            var assetPath = $"{PathToResources}/{ResourcesPath}/{FileName}.asset";
+
             if (!AssetDatabase.IsValidFolder($"{PathToResources}/{ResourcesPath}"))
+            {
                 Directory.CreateDirectory($"{PathToResources}/{ResourcesPath}");
-            
-            AssetDatabase.CreateAsset(_instance, $"{PathToResources}/{ResourcesPath}/{FileName}.asset");
+            }
+
+            AssetDatabase.CreateAsset(_instance, assetPath);
             AssetDatabase.SaveAssets();
 
             return _instance;
         }
     }
+
 
     public string GetValue(string variableName)
     {

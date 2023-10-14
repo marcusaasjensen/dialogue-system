@@ -186,6 +186,7 @@ public class DialogueCommand
     public float FloatValue;
     public string StringValue;
     public TextAnimationType TextAnimValue;
+    public string DisplayedEmotionName;
 }
 
 public enum DialogueCommandType
@@ -194,7 +195,11 @@ public enum DialogueCommandType
     TextSpeedChange,
     Value,
     AnimStart,
-    AnimEnd
+    AnimEnd,
+    DisplayedEmotion,
+    InteractionPause,
+    Music,
+    SoundEffect
 }
 
 public enum TextAnimationType
