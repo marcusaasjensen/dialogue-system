@@ -174,7 +174,7 @@ MonoBehaviour:
     EntryPoint: 0
     IsCheckpoint: 0
   pathToCheckpoint: 
-  isNarrativeEndReached: 0
+  isNarrativeEndReached: 1
   <StartFromPreviousNarrativePath>k__BackingField: 0
   <Speakers>k__BackingField:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}

@@ -182,6 +182,7 @@ MonoBehaviour:
     TransitionNode: 1
     EntryPoint: 0
     IsCheckpoint: 1
-  pathToCheckpoint: 00.
+  pathToCheckpoint: 
+  isNarrativeEndReached: 0
   <StartFromPreviousNarrativePath>k__BackingField: 1
-  isNarrativeEndReached: 1
+  <Speakers>k__BackingField: []
