@@ -47,6 +47,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 1
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
@@ -77,6 +78,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: eceb53b7-9d18-4fa8-886b-396253d99edf
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
@@ -92,6 +94,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: de7315c5-fcfa-4683-a39f-6bebae69c4eb
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
@@ -110,6 +113,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
@@ -137,6 +141,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
@@ -163,6 +168,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: 63dc8710-439f-48c0-8e63-75898d75b09f
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
@@ -173,9 +179,10 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   pathToCheckpoint: 
   isNarrativeEndReached: 1
-  <StartFromPreviousNarrativePath>k__BackingField: 0
+  startFromPreviousNarrativePath: 0
   <Speakers>k__BackingField:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}

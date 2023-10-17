@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DialogueSystem.Runtime;
 using DialogueSystem.Runtime.Narration;
 using UnityEngine;
 
@@ -15,5 +14,6 @@ namespace DialogueSystem.Data
         public bool TransitionNode;
         public bool EntryPoint;
         public bool IsCheckpoint;
+        public bool DisableAlreadyChosenOptions;
     }
 }

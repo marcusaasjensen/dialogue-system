@@ -67,14 +67,15 @@ namespace DialogueSystem.Editor
 
         public void CreateNode(string nodeName) => AddElement(CreateDialogueNode(nodeName, new List<Message>()));
 
-        public DialogueNode CreateDialogueNode(string nodeName, List<Message> messages)
+        public DialogueNode CreateDialogueNode(string nodeName, List<Message> messages, bool disableOptions = false)
         {
             var dialogueNode = new DialogueNode
             {
                 title = nodeName,
                 Messages = messages,
                 GUID = Guid.NewGuid().ToString(),
-                TransitionNode = false
+                TransitionNode = false,
+                DisableAlreadyChosenOptions = disableOptions
             };
 
             SetupStyleSheet(dialogueNode);
@@ -89,8 +90,15 @@ namespace DialogueSystem.Editor
         
             var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode); }) { text = "New Choice" };
         
+            var optionDisablingToggle = new Toggle("Disable already chosen options") { value =  disableOptions };
+            
+            optionDisablingToggle.RegisterValueChangedCallback(evt => dialogueNode.DisableAlreadyChosenOptions = optionDisablingToggle.value);
+            
+            optionDisablingToggle.AddToClassList("toggle");
+            
             dialogueNode.titleContainer.Add(openDialogueButton);
             dialogueNode.titleContainer.Add(addChoiceButton);
+            dialogueNode.mainContainer.Add(optionDisablingToggle);
 
             RefreshNode(dialogueNode);
         
@@ -137,12 +145,13 @@ namespace DialogueSystem.Editor
             var deleteButton = new Button(() => RemovePort(dialogueNode, generatedPort)) { text = "Remove" };
 
             var clickableLabel = new Label("[ Select ]");
-        
+
+
             choiceContainer.Add(textField);
             choiceContainer.Add(deleteButton);
             choiceContainer.Add(clickableLabel);
-
             generatedPort.contentContainer.Add(choiceContainer);
+
             generatedPort.contentContainer.AddToClassList("content-container");
 
             generatedPort.portName = choicePortName;
@@ -193,11 +202,11 @@ namespace DialogueSystem.Editor
             }) { text = "Edit Dialogue" };
 
             var checkpointToggle = new Toggle("Close and reopen to next node") { value = isCheckpoint };
-        
+
             checkpointToggle.RegisterValueChangedCallback(evt=> dialogueNode.Checkpoint = checkpointToggle.value);
-        
+
             checkpointToggle.AddToClassList("toggle");
-        
+
             dialogueNode.titleContainer.Add(openDialogueButton);
             dialogueNode.mainContainer.Add(checkpointToggle);
 

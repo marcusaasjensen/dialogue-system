@@ -12,5 +12,6 @@ namespace DialogueSystem.Editor
         public bool EntryPoint = false;
         public bool TransitionNode = false;
         public bool Checkpoint = false;
+        public bool DisableAlreadyChosenOptions = false;
     }
 }

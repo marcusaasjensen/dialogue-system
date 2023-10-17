@@ -67,7 +67,7 @@ namespace DialogueSystem.Runtime.Utility
 
         private NarrativeNode CreateChoiceNode(DialogueNodeData node, Narrative narrative, List<Message> dialogue)
         {
-            var choiceNode = new NarrativeNode(dialogue, node.Guid);
+            var choiceNode = new NarrativeNode(dialogue, node.Guid, node.DisableAlreadyChosenOptions);
 
             var options = narrativeToLoad.nodeLinks.Where(x => x.BaseNodeGuid == node.Guid).ToList();
 

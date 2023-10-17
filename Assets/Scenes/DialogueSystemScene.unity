@@ -1365,13 +1365,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21896aa3a3844dd6bbe30ef8bcec5cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrativeScriptableObject: {fileID: 11400000, guid: 1c1c9d1ab11b4a241b2ed4ceb58af6b2, type: 2}
+  narrativeScriptableObject: {fileID: 0}
   narrativeController: {fileID: 2089170440}
   stopInteractAtNarrativeEnd: 0
   player: {fileID: 1222860799}
   hintRadius: 4
   hint: {fileID: 1528481294}
-  narrativeMusic: {fileID: 0}
 --- !u!212 &1622211742
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2110,7 +2109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498aba3b030f45b2b3ebad034f4d525d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrativeToLoad: {fileID: 11400000, guid: c3412088bad9249429af73e9e4b32cdc, type: 2}
+  narrativeToLoad: {fileID: 11400000, guid: 1c1c9d1ab11b4a241b2ed4ceb58af6b2, type: 2}
 --- !u!114 &2089170440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2126,6 +2125,4 @@ MonoBehaviour:
   narrativeUI: {fileID: 1138724647}
   narrativeLoader: {fileID: 2089170439}
   displayChoicesAutomatically: 1
-  disableAlreadyChosenOptions: 1
-  startNarrationOnStart: 0
-  resetNarrativeOnLoad: 1
+  resetNarrativeOnLoad: 0

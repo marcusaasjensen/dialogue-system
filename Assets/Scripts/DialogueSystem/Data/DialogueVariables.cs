@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
 
@@ -47,25 +49,34 @@ namespace DialogueSystem.Data
             return index >= 0 ? variableValues[index] : string.Empty;
         }
 
-        public void AddDialogueVariable(string variableName, string value)
+        public void AddDialogueVariable<T>(string variableName, T value)
         {
+            var valueToString = value.ToString();
             if (variableNames.Contains(variableName))
             {
-                ChangeDialogueVariable(variableName, value);
+                ChangeDialogueVariable(variableName, valueToString);
                 return;
             }
             variableNames.Add(variableName);
-            variableValues.Add(value);
+            variableValues.Add(valueToString);
+            SaveRuntimeData();
         }
 
-        public void ChangeDialogueVariable(string variableName, string newValue)
+        public void ChangeDialogueVariable<T>(string variableName, T newValue)
         {
             var index = variableNames.IndexOf(variableName);
         
             if (index >= 0)
-                variableValues[index] = newValue;
+                variableValues[index] = newValue.ToString();
             else
                 AddDialogueVariable(variableName, newValue);
+            SaveRuntimeData();
+        }
+
+        private void SaveRuntimeData()
+        {
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
         }
     }
 }

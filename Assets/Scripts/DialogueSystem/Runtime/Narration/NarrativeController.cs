@@ -11,9 +11,10 @@ namespace DialogueSystem.Runtime.Narration
     {
         [SerializeField] private NarrativeUI narrativeUI;
         [SerializeField] private NarrativeLoader narrativeLoader;
+        
+        [Header("Options")]
         [SerializeField] private bool displayChoicesAutomatically = true;
-        [SerializeField] private bool disableAlreadyChosenOptions = true;
-        [SerializeField] private bool resetNarrativeOnLoad;
+        [SerializeField] private bool resetNarrativeOnLoad = false;
 
         private string NarrativePathID { get; set; }
     
@@ -119,8 +120,7 @@ namespace DialogueSystem.Runtime.Narration
         {
             if (_currentNarrative.IsCheckpoint)
             {
-                NarrativePathID += PathSeparator;
-                FinishDialogue();
+                FinishAtCheckpoint();
                 return;
             }
         
@@ -143,7 +143,7 @@ namespace DialogueSystem.Runtime.Narration
         private void SetupDialogueOptions()
         {
             IsChoosing = true;
-            narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, disableAlreadyChosenOptions, ChooseNarrativePath);
+            narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, _currentNarrative.DisableAlreadyChosenOptions, ChooseNarrativePath);
         }
 
         private void ShowNextMessage(Message nextMessage)
@@ -175,6 +175,12 @@ namespace DialogueSystem.Runtime.Narration
         private void SetupNarrativeEvents() => narrativeUI.OnMessageEnd += ContinueToChoiceAutomatically;
         private void UnsetNarrativeEvents() => narrativeUI.OnMessageEnd -= ContinueToChoiceAutomatically;
 
+        private void FinishAtCheckpoint()
+        {
+            NarrativePathID += PathSeparator;
+            FinishDialogue();
+        }
+        
         private void FinishDialogue()
         {
             narrativeUI.CloseDialogue();

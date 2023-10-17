@@ -64,7 +64,8 @@ namespace DialogueSystem.Editor
                     Dialogue = dialogueNode.Messages,
                     Position = dialogueNode.GetPosition().position,
                     TransitionNode = dialogueNode.TransitionNode,
-                    IsCheckpoint = dialogueNode.Checkpoint
+                    IsCheckpoint = dialogueNode.Checkpoint,
+                    DisableAlreadyChosenOptions = dialogueNode.DisableAlreadyChosenOptions
                 });
             }
 
@@ -128,7 +129,7 @@ namespace DialogueSystem.Editor
             
                 var tempNode =  nodeData.TransitionNode 
                     ? _targetGraphView.CreateDialogueTransitionNode("Transition Node", nodeData.Dialogue, nodeData.IsCheckpoint)
-                    : _targetGraphView.CreateDialogueNode("Multiple Choice Node", nodeData.Dialogue);
+                    : _targetGraphView.CreateDialogueNode("Multiple Choice Node", nodeData.Dialogue, nodeData.DisableAlreadyChosenOptions);
                 tempNode.GUID = nodeData.Guid;
             
                 tempNode.SetPosition(new Rect(nodeData.Position, _targetGraphView.DefaultNodeSize));

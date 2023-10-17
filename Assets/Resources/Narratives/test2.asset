@@ -65,6 +65,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 1
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -79,6 +80,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -89,6 +91,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -99,6 +102,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -112,6 +116,7 @@ MonoBehaviour:
     TransitionNode: 1
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -122,6 +127,7 @@ MonoBehaviour:
     TransitionNode: 1
     EntryPoint: 0
     IsCheckpoint: 1
+    DisableAlreadyChosenOptions: 0
   - Guid: b47bca0b-4822-41db-acc6-5558bc78f2a5
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -132,12 +138,14 @@ MonoBehaviour:
     TransitionNode: 1
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: f1be4272-2da9-4c72-a0bb-4f3947899efe
     Dialogue: []
     Position: {x: 660.6667, y: 318}
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 1
   - Guid: b551527d-3554-405b-bd0d-5949924857ec
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -148,6 +156,7 @@ MonoBehaviour:
     TransitionNode: 1
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: 5da6a15c-8cc3-439a-8360-8132191fae29
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -158,6 +167,7 @@ MonoBehaviour:
     TransitionNode: 1
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -168,6 +178,7 @@ MonoBehaviour:
     TransitionNode: 0
     EntryPoint: 0
     IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
   - Guid: 7779b11c-848f-418a-aca6-89b70a9311d6
     Dialogue:
     - <SpeakerName>k__BackingField: X
@@ -182,7 +193,8 @@ MonoBehaviour:
     TransitionNode: 1
     EntryPoint: 0
     IsCheckpoint: 1
+    DisableAlreadyChosenOptions: 0
   pathToCheckpoint: 
   isNarrativeEndReached: 0
-  <StartFromPreviousNarrativePath>k__BackingField: 1
+  startFromPreviousNarrativePath: 1
   <Speakers>k__BackingField: []

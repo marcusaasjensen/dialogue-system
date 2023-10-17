@@ -31,7 +31,7 @@ namespace DialogueSystem.Runtime.Interaction
         private void Awake()
         {
             _hintNull = hint == null;
-            DialogueVariables.Instance.AddDialogueVariable("cost", 1.5f.ToString(CultureInfo.InvariantCulture));
+            DialogueVariables.Instance.AddDialogueVariable("cost", 1.5f);
         }
 
         public void Interact()

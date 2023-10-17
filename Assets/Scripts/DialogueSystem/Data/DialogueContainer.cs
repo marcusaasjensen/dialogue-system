@@ -14,8 +14,11 @@ namespace DialogueSystem.Data
         public List<DialogueNodeData> dialogueNodeData = new();
         [FormerlySerializedAs("PathToCheckpoint")] public string pathToCheckpoint = string.Empty;
         public bool isNarrativeEndReached;
+        
         //save dialogue state to scriptable object and starts to where the dialogue was left off
-        [field: SerializeField] public bool StartFromPreviousNarrativePath { get; private set; }
+        [SerializeField] private bool startFromPreviousNarrativePath = true;
+        public bool StartFromPreviousNarrativePath => startFromPreviousNarrativePath;
+        
         [field: SerializeField] public List<Speaker> Speakers { get; private set; }
     }
 }
