@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShySpeakerScriptableObject
   m_EditorClassIdentifier: 
   characterName: Shy
-  SpeakingSound: {fileID: 8300000, guid: b346cd7f5fc97624a8f1b4fe99722024, type: 3}
+  SpeakingSound: {fileID: 8300000, guid: dec0dd068984f0c419c26b79302cd356, type: 3}
   defaultBehaviour:
     emotionLabel: 0
     emotionSound: {fileID: 0}
