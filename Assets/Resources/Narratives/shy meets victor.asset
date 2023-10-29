@@ -52,11 +52,12 @@ MonoBehaviour:
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 11
-      <Content>k__BackingField: I guess, everybody needs a friend. Right?
+      <Content>k__BackingField: I guess, everybody needs a friend.<p:long><sp:0,1>
+        <em:curious>Right?
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Shy
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: I guess.
+      <Content>k__BackingField: <sp:0>I guess.
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
@@ -64,7 +65,7 @@ MonoBehaviour:
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: By the way I'm victor. What is your name?
+      <Content>k__BackingField: By the way I'm victor. <em:curious>What is your name?
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Shy
       <EmotionDisplayed>k__BackingField: 0
@@ -72,7 +73,7 @@ MonoBehaviour:
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
       <EmotionDisplayed>k__BackingField: 11
-      <Content>k__BackingField: Do you want to be my friend?
+      <Content>k__BackingField: '<em:curious>Do you want to be my friend?<em:default> '
       <HideCharacter>k__BackingField: 0
     Position: {x: 719.3333, y: 361.3333}
     TransitionNode: 0
@@ -181,8 +182,8 @@ MonoBehaviour:
     IsCheckpoint: 0
     DisableAlreadyChosenOptions: 0
   pathToCheckpoint: 
-  isNarrativeEndReached: 1
-  startFromPreviousNarrativePath: 0
+  isNarrativeEndReached: 0
+  startFromPreviousNarrativePath: 1
   <Speakers>k__BackingField:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}

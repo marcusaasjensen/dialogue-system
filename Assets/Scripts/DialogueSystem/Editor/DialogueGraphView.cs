@@ -65,9 +65,9 @@ namespace DialogueSystem.Editor
             return node;
         }
 
-        public void CreateNode(string nodeName) => AddElement(CreateDialogueNode(nodeName, new List<Message>()));
+        public void CreateNode(string nodeName) => AddElement(CreateDialogueNode(nodeName, new List<MessageData>()));
 
-        public DialogueNode CreateDialogueNode(string nodeName, List<Message> messages, bool disableOptions = false)
+        public DialogueNode CreateDialogueNode(string nodeName, List<MessageData> messages, bool disableOptions = false)
         {
             var dialogueNode = new DialogueNode
             {
@@ -177,9 +177,9 @@ namespace DialogueSystem.Editor
             RefreshNode(dialogueNode);
         }
 
-        public void CreateTransitionNode(string transitionNode) => AddElement(CreateDialogueTransitionNode(transitionNode, new List<Message>()));
+        public void CreateTransitionNode(string transitionNode) => AddElement(CreateDialogueTransitionNode(transitionNode, new List<MessageData>()));
 
-        public DialogueNode CreateDialogueTransitionNode(string transitionNode, List<Message> messages, bool isCheckpoint = false)
+        public DialogueNode CreateDialogueTransitionNode(string transitionNode, List<MessageData> messages, bool isCheckpoint = false)
         {
             var dialogueNode = new DialogueNode
             {

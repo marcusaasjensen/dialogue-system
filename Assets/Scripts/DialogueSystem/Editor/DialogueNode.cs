@@ -8,7 +8,7 @@ namespace DialogueSystem.Editor
     public class DialogueNode : Node
     {
         public string GUID;
-        public List<Message> Messages;
+        public List<MessageData> Messages;
         public bool EntryPoint = false;
         public bool TransitionNode = false;
         public bool Checkpoint = false;

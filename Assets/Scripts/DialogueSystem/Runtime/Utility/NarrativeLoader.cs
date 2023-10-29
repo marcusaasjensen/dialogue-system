@@ -60,12 +60,12 @@ namespace DialogueSystem.Runtime.Utility
 
             if (sameExistingNode != null) return sameExistingNode;
 
-            var dialogue = new List<Message>(node.Dialogue);
+            var dialogue = new List<MessageData>(node.Dialogue);
 
             return node.TransitionNode ? CreateTransitionNode(node, narrative, dialogue) : CreateChoiceNode(node, narrative, dialogue);
         }
 
-        private NarrativeNode CreateChoiceNode(DialogueNodeData node, Narrative narrative, List<Message> dialogue)
+        private NarrativeNode CreateChoiceNode(DialogueNodeData node, Narrative narrative, List<MessageData> dialogue)
         {
             var choiceNode = new NarrativeNode(dialogue, node.Guid, node.DisableAlreadyChosenOptions);
 
@@ -82,7 +82,7 @@ namespace DialogueSystem.Runtime.Utility
             return choiceNode;
         }
 
-        private NarrativeNode CreateTransitionNode(DialogueNodeData node, Narrative narrative, List<Message> dialogue)
+        private NarrativeNode CreateTransitionNode(DialogueNodeData node, Narrative narrative, List<MessageData> dialogue)
         {
             var nextPath = narrativeToLoad.nodeLinks.Find(x => x.BaseNodeGuid == node.Guid);
 

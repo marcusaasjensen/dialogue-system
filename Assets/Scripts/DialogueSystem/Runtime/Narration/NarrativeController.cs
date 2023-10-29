@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using DialogueSystem.Data;
-using DialogueSystem.Runtime.NarrationUI;
+using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
 using Utility;
@@ -11,10 +11,14 @@ namespace DialogueSystem.Runtime.Narration
     {
         [SerializeField] private NarrativeUI narrativeUI;
         [SerializeField] private NarrativeLoader narrativeLoader;
+        [SerializeField] private DialogueCommandHandler commandHandler;
         
         [Header("Options")]
         [SerializeField] private bool displayChoicesAutomatically = true;
-        [SerializeField] private bool resetNarrativeOnLoad = false;
+        [SerializeField] private bool resetNarrativeOnLoad;
+        
+        [Space, Header("Default Values"), SerializeField]
+        private Speaker defaultSpeaker;
 
         private string NarrativePathID { get; set; }
     
@@ -22,18 +26,18 @@ namespace DialogueSystem.Runtime.Narration
         public bool IsNarrating { get; private set; }
     
         private NarrativeNode _currentNarrative;
-        private Message _currentMessage = new();
-        private Queue<Message> _narrativeQueue;
-        private Narrative _narrativeStructure;
+        private MessageData _currentMessageData = new();
+        private Queue<MessageData> _narrativeQueue;
+        private Narrative _narrative;
         private NarrativeNode _startNode;
 
         private const string PathSeparator = ".";
 
         public void BeginNarration(DialogueContainer narrativeToLoad = null)
         {
-            _narrativeStructure = narrativeLoader.LoadNarrative(narrativeToLoad);
+            _narrative = narrativeLoader.LoadNarrative(narrativeToLoad);
 
-            if (_narrativeStructure == null)
+            if (_narrative == null)
             {
                 LogHandler.LogError("Can't start narrative because the narrative was not loaded properly.");
                 return;
@@ -61,7 +65,7 @@ namespace DialogueSystem.Runtime.Narration
         private NarrativeNode GetStartNode()
         {
             NarrativePathID = narrativeLoader.GetSavedNarrativePathID();
-            return _narrativeStructure.FindStartNodeFromPath(NarrativePathID);
+            return _narrative.FindStartNodeFromPath(NarrativePathID);
         }
 
         private void ContinueToChoiceAutomatically()
@@ -79,7 +83,7 @@ namespace DialogueSystem.Runtime.Narration
         {
             if (narrative == null) return;
             _currentNarrative = narrative;
-            _narrativeQueue = new Queue<Message>(narrative.Dialogue);
+            _narrativeQueue = new Queue<MessageData>(narrative.Dialogue);
             NextNarrative();
         }
 
@@ -88,7 +92,7 @@ namespace DialogueSystem.Runtime.Narration
             IsChoosing = false;
             if (narrativeUI.IsMessageDisplaying())
             {
-                SkipCurrentMessage(_currentMessage);
+                SkipCurrentMessage();
                 LogHandler.Log("Skip", LogHandler.Color.Yellow);
                 return;
             }
@@ -110,12 +114,16 @@ namespace DialogueSystem.Runtime.Narration
                 return;
             }
 
-            _currentMessage = _narrativeQueue.Dequeue();
-            ShowNextMessage(_currentMessage);
+            _currentMessageData = _narrativeQueue.Dequeue();
+            ContinueToNextMessage(_currentMessageData);
         }
 
-        private void SkipCurrentMessage(Message currentMessage) => narrativeUI.DisplayAllMessage(currentMessage);
-    
+        private void SkipCurrentMessage()
+        {
+            narrativeUI.DisplayAllMessage();
+            commandHandler.ExecuteAllCommands();
+        }
+
         private void FindNextPath()
         {
             if (_currentNarrative.IsCheckpoint)
@@ -145,11 +153,26 @@ namespace DialogueSystem.Runtime.Narration
             IsChoosing = true;
             narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, _currentNarrative.DisableAlreadyChosenOptions, ChooseNarrativePath);
         }
-
-        private void ShowNextMessage(Message nextMessage)
+        
+        private Speaker GetSpeakerFromMessage(MessageData messageData)
         {
-            var currentSpeaker = _narrativeStructure.Speakers?.Find(speaker => speaker.characterName == nextMessage?.SpeakerName);
-            narrativeUI.DisplayMessageWithSpeaker(currentSpeaker, nextMessage);
+            var speaker = _narrative.GetSpeaker(messageData.SpeakerName);
+            return speaker ? speaker : defaultSpeaker;
+        }
+
+        private void ContinueToNextMessage(MessageData nextMessageData)
+        {
+            var currentSpeakerData = GetSpeakerFromMessage(nextMessageData);
+            
+            //Gather message commands and data
+            commandHandler.GatherCommandData(nextMessageData, currentSpeakerData);
+            var message = commandHandler.ParseDialogueCommands(nextMessageData.Content);
+            
+            //Display message ui
+            //Repetitive code, move this to dialogueCommandHandler?
+            narrativeUI.DisplayDialogueBubble(nextMessageData.SpeakerName, currentSpeakerData.defaultBehaviour.characterFace, nextMessageData.HideCharacter);
+            narrativeUI.DisplayMessage(message);
+            //TALKER.TALK(currentSpeaker);
         }
 
         private void ChooseNarrativePath(int choiceIndex)

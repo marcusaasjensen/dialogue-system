@@ -17,6 +17,8 @@ namespace DialogueSystem.Runtime.Narration
     
         public void AddNarrativeNode(NarrativeNode node) => NarrativeNodes.Add(node);
     
+        public Speaker GetSpeaker(string speakerName) => Speakers.Find(speaker => speaker.characterName == speakerName);
+        
         public NarrativeNode FindStartNodeFromPath(string pathID)
         {
             if (string.IsNullOrEmpty(pathID))

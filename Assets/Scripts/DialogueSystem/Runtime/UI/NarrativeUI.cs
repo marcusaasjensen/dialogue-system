@@ -1,23 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DialogueSystem.Data;
 using DialogueSystem.Runtime.Narration;
 using DialogueSystem.Runtime.Utility;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace DialogueSystem.Runtime.NarrationUI
+namespace DialogueSystem.Runtime.UI
 {
     public class NarrativeUI : MonoBehaviour
     {
         [Header("UI Texts")]
         [SerializeField] private TextMeshProUGUI speakerNameText;
-        [FormerlySerializedAs("messageText")] [SerializeField] private TextMeshProUGUI messageTextContainer;
-        [SerializeField] private NarrativeWriter narrativeWriter;
+        [SerializeField] private TextMeshProUGUI messageTextContainer;
+        [SerializeField] private TextTyper textTyper;
 
         [Space, Header("UI Buttons")] 
         [SerializeField] private Transform buttonsParent;
@@ -29,9 +27,6 @@ namespace DialogueSystem.Runtime.NarrationUI
 
         [Space, Header("UI Rendering")]
         [SerializeField, CanBeNull] private Image speakingCharacterSprite;
-
-        [Space, Header("Default Values"), SerializeField]
-        private Speaker defaultSpeaker;
     
         private List<Button> _currentOptionButtonList;
         private bool _disabledButtonPrefabNotNull;
@@ -44,7 +39,7 @@ namespace DialogueSystem.Runtime.NarrationUI
         {
             _currentOptionButtonList = new List<Button>();
             _speakingCharacterSpriteNull = speakingCharacterSprite == null;
-            _narrativeWriterNotNull = narrativeWriter != null;
+            _narrativeWriterNotNull = textTyper != null;
             _disabledButtonPrefabNotNull = disabledOptionButtonPrefab != null;
             CloseDialogue();
         }
@@ -95,14 +90,18 @@ namespace DialogueSystem.Runtime.NarrationUI
                 newOptionButton.GetComponent<RectTransform>().localPosition = new Vector3(initialButtonXPosition + xOffset, initialButtonYPosition - yOffset,0);
 
                 var optionTextContainer = newOptionButton.transform.GetComponentInChildren<TextMeshProUGUI>();
-                DialogueUtility.ProcessInputString(option.Text, out var processedMessageWithTags);
+                DialogueParser.ProcessInputString(option.Text, out var processedMessageWithTags); //only process variable tags
                 optionTextContainer.text = processedMessageWithTags;
 
                 var pathIndex = options.IndexOf(option);
             
-                newOptionButton.onClick.AddListener(delegate { choosePathFunction(pathIndex); });
-                newOptionButton.onClick.AddListener(EnableNextNarrationUI);
-                newOptionButton.onClick.AddListener(RemoveOptions);
+                newOptionButton.onClick.AddListener(
+                    delegate 
+                    {
+                        choosePathFunction(pathIndex); 
+                        EnableNextNarrationUI(); 
+                        RemoveOptions(); 
+                    });
 
                 columnIndex++;
                 optionsLeft.Dequeue();
@@ -123,40 +122,34 @@ namespace DialogueSystem.Runtime.NarrationUI
             speakerNameText.maxVisibleCharacters = hide ? 0 : int.MaxValue;
         }
     
-        public void DisplayMessageWithSpeaker(Speaker speaker, Message message)
+        public void DisplayDialogueBubble(string speakerName, Sprite characterFace, bool hideCharacter)
         {
-            if (message == null) return;
-            if (speaker == null) speaker = defaultSpeaker;
-            var speakerBehaviour = speaker.GetBehaviourByEmotion(message.EmotionDisplayed);
-        
-            DisplaySpeakerName(message.SpeakerName, message.HideCharacter);
-            DisplaySpeakerSprite(speakerBehaviour.characterFace, message.HideCharacter);
-        
-            if(narrativeWriter) narrativeWriter.WriteMessage(message.Content, messageTextContainer, speakerBehaviour, speaker.SpeakingSound);
+            DisplaySpeakerName(speakerName, hideCharacter);
+            DisplaySpeakerSprite(characterFace, hideCharacter);
+        }
 
+        public void DisplayMessage(string text)
+        {
+            messageTextContainer.text = text;
+            if(textTyper) textTyper.TypeText(text, messageTextContainer);
             StartCoroutine(WaitMessageEnd());
         }
 
         private IEnumerator WaitMessageEnd()
         {
             if (_narrativeWriterNotNull)
-                yield return new WaitUntil(() => narrativeWriter.IsTyping == false);
+                yield return new WaitUntil(() => textTyper.IsTyping == false);
 
-            OnMessageEnd?.Invoke();
+            OnMessageEnd?.Invoke(); //move to text typer?
             yield return null;
         }
 
-        private void DisplaySpeakerSprite(Sprite sprite, bool hideCharacter)
+        public void DisplaySpeakerSprite(Sprite sprite, bool hideCharacter = false)
         {
             if (_speakingCharacterSpriteNull) return;
         
-            if(sprite == null || hideCharacter)
-                speakingCharacterSprite.gameObject.SetActive(false);
-            else
-            {
-                speakingCharacterSprite.gameObject.SetActive(true);
-                speakingCharacterSprite.sprite = sprite;
-            }
+            speakingCharacterSprite!.sprite = sprite;
+            speakingCharacterSprite.gameObject.SetActive(sprite != null && !hideCharacter);
         }
 
         private void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
@@ -167,18 +160,19 @@ namespace DialogueSystem.Runtime.NarrationUI
     
         public void InitializeUI()
         {
-            messageTextContainer.text = "";
-            speakerNameText.text = "";
+            messageTextContainer.text = string.Empty;
+            speakerNameText.text = string.Empty;
             DisplaySpeakerSprite(null, true);
         }
 
-        public bool IsMessageDisplaying() => _narrativeWriterNotNull && narrativeWriter.IsTyping;
+        public bool IsMessageDisplaying() => _narrativeWriterNotNull && textTyper.IsTyping;
 
-        public void DisplayAllMessage(Message currentMessage)
+        public void DisplayAllMessage()
         {
-            narrativeWriter.EndMessage();
             StartCoroutine(WaitMessageEnd());
-            messageTextContainer.maxVisibleCharacters = currentMessage.Content.Length;
+            textTyper.FinishTyping();
+            messageTextContainer.maxVisibleCharacters = int.MaxValue;
+            //execute commands of all position?
         }
     }
 }

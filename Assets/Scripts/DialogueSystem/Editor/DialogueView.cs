@@ -13,10 +13,10 @@ namespace DialogueSystem.Editor
         private ReorderableList _reorderableMessages;
         private const int GUIOffset = 5;
         private Vector2 _scrollPosition = Vector2.zero;
-        private static List<Message> _dialogue;
+        private static List<MessageData> _dialogue;
         private static EditorWindow _windowProperties;
     
-        public static void OpenWindow(List<Message> messages)
+        public static void OpenWindow(List<MessageData> messages)
         {
             _dialogue = messages;
             var window = GetWindow<DialogueView>();
@@ -44,11 +44,11 @@ namespace DialogueSystem.Editor
 
         private void DrawUIElements()
         {
-            _reorderableMessages = new ReorderableList(_dialogue, typeof(Message),true, true, true, true);
+            _reorderableMessages = new ReorderableList(_dialogue, typeof(MessageData),true, true, true, true);
 
             _reorderableMessages.drawElementCallback = (rect, index, isActive, isFocused) =>
             {
-                var element = _reorderableMessages.list[index] as Message;
+                var element = _reorderableMessages.list[index] as MessageData;
             
                 EditorGUI.EnumFlagsField(new Rect(), Emotion.Default);
 
@@ -57,13 +57,10 @@ namespace DialogueSystem.Editor
                 element.SpeakerName =
                     EditorGUI.TextField(new Rect(rect.x + GUIOffset, rect.y + GUIOffset, position.width - 50, 20),
                         new GUIContent("Speaker"), element.SpeakerName);
-                element.EmotionDisplayed = (Emotion)
-                    EditorGUI.EnumPopup(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 30, position.width - 50, 20),
-                        new GUIContent("Emotion"), element.EmotionDisplayed);
-                element.HideCharacter = EditorGUI.Toggle(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 20), new GUIContent("Hide character"), element.HideCharacter);
+                element.HideCharacter = EditorGUI.Toggle(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 30, position.width - 50, 20), new GUIContent("Hide character"), element.HideCharacter);
                 element.Content =
                     EditorGUI.TextArea(
-                        new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 90, position.width - 50, 100 - GUIOffset),
+                        new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 100 - GUIOffset),
                         element.Content);
             };
         

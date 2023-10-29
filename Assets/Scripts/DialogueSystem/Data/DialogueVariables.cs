@@ -18,6 +18,8 @@ namespace DialogueSystem.Data
         [SerializeField] private List<string> variableNames = new();
         [SerializeField] private List<string> variableValues = new();
 
+        //TODO: ADD TAGS TO CUSTOMIZE VARIABLE VALUE IN DIALOGUE : START TAGS LIST AND END TAGS LIST
+        
         public static DialogueVariables Instance
         {
             get
