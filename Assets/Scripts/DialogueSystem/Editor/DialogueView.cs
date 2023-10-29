@@ -56,11 +56,11 @@ namespace DialogueSystem.Editor
             
                 element.SpeakerName =
                     EditorGUI.TextField(new Rect(rect.x + GUIOffset, rect.y + GUIOffset, position.width - 50, 20),
-                        new GUIContent("Speaker"), element.SpeakerName);
+                        new GUIContent("Speaker name"), element.SpeakerName);
                 element.HideCharacter = EditorGUI.Toggle(new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 30, position.width - 50, 20), new GUIContent("Hide character"), element.HideCharacter);
                 element.Content =
                     EditorGUI.TextArea(
-                        new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 100 - GUIOffset),
+                        new Rect(rect.x + GUIOffset, rect.y + GUIOffset + 60, position.width - 50, 125),
                         element.Content);
             };
         

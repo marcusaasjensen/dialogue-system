@@ -15,7 +15,7 @@ namespace DialogueSystem.Runtime.Utility
         //REF OF TALKER TO CHANGE PITCH AND CADENCE OF SPEAKING
 
         private Queue<DialogueCommand> _commandQueue = new();
-        private Speaker _currentSpeakerData;
+        private CharacterData _currentCharacterDataData;
         private MessageData _currentMessageDataData;
 
         private void Awake() => textTyper.OnTypingStart += HandleDialogueCommands;
@@ -28,14 +28,14 @@ namespace DialogueSystem.Runtime.Utility
             return processedMessageWithTextTags;
         }
         
-        public void GatherCommandData(MessageData messageDataData, Speaker speakerData)
+        public void GatherCommandData(MessageData messageDataData, CharacterData characterDataData)
         {
-            _currentSpeakerData = speakerData;
+            _currentCharacterDataData = characterDataData;
             _currentMessageDataData = messageDataData;
             
             textTyper.ResetSpeed(); //TODO: make talker class that can adapt depending on the speed of the typer or just with a certain cadence
-            textTyper.SetTypingSound(_currentSpeakerData.SpeakingSound);
-            textTyper.ChangePitch(_currentSpeakerData.defaultBehaviour.SpeakingSoundPitch);
+            textTyper.SetTypingSound(_currentCharacterDataData.SpeakingSound);
+            textTyper.ChangePitch(_currentCharacterDataData.defaultBehaviour.SpeakingSoundPitch);
         }
 
         private void HandleDialogueCommands() => StartCoroutine(HandleDialogueCommandsCoroutine());
@@ -97,7 +97,7 @@ namespace DialogueSystem.Runtime.Utility
         private void ExecuteEmotionCommand(string emotionLabel)
         {
             var emotion = EmotionMapper.GetEmotionByLabel(emotionLabel);
-            var speakerEmotionBehaviour = _currentSpeakerData.GetBehaviourByEmotion(emotion);
+            var speakerEmotionBehaviour = _currentCharacterDataData.GetBehaviourByEmotion(emotion);
 
             narrativeUI.DisplaySpeakerSprite(speakerEmotionBehaviour.characterFace);
             

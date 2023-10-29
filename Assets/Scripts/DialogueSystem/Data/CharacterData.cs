@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DialogueSystem.Data
 {
     [CreateAssetMenu(fileName = "SpeakerScriptableObject", menuName = "ScriptableObjects/Speaker")]
-    public class Speaker : ScriptableObject
+    public class CharacterData : ScriptableObject
     {
         public string characterName;
         public AudioClip SpeakingSound;

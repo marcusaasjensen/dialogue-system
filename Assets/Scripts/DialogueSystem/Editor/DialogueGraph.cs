@@ -59,6 +59,7 @@ namespace DialogueSystem.Editor
             toolbar.Add(nodeCreateButton);
             transitionCreateButton.text = "Create Transition";
             toolbar.Add(transitionCreateButton);
+            
             rootVisualElement.Add(toolbar);
         }
 
@@ -71,6 +72,7 @@ namespace DialogueSystem.Editor
             }
 
             var saveUtility = GraphSaveUtility.GetInstance(_graphView);
+            
             if(save)
                 saveUtility.SaveGraph(_fileName);
             else
@@ -83,7 +85,7 @@ namespace DialogueSystem.Editor
             GenerateToolbar();
             GenerateMiniMap();
         }
-
+        
         private void GenerateMiniMap()
         {
             var miniMap = new MiniMap { anchored = true };

@@ -18,8 +18,7 @@ namespace DialogueSystem.Data
         //save dialogue state to scriptable object and starts to where the dialogue was left off
         [SerializeField] private bool startFromPreviousNarrativePath = true;
         public bool StartFromPreviousNarrativePath => startFromPreviousNarrativePath;
-        
-        //TODO: Save and load speakers to avoid always reassign the right characters at each dialogue changes
-        [field: SerializeField] public List<Speaker> Speakers { get; private set; }
+
+        public List<CharacterData> characters;
     }
 }

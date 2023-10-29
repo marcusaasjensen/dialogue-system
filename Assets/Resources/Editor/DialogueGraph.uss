@@ -4,3 +4,13 @@ GridBackground {
     --thick-line-color: rgba(193, 196, 192, 0.1);
     --spacing: 10;
 }
+
+.side-bar{
+    --side-bar-background-color: #282828;
+    --side-bar-text-color: #C1C4C0;
+    --side-bar-text-color-hover: #FFFFFF;
+    --side-bar-text-color-active: #FFFFFF;
+    --side-bar-text-color-active-hover: #FFFFFF;
+    --side-bar-text-color-active-hover: #FFFFFF;
+    --side-bar-text-color-active-hover: #FFFFFF;
+}

@@ -7,9 +7,9 @@ namespace DialogueSystem.Runtime.Narration
     {
         public List<NarrativeNode> NarrativeNodes { get; }
         public NarrativeNode NarrativeEntryNode { get; set; }
-        public List<Speaker> Speakers { get; }
+        public List<CharacterData> Speakers { get; }
 
-        public Narrative(List<Speaker> speakers)
+        public Narrative(List<CharacterData> speakers)
         {
             NarrativeNodes = new List<NarrativeNode>();
             Speakers = speakers;
@@ -17,7 +17,7 @@ namespace DialogueSystem.Runtime.Narration
     
         public void AddNarrativeNode(NarrativeNode node) => NarrativeNodes.Add(node);
     
-        public Speaker GetSpeaker(string speakerName) => Speakers.Find(speaker => speaker.characterName == speakerName);
+        public CharacterData GetSpeaker(string speakerName) => Speakers.Find(speaker => speaker.characterName == speakerName);
         
         public NarrativeNode FindStartNodeFromPath(string pathID)
         {

@@ -51,28 +51,22 @@ MonoBehaviour:
   - Guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 11
       <Content>k__BackingField: I guess, everybody needs a friend.<p:long><sp:0,1>
         <em:curious>Right?
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Shy
-      <EmotionDisplayed>k__BackingField: 0
-      <Content>k__BackingField: <sp:0>I guess.
+      <Content>k__BackingField: <sp:0,02>I guess.
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Yeah. But I do have A LOT of friends though.
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: By the way I'm victor. <em:curious>What is your name?
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Shy
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: My name is Shy.
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 11
       <Content>k__BackingField: '<em:curious>Do you want to be my friend?<em:default> '
       <HideCharacter>k__BackingField: 0
     Position: {x: 719.3333, y: 361.3333}
@@ -83,11 +77,9 @@ MonoBehaviour:
   - Guid: eceb53b7-9d18-4fa8-886b-396253d99edf
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Oh... Sure.
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Me and my friends are playing some basketball. Do
         you want to come and join us?
       <HideCharacter>k__BackingField: 0
@@ -99,15 +91,12 @@ MonoBehaviour:
   - Guid: de7315c5-fcfa-4683-a39f-6bebae69c4eb
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Okay then!
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Just follow me.
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Shy
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Okay.
       <HideCharacter>k__BackingField: 0
     Position: {x: 1753.3334, y: 322}
@@ -118,24 +107,19 @@ MonoBehaviour:
   - Guid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Wait, you have a robot?!
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: I can help you fixing that robot!
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Shy
-      <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: You know that model?
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: Of course! I have one at home. Let me fix it for
         you.
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Shy
-      <EmotionDisplayed>k__BackingField: 2
       <Content>k__BackingField: Thank you I guess.
       <HideCharacter>k__BackingField: 0
     Position: {x: 1214, y: 192}
@@ -146,23 +130,18 @@ MonoBehaviour:
   - Guid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 10
       <Content>k__BackingField: How can you even enjoy that?
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: NOBODY likes to be alone!
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Shy
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: I do.
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 0
       <Content>k__BackingField: Mmmh.
       <HideCharacter>k__BackingField: 0
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 11
       <Content>k__BackingField: I wish I could be like you...
       <HideCharacter>k__BackingField: 0
     Position: {x: 750, y: -46}
@@ -173,7 +152,6 @@ MonoBehaviour:
   - Guid: 63dc8710-439f-48c0-8e63-75898d75b09f
     Dialogue:
     - <SpeakerName>k__BackingField: Victor
-      <EmotionDisplayed>k__BackingField: 1
       <Content>k__BackingField: Why are you sitting on that bench alone?
       <HideCharacter>k__BackingField: 1
     Position: {x: 249.33333, y: 168}
@@ -184,6 +162,6 @@ MonoBehaviour:
   pathToCheckpoint: 
   isNarrativeEndReached: 0
   startFromPreviousNarrativePath: 1
-  <Speakers>k__BackingField:
+  characters:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}

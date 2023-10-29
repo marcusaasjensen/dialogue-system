@@ -35,7 +35,7 @@ namespace DialogueSystem.Runtime.Utility
         
             LogHandler.Log($"Narrative loaded: {narrativeToLoad}", LogHandler.Color.Blue);
 
-            var loadedNarrative = new Narrative(narrativeToLoad.Speakers);
+            var loadedNarrative = new Narrative(narrativeToLoad.characters);
 
             var entryNode = narrativeToLoad.dialogueNodeData.Find(node => node.EntryPoint);
             CreateNodesFromEntryNode(entryNode, loadedNarrative);

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Codice.Client.BaseCommands;
 using DialogueSystem.Data;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -68,7 +70,13 @@ namespace DialogueSystem.Editor
                     DisableAlreadyChosenOptions = dialogueNode.DisableAlreadyChosenOptions
                 });
             }
+            
+            dialogueContainer.characters = new List<CharacterData>();
 
+            _containerCache = Resources.Load<DialogueContainer>($"{ResourcesPath}/{fileName}");
+
+            _containerCache.characters.ForEach(character => dialogueContainer.characters.Add(character));
+            
             if (!AssetDatabase.IsValidFolder($"{PathToResources}/{ResourcesPath}"))
                 Directory.CreateDirectory($"{PathToResources}/{ResourcesPath}");
         

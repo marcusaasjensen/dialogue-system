@@ -3,6 +3,7 @@ using DialogueSystem.Data;
 using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utility;
 
 namespace DialogueSystem.Runtime.Narration
@@ -17,8 +18,8 @@ namespace DialogueSystem.Runtime.Narration
         [SerializeField] private bool displayChoicesAutomatically = true;
         [SerializeField] private bool resetNarrativeOnLoad;
         
-        [Space, Header("Default Values"), SerializeField]
-        private Speaker defaultSpeaker;
+        [FormerlySerializedAs("defaultSpeaker")] [Space, Header("Default Values"), SerializeField]
+        private CharacterData defaultCharacterData;
 
         private string NarrativePathID { get; set; }
     
@@ -154,10 +155,10 @@ namespace DialogueSystem.Runtime.Narration
             narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, _currentNarrative.DisableAlreadyChosenOptions, ChooseNarrativePath);
         }
         
-        private Speaker GetSpeakerFromMessage(MessageData messageData)
+        private CharacterData GetSpeakerFromMessage(MessageData messageData)
         {
             var speaker = _narrative.GetSpeaker(messageData.SpeakerName);
-            return speaker ? speaker : defaultSpeaker;
+            return speaker ? speaker : defaultCharacterData;
         }
 
         private void ContinueToNextMessage(MessageData nextMessageData)
