@@ -468,6 +468,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -549,6 +550,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fc286eb7c3d4ea59a45211d21df4d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1138724645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,7 +1404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21896aa3a3844dd6bbe30ef8bcec5cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrativeScriptableObject: {fileID: 0}
+  narrativeScriptableObject: {fileID: 11400000, guid: 1c1c9d1ab11b4a241b2ed4ceb58af6b2, type: 2}
   narrativeController: {fileID: 2089170440}
   stopInteractAtNarrativeEnd: 0
   player: {fileID: 1222860799}
@@ -2154,7 +2167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498aba3b030f45b2b3ebad034f4d525d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrativeToLoad: {fileID: 11400000, guid: 1c1c9d1ab11b4a241b2ed4ceb58af6b2, type: 2}
+  narrativeToLoad: {fileID: 0}
 --- !u!114 &2089170440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,7 +2185,7 @@ MonoBehaviour:
   commandHandler: {fileID: 2089170441}
   displayChoicesAutomatically: 1
   resetNarrativeOnLoad: 0
-  defaultSpeaker: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
+  defaultCharacterData: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
 --- !u!114 &2089170441
 MonoBehaviour:
   m_ObjectHideFlags: 0

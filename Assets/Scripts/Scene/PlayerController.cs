@@ -1,5 +1,4 @@
-﻿using DialogueSystem.Runtime;
-using DialogueSystem.Runtime.Narration;
+﻿using DialogueSystem.Runtime.Narration;
 using UnityEngine;
 
 namespace Scene

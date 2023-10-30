@@ -15,8 +15,8 @@ namespace DialogueSystem.Runtime.Utility
         //REF OF TALKER TO CHANGE PITCH AND CADENCE OF SPEAKING
 
         private Queue<DialogueCommand> _commandQueue = new();
-        private CharacterData _currentCharacterDataData;
-        private MessageData _currentMessageDataData;
+        private CharacterData _currentCharacterData;
+        private DialogueMessage _currentDialogueMessage;
 
         private void Awake() => textTyper.OnTypingStart += HandleDialogueCommands;
         
@@ -28,14 +28,14 @@ namespace DialogueSystem.Runtime.Utility
             return processedMessageWithTextTags;
         }
         
-        public void GatherCommandData(MessageData messageDataData, CharacterData characterDataData)
+        public void GatherCommandData(DialogueMessage dialogueMessage, CharacterData characterDataData)
         {
-            _currentCharacterDataData = characterDataData;
-            _currentMessageDataData = messageDataData;
+            _currentCharacterData = characterDataData;
+            _currentDialogueMessage = dialogueMessage;
             
             textTyper.ResetSpeed(); //TODO: make talker class that can adapt depending on the speed of the typer or just with a certain cadence
-            textTyper.SetTypingSound(_currentCharacterDataData.SpeakingSound);
-            textTyper.ChangePitch(_currentCharacterDataData.defaultBehaviour.SpeakingSoundPitch);
+            textTyper.SetTypingSound(_currentCharacterData.speakingSound);
+            textTyper.ChangePitch(_currentCharacterData.defaultBehaviour.speakingSoundPitch);
         }
 
         private void HandleDialogueCommands() => StartCoroutine(HandleDialogueCommandsCoroutine());
@@ -79,7 +79,7 @@ namespace DialogueSystem.Runtime.Utility
                 case DialogueCommandType.AnimStart:
                 case DialogueCommandType.AnimEnd:
                 case DialogueCommandType.DisplayedEmotion:
-                    ExecuteEmotionCommand(command.DisplayedEmotionName);
+                    ExecuteEmotionCommand(command.EmotionValue);
                     break;
                 case DialogueCommandType.Interaction:
                 case DialogueCommandType.MusicStart:
@@ -94,15 +94,14 @@ namespace DialogueSystem.Runtime.Utility
 
         private void ExecuteSpeedCommand(float newSpeed) => textTyper.ChangeSpeed(newSpeed);
         private void ExecutePauseCommand(float pauseDuration) => textTyper.Pause(pauseDuration);
-        private void ExecuteEmotionCommand(string emotionLabel)
+        private void ExecuteEmotionCommand(Emotion emotion)
         {
-            var emotion = EmotionMapper.GetEmotionByLabel(emotionLabel);
-            var speakerEmotionBehaviour = _currentCharacterDataData.GetBehaviourByEmotion(emotion);
+            var characterEmotionBehaviour = _currentCharacterData.GetBehaviourByEmotion(emotion);
 
-            narrativeUI.DisplaySpeakerSprite(speakerEmotionBehaviour.characterFace);
+            narrativeUI.DisplaySpeakerSprite(characterEmotionBehaviour.characterFace);
             
-            AudioManager.Instance.PlaySound(speakerEmotionBehaviour.emotionSound);
-            textTyper.ChangePitch(speakerEmotionBehaviour.SpeakingSoundPitch);
+            AudioManager.Instance.PlaySound(characterEmotionBehaviour.emotionSound);
+            textTyper.ChangePitch(characterEmotionBehaviour.speakingSoundPitch);
             // Also animate speaker to their emotion
         }
 

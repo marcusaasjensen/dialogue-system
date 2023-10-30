@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using DialogueSystem.Data;
 using UnityEngine;
+using Utility;
 
 namespace DialogueSystem.Runtime.Utility
 {
@@ -80,16 +81,12 @@ namespace DialogueSystem.Runtime.Utility
             foreach (Match match in emotionMatches)
             {
                 var stringVal = match.Groups["emotion"].Value;
-                var formattedVal = stringVal.Replace(" ", "").ToLower();
-
-                if (string.IsNullOrEmpty(formattedVal))
-                    formattedVal = "default";
                 
                 result.Add(new DialogueCommand
                 {
                     Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.DisplayedEmotion,
-                    DisplayedEmotionName = formattedVal,
+                    EmotionValue = GetEmotionValue(stringVal),
                     MustExecute = true
                 });
             }
@@ -106,7 +103,7 @@ namespace DialogueSystem.Runtime.Utility
             {
                 var variableName = match.Groups["value"].Value;
                 var value = DialogueVariables.Instance.GetValue(variableName);
-            
+                
                 if (string.IsNullOrEmpty(value))
                     value = "X";
             
@@ -136,7 +133,7 @@ namespace DialogueSystem.Runtime.Utility
             MatchCollection animStartMatches = AnimStartRegex.Matches(processedMessage);
             foreach (Match match in animStartMatches)
             {
-                string stringVal = match.Groups["anim"].Value;
+                var stringVal = match.Groups["anim"].Value;
                 result.Add(new DialogueCommand
                 {
                     Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
@@ -187,6 +184,22 @@ namespace DialogueSystem.Runtime.Utility
             processedMessage = Regex.Replace(processedMessage, PauseRegexString, "");
             return processedMessage;
         }
+        
+        private static Emotion GetEmotionValue(string stringVal)
+        {
+            Emotion result;
+            try
+            {
+                result = (Emotion)Enum.Parse(typeof(Emotion), stringVal, true);
+            }
+            catch (ArgumentException)
+            {
+                LogHandler.LogError($"Invalid Emotion: {stringVal}");
+                result = Emotion.Default;
+            }
+            
+            return result;
+        }
 
         private static TextAnimationType GetTextAnimationType(string stringVal)
         {
@@ -197,7 +210,7 @@ namespace DialogueSystem.Runtime.Utility
             }
             catch (ArgumentException)
             {
-                Debug.LogError("Invalid Text Animation Type: " + stringVal);
+                LogHandler.LogError($"Invalid Text Animation Type: {stringVal}");
                 result = TextAnimationType.None;
             }
             return result;
@@ -234,13 +247,15 @@ namespace DialogueSystem.Runtime.Utility
     }
     public class DialogueCommand
     {
-        public int Position;
         public DialogueCommandType Type;
+        public int Position;
+        
         public float FloatValue;
-        public string StringValue;
         public TextAnimationType TextAnimValue;
-        public string DisplayedEmotionName;
+        public Emotion EmotionValue;
+        
         public bool MustExecute;
+        
     }
 
     public enum DialogueCommandType

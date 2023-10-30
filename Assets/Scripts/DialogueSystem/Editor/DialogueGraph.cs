@@ -45,21 +45,21 @@ namespace DialogueSystem.Editor
             toolbar.Add(new Button(() => RequestDataOperation(true)){text="Save Data"});
             toolbar.Add(new Button(() => RequestDataOperation(false)){text="Load Data"});
         
+            var transitionCreateButton = new Button(() =>
+            {
+                _graphView.CreateSimpleDialogueNode("Simple Node");
+            });
+            
             var nodeCreateButton = new Button(() =>
             {
                 _graphView.CreateNode("Multiple Choice Node");
             });
 
-            var transitionCreateButton = new Button(() =>
-            {
-                _graphView.CreateTransitionNode("Transition Node");
-            });
         
-            nodeCreateButton.text = "Create Node";
-            toolbar.Add(nodeCreateButton);
-            transitionCreateButton.text = "Create Transition";
+            transitionCreateButton.text = "Create Simple Node";
             toolbar.Add(transitionCreateButton);
-            
+            nodeCreateButton.text = "Create Multiple Choice Node";
+            toolbar.Add(nodeCreateButton);
             rootVisualElement.Add(toolbar);
         }
 

@@ -27,8 +27,8 @@ namespace DialogueSystem.Runtime.Narration
         public bool IsNarrating { get; private set; }
     
         private NarrativeNode _currentNarrative;
-        private MessageData _currentMessageData = new();
-        private Queue<MessageData> _narrativeQueue;
+        private DialogueMessage _currentDialogueMessage = new();
+        private Queue<DialogueMessage> _narrativeQueue;
         private Narrative _narrative;
         private NarrativeNode _startNode;
 
@@ -84,7 +84,7 @@ namespace DialogueSystem.Runtime.Narration
         {
             if (narrative == null) return;
             _currentNarrative = narrative;
-            _narrativeQueue = new Queue<MessageData>(narrative.Dialogue);
+            _narrativeQueue = new Queue<DialogueMessage>(narrative.Dialogue);
             NextNarrative();
         }
 
@@ -115,8 +115,8 @@ namespace DialogueSystem.Runtime.Narration
                 return;
             }
 
-            _currentMessageData = _narrativeQueue.Dequeue();
-            ContinueToNextMessage(_currentMessageData);
+            _currentDialogueMessage = _narrativeQueue.Dequeue();
+            ContinueToNextMessage(_currentDialogueMessage);
         }
 
         private void SkipCurrentMessage()
@@ -155,23 +155,23 @@ namespace DialogueSystem.Runtime.Narration
             narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, _currentNarrative.DisableAlreadyChosenOptions, ChooseNarrativePath);
         }
         
-        private CharacterData GetSpeakerFromMessage(MessageData messageData)
+        private CharacterData GetCharacterFromMessage(DialogueMessage dialogueMessage)
         {
-            var speaker = _narrative.GetSpeaker(messageData.SpeakerName);
-            return speaker ? speaker : defaultCharacterData;
+            var character = _narrative.GetCharacter(dialogueMessage.CharacterName);
+            return character ? character : defaultCharacterData;
         }
 
-        private void ContinueToNextMessage(MessageData nextMessageData)
+        private void ContinueToNextMessage(DialogueMessage nextDialogueMessage)
         {
-            var currentSpeakerData = GetSpeakerFromMessage(nextMessageData);
+            var currentSpeakerData = GetCharacterFromMessage(nextDialogueMessage);
             
             //Gather message commands and data
-            commandHandler.GatherCommandData(nextMessageData, currentSpeakerData);
-            var message = commandHandler.ParseDialogueCommands(nextMessageData.Content);
+            commandHandler.GatherCommandData(nextDialogueMessage, currentSpeakerData);
+            var message = commandHandler.ParseDialogueCommands(nextDialogueMessage.Content);
             
             //Display message ui
             //Repetitive code, move this to dialogueCommandHandler?
-            narrativeUI.DisplayDialogueBubble(nextMessageData.SpeakerName, currentSpeakerData.defaultBehaviour.characterFace, nextMessageData.HideCharacter);
+            narrativeUI.DisplayDialogueBubble(nextDialogueMessage.CharacterName, currentSpeakerData.defaultBehaviour.characterFace, nextDialogueMessage.HideCharacter);
             narrativeUI.DisplayMessage(message);
             //TALKER.TALK(currentSpeaker);
         }

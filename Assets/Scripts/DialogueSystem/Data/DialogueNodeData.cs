@@ -9,9 +9,9 @@ namespace DialogueSystem.Data
     public class DialogueNodeData
     {
         public string Guid;
-        public List<MessageData> Dialogue;
+        public List<DialogueMessage> Dialogue;
         public Vector2 Position;
-        public bool TransitionNode;
+        public bool TransitionNode; //TODO: rename to simple node or inverse values to name it multiple choice node
         public bool EntryPoint;
         public bool IsCheckpoint;
         public bool DisableAlreadyChosenOptions;

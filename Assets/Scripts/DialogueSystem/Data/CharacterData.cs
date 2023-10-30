@@ -7,7 +7,7 @@ namespace DialogueSystem.Data
     public class CharacterData : ScriptableObject
     {
         public string characterName;
-        public AudioClip SpeakingSound;
+        public AudioClip speakingSound;
         public CharacterNarrativeBehaviour defaultBehaviour;
         public List<CharacterNarrativeBehaviour> narrativeBehaviours;
 

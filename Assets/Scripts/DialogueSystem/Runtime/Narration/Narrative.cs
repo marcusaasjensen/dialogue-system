@@ -7,17 +7,17 @@ namespace DialogueSystem.Runtime.Narration
     {
         public List<NarrativeNode> NarrativeNodes { get; }
         public NarrativeNode NarrativeEntryNode { get; set; }
-        public List<CharacterData> Speakers { get; }
+        private List<CharacterData> Characters { get; }
 
-        public Narrative(List<CharacterData> speakers)
+        public Narrative(List<CharacterData> characters)
         {
             NarrativeNodes = new List<NarrativeNode>();
-            Speakers = speakers;
+            Characters = characters;
         }
     
         public void AddNarrativeNode(NarrativeNode node) => NarrativeNodes.Add(node);
     
-        public CharacterData GetSpeaker(string speakerName) => Speakers.Find(speaker => speaker.characterName == speakerName);
+        public CharacterData GetCharacter(string characterName) => Characters.Find(character => character.characterName == characterName);
         
         public NarrativeNode FindStartNodeFromPath(string pathID)
         {
