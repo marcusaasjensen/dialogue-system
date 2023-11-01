@@ -4,14 +4,14 @@ namespace DialogueSystem.Runtime.Narration
 {
     public class NarrativeNode
     {
-        public List<Message> Dialogue { get; }
+        public List<DialogueMessage> Dialogue { get; }
         public string NodeId { get; }
         public List<DialogueOption> Options { get; }
         public NarrativeNode DefaultPath { get; }
         public bool IsCheckpoint { get; }
         public bool DisableAlreadyChosenOptions { get;  }
 
-        public NarrativeNode(List<Message> dialogue, string nodeId, bool isCheckpoint = false, NarrativeNode defaultPath = null)
+        public NarrativeNode(List<DialogueMessage> dialogue, string nodeId, bool isCheckpoint = false, NarrativeNode defaultPath = null)
         {
             Dialogue = dialogue;
             NodeId = nodeId;
@@ -21,7 +21,7 @@ namespace DialogueSystem.Runtime.Narration
             DisableAlreadyChosenOptions = false;
         }
         
-        public NarrativeNode(List<Message> dialogue, string nodeId, bool disableAlreadyChosenOptions = false)
+        public NarrativeNode(List<DialogueMessage> dialogue, string nodeId, bool disableAlreadyChosenOptions = false)
         {
             Dialogue = dialogue;
             NodeId = nodeId;

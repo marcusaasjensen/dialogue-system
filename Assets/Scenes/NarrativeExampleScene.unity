@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 2
+    serializedVersion: 3
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,12 +117,59 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    accuratePlacement: 0
+    buildHeightMesh: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &1329082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1329084}
+  - component: {fileID: 1329083}
+  m_Layer: 0
+  m_Name: DialogueStarter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1329083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f68b1441294213a63cd22598f48e2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  narrativeScriptableObject: {fileID: 11400000, guid: 49b663f3268ddcb41a9e511e08c1a07f, type: 2}
+  narrativeController: {fileID: 2089170440}
+  narrativeMusic: {fileID: 8300000, guid: ebd04bea60accfa44a671d7ad562a416, type: 3}
+--- !u!4 &1329084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329082}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 950, y: 586, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &97452764
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +208,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &97452766
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -294,7 +342,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &222693665
 GameObject:
@@ -506,6 +554,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &376874495
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -613,9 +662,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -714,7 +771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerNameText: {fileID: 1582010744}
   messageTextContainer: {fileID: 366787871}
-  narrativeWriter: {fileID: 1138724648}
+  textTyper: {fileID: 1138724648}
   buttonsParent: {fileID: 222693666}
   dialogueOptionButtonPrefab: {fileID: 1851353415986813201, guid: 4e2170dc146a1c94e8c4a48ec625ef17, type: 3}
   disabledOptionButtonPrefab: {fileID: 0}
@@ -722,7 +779,6 @@ MonoBehaviour:
   buttonOffset: {x: 100, y: 50}
   numberOfColumns: 3
   speakingCharacterSprite: {fileID: 1919876754}
-  defaultSpeaker: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
 --- !u!114 &1138724648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1324,7 +1380,9 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1342,7 +1400,7 @@ RectTransform:
   m_Children:
   - {fileID: 1138724646}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1493,7 +1551,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1878870124
 AudioSource:
@@ -1774,7 +1832,7 @@ GameObject:
   - component: {fileID: 2089170438}
   - component: {fileID: 2089170439}
   - component: {fileID: 2089170440}
-  - component: {fileID: 2089170441}
+  - component: {fileID: 2089170442}
   m_Layer: 0
   m_Name: Dialogue System
   m_TagString: Untagged
@@ -1809,7 +1867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498aba3b030f45b2b3ebad034f4d525d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrativeToLoad: {fileID: 11400000, guid: 49b663f3268ddcb41a9e511e08c1a07f, type: 2}
+  narrativeToLoad: {fileID: 0}
 --- !u!114 &2089170440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1824,10 +1882,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeUI: {fileID: 1138724647}
   narrativeLoader: {fileID: 2089170439}
+  commandHandler: {fileID: 2089170442}
   displayChoicesAutomatically: 1
-  disableAlreadyChosenOptions: 1
   resetNarrativeOnLoad: 0
---- !u!114 &2089170441
+  defaultCharacterData: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
+--- !u!114 &2089170442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1836,9 +1895,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 2089170436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34f68b1441294213a63cd22598f48e2b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c9bd2eb8728430b9646d8b274e0a708, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  narrativeScriptableObject: {fileID: 11400000, guid: 49b663f3268ddcb41a9e511e08c1a07f, type: 2}
-  narrativeController: {fileID: 2089170440}
-  narrativeMusic: {fileID: 8300000, guid: ebd04bea60accfa44a671d7ad562a416, type: 3}
+  textTyper: {fileID: 1138724648}
+  narrativeUI: {fileID: 1138724647}

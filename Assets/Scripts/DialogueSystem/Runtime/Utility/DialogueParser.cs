@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using DialogueSystem.Data;
 using UnityEngine;
+using Utility;
 
 namespace DialogueSystem.Runtime.Utility
 {
-    public abstract class DialogueUtility
+    public abstract class DialogueParser
     {
         // grab the remainder of the text until ">" or end of string
         private const string RemainderRegex = "(.*?((?=>)|(/|$)))";
@@ -19,6 +20,8 @@ namespace DialogueSystem.Runtime.Utility
         private static readonly Regex SpeedRegex = new Regex(SpeedRegexString);
         private const string ValueRegexString = "<val:(?<value>" + RemainderRegex + ")>";
         private static readonly Regex ValueRegex = new Regex(ValueRegexString);
+        private const string EmotionRegexString = "<em:(?<emotion>" + RemainderRegex + ")>";
+        private static readonly Regex EmotionRegex = new Regex(EmotionRegexString);
         private const string AnimStartRegexString = "<anim:(?<anim>" + RemainderRegex + ")>";
         private static readonly Regex AnimStartRegex = new Regex(AnimStartRegexString);
         private const string AnimEndRegexString = "</anim>";
@@ -32,6 +35,29 @@ namespace DialogueSystem.Runtime.Utility
             { "long", 1f },
             { "read", 2f },
         };
+        
+        public static string RemoveSimpleTextTags(string message)
+        {
+            var result = string.Empty;
+            var i = 0;
+
+            while (i < message.Length)
+            {
+                if (message[i] == '<')
+                {
+                    while (i < message.Length && message[i] != '>') 
+                        i++;
+                    i++;
+                }
+                else
+                {
+                    result += message[i];
+                    i++;
+                }
+            }
+
+            return result;
+        }
 
         public static List<DialogueCommand> ProcessInputString(string message, out string processedMessage)
         {
@@ -41,10 +67,32 @@ namespace DialogueSystem.Runtime.Utility
             processedMessage = HandleValueTags(processedMessage, result);
             processedMessage = HandlePauseTags(processedMessage, result);
             processedMessage = HandleSpeedTags(processedMessage, result);
+            processedMessage = HandleEmotionTags(processedMessage, result);
             processedMessage = HandleAnimStartTags(processedMessage, result);
             processedMessage = HandleAnimEndTags(processedMessage, result);
 
             return result;
+        }
+
+        private static string HandleEmotionTags(string processedMessage, ICollection<DialogueCommand> result)
+        {
+            var emotionMatches = EmotionRegex.Matches(processedMessage);
+
+            foreach (Match match in emotionMatches)
+            {
+                var stringVal = match.Groups["emotion"].Value;
+                
+                result.Add(new DialogueCommand
+                {
+                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    Type = DialogueCommandType.DisplayedEmotion,
+                    EmotionValue = GetEmotionValue(stringVal),
+                    MustExecute = true
+                });
+            }
+            
+            processedMessage = Regex.Replace(processedMessage, EmotionRegexString, "");
+            return processedMessage;
         }
 
         private static string HandleValueTags(string processedMessage, List<DialogueCommand> result)
@@ -55,7 +103,7 @@ namespace DialogueSystem.Runtime.Utility
             {
                 var variableName = match.Groups["value"].Value;
                 var value = DialogueVariables.Instance.GetValue(variableName);
-            
+                
                 if (string.IsNullOrEmpty(value))
                     value = "X";
             
@@ -65,7 +113,7 @@ namespace DialogueSystem.Runtime.Utility
             return processedMessage;
         }
 
-        private static string HandleAnimEndTags(string processedMessage, List<DialogueCommand> result)
+        private static string HandleAnimEndTags(string processedMessage, ICollection<DialogueCommand> result)
         {
             var animEndMatches = AnimEndRegex.Matches(processedMessage);
             foreach (Match match in animEndMatches)
@@ -80,12 +128,12 @@ namespace DialogueSystem.Runtime.Utility
             return processedMessage;
         }
 
-        private static string HandleAnimStartTags(string processedMessage, List<DialogueCommand> result)
+        private static string HandleAnimStartTags(string processedMessage, ICollection<DialogueCommand> result)
         {
             MatchCollection animStartMatches = AnimStartRegex.Matches(processedMessage);
             foreach (Match match in animStartMatches)
             {
-                string stringVal = match.Groups["anim"].Value;
+                var stringVal = match.Groups["anim"].Value;
                 result.Add(new DialogueCommand
                 {
                     Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
@@ -118,7 +166,7 @@ namespace DialogueSystem.Runtime.Utility
             return processedMessage;
         }
 
-        private static string HandlePauseTags(string processedMessage, List<DialogueCommand> result)
+        private static string HandlePauseTags(string processedMessage, ICollection<DialogueCommand> result)
         {
             var pauseMatches = PauseRegex.Matches(processedMessage);
             foreach (Match match in pauseMatches)
@@ -136,6 +184,22 @@ namespace DialogueSystem.Runtime.Utility
             processedMessage = Regex.Replace(processedMessage, PauseRegexString, "");
             return processedMessage;
         }
+        
+        private static Emotion GetEmotionValue(string stringVal)
+        {
+            Emotion result;
+            try
+            {
+                result = (Emotion)Enum.Parse(typeof(Emotion), stringVal, true);
+            }
+            catch (ArgumentException)
+            {
+                LogHandler.LogError($"Invalid Emotion: {stringVal}");
+                result = Emotion.Default;
+            }
+            
+            return result;
+        }
 
         private static TextAnimationType GetTextAnimationType(string stringVal)
         {
@@ -146,7 +210,7 @@ namespace DialogueSystem.Runtime.Utility
             }
             catch (ArgumentException)
             {
-                Debug.LogError("Invalid Text Animation Type: " + stringVal);
+                LogHandler.LogError($"Invalid Text Animation Type: {stringVal}");
                 result = TextAnimationType.None;
             }
             return result;
@@ -183,25 +247,29 @@ namespace DialogueSystem.Runtime.Utility
     }
     public class DialogueCommand
     {
-        public int Position;
         public DialogueCommandType Type;
+        public int Position;
+        
         public float FloatValue;
-        public string StringValue;
         public TextAnimationType TextAnimValue;
-        public string DisplayedEmotionName;
+        public Emotion EmotionValue;
+        
+        public bool MustExecute;
+        
     }
 
     public enum DialogueCommandType
     {
-        Pause,
-        TextSpeedChange,
-        Value,
-        AnimStart,
-        AnimEnd,
-        DisplayedEmotion,
-        InteractionPause,
-        Music,
-        SoundEffect
+        Pause, //ignorable
+        TextSpeedChange, //ignorable
+        AnimStart, //ignorable
+        AnimEnd, //ignorable
+        DisplayedEmotion, //must execute //TODO: adapt with reactions of other characters
+        Interaction, //must execute
+        MusicStart, //must execute
+        MusicEnd, //must execute
+        SoundEffect, //ignorable
+        CameraShake //ignorable
     }
 
     public enum TextAnimationType

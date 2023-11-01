@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using DialogueSystem.Data;
+﻿using DialogueSystem.Data;
 using DialogueSystem.Runtime.Narration;
 using UnityEngine;
 
@@ -28,11 +27,7 @@ namespace DialogueSystem.Runtime.Interaction
             ShowHint();
         }
 
-        private void Awake()
-        {
-            _hintNull = hint == null;
-            DialogueVariables.Instance.AddDialogueVariable("cost", 1.5f);
-        }
+        private void Awake() => _hintNull = hint == null;
 
         public void Interact()
         {

@@ -16,7 +16,7 @@ namespace Scene
             #endregion
         }
 
-        private void PlaySound(AudioClip sound, AudioSource source = null)
+        public void PlaySound(AudioClip sound, AudioSource source = null)
         {
             if (source == null) source = effectSource;
         
@@ -38,10 +38,13 @@ namespace Scene
             PlaySound(sound);
         }
 
-        public void PlaySoundAtPitch(AudioClip speakingSound, float behaviourSpeakingSoundPitch)
+        public void PlaySoundAtPitch(AudioClip speakingSound, float pitch)
         {
-            pitchedSource.pitch = behaviourSpeakingSoundPitch;
+            pitchedSource.pitch = pitch;
             PlaySound(speakingSound, pitchedSource);
         }
+        
+        public void ChangePitchSource(float pitch) => pitchedSource.pitch = pitch;
+        public void PlaySoundAtPitchSource(AudioClip sound) => PlaySound(sound, pitchedSource);
     }
 }

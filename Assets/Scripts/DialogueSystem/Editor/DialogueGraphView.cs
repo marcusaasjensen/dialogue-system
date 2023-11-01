@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DialogueSystem.Runtime;
 using DialogueSystem.Runtime.Narration;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -65,9 +64,9 @@ namespace DialogueSystem.Editor
             return node;
         }
 
-        public void CreateNode(string nodeName) => AddElement(CreateDialogueNode(nodeName, new List<Message>()));
+        public void CreateNode(string nodeName) => AddElement(CreateMultipleChoiceNode(nodeName, new List<DialogueMessage>()));
 
-        public DialogueNode CreateDialogueNode(string nodeName, List<Message> messages, bool disableOptions = false)
+        public DialogueNode CreateMultipleChoiceNode(string nodeName, List<DialogueMessage> messages, bool disableOptions = false)
         {
             var dialogueNode = new DialogueNode
             {
@@ -177,13 +176,13 @@ namespace DialogueSystem.Editor
             RefreshNode(dialogueNode);
         }
 
-        public void CreateTransitionNode(string transitionNode) => AddElement(CreateDialogueTransitionNode(transitionNode, new List<Message>()));
+        public void CreateSimpleDialogueNode(string simpleNode) => AddElement(CreateSimpleDialogueNode(simpleNode, new List<DialogueMessage>()));
 
-        public DialogueNode CreateDialogueTransitionNode(string transitionNode, List<Message> messages, bool isCheckpoint = false)
+        public DialogueNode CreateSimpleDialogueNode(string simpleNode, List<DialogueMessage> messages, bool isCheckpoint = false)
         {
             var dialogueNode = new DialogueNode
             {
-                title = transitionNode,
+                title = simpleNode,
                 Messages = messages,
                 GUID = Guid.NewGuid().ToString(),
                 TransitionNode = true,

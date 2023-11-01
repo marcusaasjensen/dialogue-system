@@ -9,7 +9,7 @@ namespace DialogueSystem.Runtime.Utility
 {
     public class NarrativeLoader : MonoBehaviour
     {
-        [SerializeField] private DialogueContainer narrativeToLoad;
+        [HideInInspector][SerializeField] private DialogueContainer narrativeToLoad;
 
         private const string MissingReferenceError = "Narrative's reference missing.";
         private const string MissingReferenceHint = "Hint: if you have made any changes to your current narrative, do not forget to set up its new reference in the NarrativeLoader component!";
@@ -34,8 +34,8 @@ namespace DialogueSystem.Runtime.Utility
             }
         
             LogHandler.Log($"Narrative loaded: {narrativeToLoad}", LogHandler.Color.Blue);
-
-            var loadedNarrative = new Narrative(narrativeToLoad.Speakers);
+            
+            var loadedNarrative = new Narrative(narrativeToLoad.characters);
 
             var entryNode = narrativeToLoad.dialogueNodeData.Find(node => node.EntryPoint);
             CreateNodesFromEntryNode(entryNode, loadedNarrative);
@@ -60,12 +60,12 @@ namespace DialogueSystem.Runtime.Utility
 
             if (sameExistingNode != null) return sameExistingNode;
 
-            var dialogue = new List<Message>(node.Dialogue);
+            var dialogue = new List<DialogueMessage>(node.Dialogue);
 
             return node.TransitionNode ? CreateTransitionNode(node, narrative, dialogue) : CreateChoiceNode(node, narrative, dialogue);
         }
 
-        private NarrativeNode CreateChoiceNode(DialogueNodeData node, Narrative narrative, List<Message> dialogue)
+        private NarrativeNode CreateChoiceNode(DialogueNodeData node, Narrative narrative, List<DialogueMessage> dialogue)
         {
             var choiceNode = new NarrativeNode(dialogue, node.Guid, node.DisableAlreadyChosenOptions);
 
@@ -82,7 +82,7 @@ namespace DialogueSystem.Runtime.Utility
             return choiceNode;
         }
 
-        private NarrativeNode CreateTransitionNode(DialogueNodeData node, Narrative narrative, List<Message> dialogue)
+        private NarrativeNode CreateTransitionNode(DialogueNodeData node, Narrative narrative, List<DialogueMessage> dialogue)
         {
             var nextPath = narrativeToLoad.nodeLinks.Find(x => x.BaseNodeGuid == node.Guid);
 

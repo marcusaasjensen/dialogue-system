@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10a856104a895dc44bad575fdc4d698b, type: 3}
-  m_Name: DefaultSpeakerScriptableObject
+  m_Name: DefaultCharacterScriptableObject
   m_EditorClassIdentifier: 
   characterName: 
-  SpeakingSound: {fileID: 8300000, guid: 58c072d9f1ada574880345dc26bebfea, type: 3}
+  speakingSound: {fileID: 8300000, guid: 58c072d9f1ada574880345dc26bebfea, type: 3}
   defaultBehaviour:
     emotionLabel: 0
     emotionSound: {fileID: 8300000, guid: 71e97a95dee493e4ab7bc23ed0562223, type: 3}
-    SpeakingSoundPitch: 1.294
+    speakingSoundPitch: 1
     characterFace: {fileID: 0}
   narrativeBehaviours: []

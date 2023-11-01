@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,27 +13,37 @@ namespace DialogueSystem.Data
         private const string ResourcesPath = "Dialogue";
         private const string FileName = "DialogueVariables";
     
-        [SerializeField] private List<string> variableNames = new();
-        [SerializeField] private List<string> variableValues = new();
-
+        [SerializeField] private List<string> variableNames;
+        [SerializeField] private List<string> variableValues;
+        
         public static DialogueVariables Instance
         {
             get
             {
                 if (_instance != null) return _instance;
-                _instance = Resources.Load<DialogueVariables>(ResourcesPath);
-
+                
+                var fileResourcePath = $"{ResourcesPath}/{FileName}";
+                
+                _instance = Resources.Load<DialogueVariables>($"{fileResourcePath}");
+                
                 if (_instance != null) return _instance;
                 _instance = CreateInstance<DialogueVariables>();
             
-                var assetPath = $"{PathToResources}/{ResourcesPath}/{FileName}.asset";
 
-                if (!AssetDatabase.IsValidFolder($"{PathToResources}/{ResourcesPath}"))
+                var pathToResources = $"{PathToResources}/{ResourcesPath}";
+                
+                if (!AssetDatabase.IsValidFolder($"{pathToResources}"))
                 {
-                    Directory.CreateDirectory($"{PathToResources}/{ResourcesPath}");
+                    Directory.CreateDirectory($"{pathToResources}");
                 }
 
+                var assetPath = $"{PathToResources}/{fileResourcePath}.asset";
+                
                 AssetDatabase.CreateAsset(_instance, assetPath);
+                
+                _instance.variableNames = new List<string>();
+                _instance.variableValues = new List<string>();
+                
                 AssetDatabase.SaveAssets();
 
                 return _instance;

@@ -68,7 +68,12 @@ namespace DialogueSystem.Editor
                     DisableAlreadyChosenOptions = dialogueNode.DisableAlreadyChosenOptions
                 });
             }
+            
+            dialogueContainer.characters = new List<CharacterData>();
 
+            _containerCache = Resources.Load<DialogueContainer>($"{ResourcesPath}/{fileName}");
+            if(_containerCache) _containerCache.characters.ForEach(character => dialogueContainer.characters.Add(character));
+            
             if (!AssetDatabase.IsValidFolder($"{PathToResources}/{ResourcesPath}"))
                 Directory.CreateDirectory($"{PathToResources}/{ResourcesPath}");
         
@@ -128,8 +133,8 @@ namespace DialogueSystem.Editor
                 if (nodeData.EntryPoint) continue;
             
                 var tempNode =  nodeData.TransitionNode 
-                    ? _targetGraphView.CreateDialogueTransitionNode("Transition Node", nodeData.Dialogue, nodeData.IsCheckpoint)
-                    : _targetGraphView.CreateDialogueNode("Multiple Choice Node", nodeData.Dialogue, nodeData.DisableAlreadyChosenOptions);
+                    ? _targetGraphView.CreateSimpleDialogueNode("Transition Node", nodeData.Dialogue, nodeData.IsCheckpoint)
+                    : _targetGraphView.CreateMultipleChoiceNode("Multiple Choice Node", nodeData.Dialogue, nodeData.DisableAlreadyChosenOptions);
                 tempNode.GUID = nodeData.Guid;
             
                 tempNode.SetPosition(new Rect(nodeData.Position, _targetGraphView.DefaultNodeSize));
