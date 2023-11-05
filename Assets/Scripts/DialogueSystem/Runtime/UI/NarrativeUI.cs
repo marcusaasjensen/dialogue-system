@@ -122,10 +122,10 @@ namespace DialogueSystem.Runtime.UI
             speakerNameText.maxVisibleCharacters = hide ? 0 : int.MaxValue;
         }
     
-        public void DisplayDialogueBubble(string speakerName, Sprite characterFace, bool hideCharacter)
+        public void DisplayDialogueBubble(DialogueMessage messageData, Sprite characterFace)
         {
-            DisplaySpeakerName(speakerName, hideCharacter);
-            DisplaySpeakerSprite(characterFace, hideCharacter);
+            DisplaySpeakerName(messageData.CharacterName, messageData.HideCharacter);
+            DisplaySpeakerSprite(characterFace, messageData.HideCharacter);
         }
 
         public void DisplayMessage(string text)

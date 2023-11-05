@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Scene
 {
     public class AudioManager : MonoBehaviour
     {
-        [SerializeField] private AudioSource musicSource, effectSource, pitchedSource;
+        [SerializeField] private AudioSource musicSource, effectSource;
         public static AudioManager Instance { get; private set; }
 
         private void Awake()
@@ -29,22 +28,5 @@ namespace Scene
             if (music != null)
                 musicSource.PlayOneShot(music);
         }
-
-        public void PlaySoundAfterDelay(AudioClip sound, float delay) => StartCoroutine(PlaySoundAfterDelayCoroutine(sound, delay));
-
-        private IEnumerator PlaySoundAfterDelayCoroutine(AudioClip sound, float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            PlaySound(sound);
-        }
-
-        public void PlaySoundAtPitch(AudioClip speakingSound, float pitch)
-        {
-            pitchedSource.pitch = pitch;
-            PlaySound(speakingSound, pitchedSource);
-        }
-        
-        public void ChangePitchSource(float pitch) => pitchedSource.pitch = pitch;
-        public void PlaySoundAtPitchSource(AudioClip sound) => PlaySound(sound, pitchedSource);
     }
 }

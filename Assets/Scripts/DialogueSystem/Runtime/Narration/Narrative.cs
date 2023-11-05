@@ -17,7 +17,7 @@ namespace DialogueSystem.Runtime.Narration
     
         public void AddNarrativeNode(NarrativeNode node) => NarrativeNodes.Add(node);
     
-        public CharacterData GetCharacter(string characterName) => Characters.Find(character => character.characterName == characterName);
+        public CharacterData FindCharacter(string characterName) => Characters.Find(character => character.characterName == characterName);
         
         public NarrativeNode FindStartNodeFromPath(string pathID)
         {

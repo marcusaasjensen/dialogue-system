@@ -13,9 +13,13 @@ namespace DialogueSystem.Data
 
         public CharacterNarrativeBehaviour GetBehaviourByEmotion(Emotion fromEmotion)
         {
+            if(fromEmotion == Emotion.Default)
+                return defaultBehaviour;
+            
             var speakerBehaviour =
                 narrativeBehaviours.Find(emotion => emotion.emotionLabel == fromEmotion)
                 ?? defaultBehaviour;
+            
             return speakerBehaviour;
         }
     }

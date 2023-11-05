@@ -161,7 +161,7 @@ MonoBehaviour:
     DisableAlreadyChosenOptions: 0
   pathToCheckpoint: 
   isNarrativeEndReached: 0
-  startFromPreviousNarrativePath: 1
+  startFromPreviousNarrativePath: 0
   characters:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using DialogueSystem.Runtime.Utility;
-using Scene;
 using TMPro;
 using UnityEngine;
 
@@ -9,83 +8,81 @@ namespace DialogueSystem.Runtime.UI
 {
     public class TextTyper : MonoBehaviour
     {
-        [SerializeField] private float defaultSpeed = 0.05f;
+        [SerializeField] private float defaultTyperPace = 0.05f;
         
         public int TyperPosition { get; private set; }
         public bool IsTyping { get; private set; }
         public bool IsPaused { get; private set; }
+        public float TyperPace { get; private set; }
+        public float DefaultTyperPace => defaultTyperPace;
         
         public event Action OnTypingStart;
+        public event Action OnTypingEnd;
 
         private Coroutine _typeTextCoroutine;
-        private float _currentSpeed;
-        private AudioClip _typerSound;
-        private float _typerPitch;
-        private const char SpaceCharacter = ' ';
+        
 
-        private void Awake() => _currentSpeed = defaultSpeed;
+        private void Awake() => TyperPace = defaultTyperPace;
         
         public void TypeText(string text, TextMeshProUGUI textContainer)
         {
-            _currentSpeed = defaultSpeed;
+            TyperPace = defaultTyperPace;
             var plainText = DialogueParser.RemoveSimpleTextTags(text);
             if(_typeTextCoroutine != null) StopCoroutine(_typeTextCoroutine);
-            _typeTextCoroutine = StartCoroutine(TypeTextCoroutine(plainText, textContainer));
+            _typeTextCoroutine = StartCoroutine(TypeTextCoroutine(textContainer, plainText.Length));
         }
 
-        private IEnumerator TypeTextCoroutine(string text, TMP_Text textContainer)
+        private void StartTyping()
         {
             TyperPosition = 0;
             IsTyping = true;
-            
             OnTypingStart?.Invoke();
+        }
+
+        private IEnumerator TypeTextCoroutine(TMP_Text textContainer, int textLength)
+        {
+            StartTyping();
             
             textContainer.ForceMeshUpdate();
 
             textContainer.maxVisibleCharacters = 0;
 
-            var currentDelay = 0.0f;
+            var currentPace = 0.0f;
 
-            for (var i = 0; i < text.Length; i++)
+            for (var i = 0; i < textLength; i++)
             {
                 yield return new WaitUntil(() => IsPaused == false);
-                TyperPosition = i; //++ ??
                 
-                var c = text[i];
-                // REPLACE WITH TALKING CONTROLLER THAT LOOPS WHEN THE TYPER IS TYPING AND NOT PAUSED 
-                if (c == SpaceCharacter || currentDelay != 0)
-                {
-                    yield return new WaitForSeconds(currentDelay);
-                    AudioManager.Instance.PlaySoundAtPitch(_typerSound, _typerPitch);
-                }
-                ////////////////////////////
-                currentDelay = _currentSpeed;
+                TyperPosition = i;
+                
+                if (currentPace != 0) yield return new WaitForSeconds(currentPace);
+
+                currentPace = TyperPace;
+                
                 textContainer.maxVisibleCharacters++;
             }
 
             FinishTyping();
-        }
+        } 
 
         public void FinishTyping()
         {
             if (_typeTextCoroutine == null) return;
             StopCoroutine(_typeTextCoroutine);
             ResetTyper();
+            OnTypingEnd?.Invoke();
         }
 
-        private void ResetTyper()
+        public void ResetTyper()
         {
             IsPaused = false;
             IsTyping = false;
             TyperPosition = 0;
+            TyperPace = defaultTyperPace;
         }
 
-        public void SetTypingSound(AudioClip sound) => _typerSound = sound;
-        public void ChangePitch(float pitch) => _typerPitch = pitch;
-        public void ChangeSpeed(float textSpeed) => _currentSpeed = textSpeed;
-        public void ResetSpeed() => _currentSpeed = defaultSpeed;
+        public void ChangeSpeed(float textSpeed) => TyperPace = textSpeed >= 0 ? textSpeed : defaultTyperPace;
         public void Pause(float floatValue) => StartCoroutine(PauseCoroutine(floatValue));
-        //public void PauseUntil(Event evt) => StartCoroutine(PauseUntilCoroutine(evt));
         
         private IEnumerator PauseCoroutine(float timeToWait)
         {

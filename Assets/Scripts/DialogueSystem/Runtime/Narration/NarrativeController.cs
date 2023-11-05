@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DialogueSystem.Data;
+using DialogueSystem.Runtime.Audio;
 using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace DialogueSystem.Runtime.Narration
     public class NarrativeController : MonoBehaviour
     {
         [SerializeField] private NarrativeUI narrativeUI;
+        [SerializeField] private CharacterSpeaker characterSpeaker;
         [SerializeField] private NarrativeLoader narrativeLoader;
         [SerializeField] private DialogueCommandHandler commandHandler;
         
@@ -116,7 +118,7 @@ namespace DialogueSystem.Runtime.Narration
             }
 
             _currentDialogueMessage = _narrativeQueue.Dequeue();
-            ContinueToNextMessage(_currentDialogueMessage);
+            ShowNextMessage(_currentDialogueMessage);
         }
 
         private void SkipCurrentMessage()
@@ -155,25 +157,25 @@ namespace DialogueSystem.Runtime.Narration
             narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, _currentNarrative.DisableAlreadyChosenOptions, ChooseNarrativePath);
         }
         
-        private CharacterData GetCharacterFromMessage(DialogueMessage dialogueMessage)
+        private CharacterData GetCharacter(string characterName)
         {
-            var character = _narrative.GetCharacter(dialogueMessage.CharacterName);
+            var character = _narrative.FindCharacter(characterName);
             return character ? character : defaultCharacterData;
         }
 
-        private void ContinueToNextMessage(DialogueMessage nextDialogueMessage)
+        private void ShowNextMessage(DialogueMessage nextDialogueMessage)
         {
-            var currentSpeakerData = GetCharacterFromMessage(nextDialogueMessage);
+            var currentSpeakerData = GetCharacter(nextDialogueMessage.CharacterName);
             
             //Gather message commands and data
             commandHandler.GatherCommandData(nextDialogueMessage, currentSpeakerData);
-            var message = commandHandler.ParseDialogueCommands(nextDialogueMessage.Content);
+            commandHandler.ExecuteDefaultCommands();
             
-            //Display message ui
-            //Repetitive code, move this to dialogueCommandHandler?
-            narrativeUI.DisplayDialogueBubble(nextDialogueMessage.CharacterName, currentSpeakerData.defaultBehaviour.characterFace, nextDialogueMessage.HideCharacter);
-            narrativeUI.DisplayMessage(message);
-            //TALKER.TALK(currentSpeaker);
+            var messageWithoutCommands = commandHandler.ParseDialogueCommands(nextDialogueMessage.Content);
+            
+            //Display dialogue ui
+            narrativeUI.DisplayDialogueBubble(nextDialogueMessage, currentSpeakerData.defaultBehaviour.characterFace);
+            narrativeUI.DisplayMessage(messageWithoutCommands);
         }
 
         private void ChooseNarrativePath(int choiceIndex)
@@ -196,8 +198,22 @@ namespace DialogueSystem.Runtime.Narration
             FinishDialogue();
         }
 
-        private void SetupNarrativeEvents() => narrativeUI.OnMessageEnd += ContinueToChoiceAutomatically;
-        private void UnsetNarrativeEvents() => narrativeUI.OnMessageEnd -= ContinueToChoiceAutomatically;
+        private void StopVoice()
+        {
+            characterSpeaker.StopSpeaking();
+        }
+
+        private void SetupNarrativeEvents()
+        {
+            narrativeUI.OnMessageEnd += ContinueToChoiceAutomatically;
+            narrativeUI.OnMessageEnd += StopVoice;
+        }
+
+        private void UnsetNarrativeEvents()
+        {
+            narrativeUI.OnMessageEnd -= ContinueToChoiceAutomatically;
+            narrativeUI.OnMessageEnd -= StopVoice;
+        }
 
         private void FinishAtCheckpoint()
         {

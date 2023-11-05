@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DialogueSystem.Data;
+using DialogueSystem.Runtime.Audio;
 using DialogueSystem.Runtime.Narration;
 using DialogueSystem.Runtime.UI;
 using Scene;
@@ -12,14 +13,17 @@ namespace DialogueSystem.Runtime.Utility
     {
         [SerializeField] private TextTyper textTyper;
         [SerializeField] private NarrativeUI narrativeUI;
-        //REF OF TALKER TO CHANGE PITCH AND CADENCE OF SPEAKING
+        [SerializeField] private CharacterSpeaker characterSpeaker;
 
         private Queue<DialogueCommand> _commandQueue = new();
         private CharacterData _currentCharacterData;
         private DialogueMessage _currentDialogueMessage;
 
-        private void Awake() => textTyper.OnTypingStart += HandleDialogueCommands;
-        
+        private void Awake()
+        {
+            textTyper.OnTypingStart += HandleDialogueCommands;
+        }
+
         public string ParseDialogueCommands(string message)
         {
             var commandList = DialogueParser.ProcessInputString(message, out var processedMessageWithTextTags);
@@ -32,10 +36,14 @@ namespace DialogueSystem.Runtime.Utility
         {
             _currentCharacterData = characterDataData;
             _currentDialogueMessage = dialogueMessage;
-            
-            textTyper.ResetSpeed(); //TODO: make talker class that can adapt depending on the speed of the typer or just with a certain cadence
-            textTyper.SetTypingSound(_currentCharacterData.speakingSound);
-            textTyper.ChangePitch(_currentCharacterData.defaultBehaviour.speakingSoundPitch);
+        }
+        
+        public void ExecuteDefaultCommands()
+        {
+            textTyper.ResetTyper();
+            characterSpeaker.ChangeVoice(_currentCharacterData.speakingSound);
+            characterSpeaker.ChangePitch(_currentCharacterData.defaultBehaviour.speakingSoundPitch);
+            ExecuteSpeedCommand();
         }
 
         private void HandleDialogueCommands() => StartCoroutine(HandleDialogueCommandsCoroutine());
@@ -92,16 +100,24 @@ namespace DialogueSystem.Runtime.Utility
             }
         }
 
-        private void ExecuteSpeedCommand(float newSpeed) => textTyper.ChangeSpeed(newSpeed);
-        private void ExecutePauseCommand(float pauseDuration) => textTyper.Pause(pauseDuration);
+        private void ExecuteSpeedCommand(float newSpeed = -1)
+        {
+            textTyper.ChangeSpeed(newSpeed);
+        }
+
+        private void ExecutePauseCommand(float pauseDuration)
+        {
+            textTyper.Pause(pauseDuration);
+        }
+
         private void ExecuteEmotionCommand(Emotion emotion)
         {
             var characterEmotionBehaviour = _currentCharacterData.GetBehaviourByEmotion(emotion);
 
             narrativeUI.DisplaySpeakerSprite(characterEmotionBehaviour.characterFace);
             
-            AudioManager.Instance.PlaySound(characterEmotionBehaviour.emotionSound);
-            textTyper.ChangePitch(characterEmotionBehaviour.speakingSoundPitch);
+            characterSpeaker.React(characterEmotionBehaviour.emotionSound);
+            characterSpeaker.ChangePitch(characterEmotionBehaviour.speakingSoundPitch);
             // Also animate speaker to their emotion
         }
 
