@@ -37,7 +37,7 @@ namespace DialogueSystem.Runtime.Narration
                     continue;
                 }
             
-                if (node.IsTransitionNode())
+                if (node.IsSimpleNode())
                 {
                     node = node.DefaultPath;
                     continue;

@@ -1,10 +1,9 @@
 ﻿using System;
 using UnityEngine;
-
 namespace DialogueSystem.Data
 {
      [Serializable]
-     public class CharacterNarrativeBehaviour
+     public class CharacterState
      {
           public Emotion emotionLabel;
           public AudioClip emotionSound;

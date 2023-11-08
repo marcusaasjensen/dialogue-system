@@ -64,7 +64,7 @@ namespace DialogueSystem.Runtime.Utility
             var result = new List<DialogueCommand>();
             processedMessage = message;
 
-            processedMessage = HandleValueTags(processedMessage, result);
+            processedMessage = HandleValueTags(processedMessage);
             processedMessage = HandlePauseTags(processedMessage, result);
             processedMessage = HandleSpeedTags(processedMessage, result);
             processedMessage = HandleEmotionTags(processedMessage, result);
@@ -95,7 +95,7 @@ namespace DialogueSystem.Runtime.Utility
             return processedMessage;
         }
 
-        private static string HandleValueTags(string processedMessage, List<DialogueCommand> result)
+        private static string HandleValueTags(string processedMessage)
         {
             var valueMatches = ValueRegex.Matches(processedMessage);
         
@@ -255,7 +255,6 @@ namespace DialogueSystem.Runtime.Utility
         public Emotion EmotionValue;
         
         public bool MustExecute;
-        
     }
 
     public enum DialogueCommandType

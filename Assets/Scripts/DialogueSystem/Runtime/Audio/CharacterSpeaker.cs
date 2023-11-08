@@ -18,10 +18,7 @@ namespace DialogueSystem.Runtime.Audio
             textTyper.OnTypingEnd += StopSpeaking;
         }
 
-        private void Speak()
-        {
-            StartCoroutine(SpeakCoroutine());
-        }
+        private void Speak() => StartCoroutine(SpeakCoroutine());
         
         public void ChangePitch(float newPitch) => speakingAudioSource.pitch = newPitch;
         public void React(AudioClip reactionClip) => reactionAudioSource.PlayOneShot(reactionClip);
@@ -42,7 +39,7 @@ namespace DialogueSystem.Runtime.Audio
                 yield return new WaitUntil(() => textTyper.IsPaused == false);
             }
         }
-        
-        public void StopSpeaking() => StopAllCoroutines();
+
+        private void StopSpeaking() => StopAllCoroutines();
     }
 }

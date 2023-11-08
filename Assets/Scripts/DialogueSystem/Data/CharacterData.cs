@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace DialogueSystem.Data
 {
@@ -8,19 +9,19 @@ namespace DialogueSystem.Data
     {
         public string characterName;
         public AudioClip speakingSound;
-        public CharacterNarrativeBehaviour defaultBehaviour;
-        public List<CharacterNarrativeBehaviour> narrativeBehaviours;
+        [FormerlySerializedAs("defaultBehaviour")] public CharacterState defaultState;
+        [FormerlySerializedAs("narrativeBehaviours")] public List<CharacterState> states;
 
-        public CharacterNarrativeBehaviour GetBehaviourByEmotion(Emotion fromEmotion)
+        public CharacterState GetState(Emotion fromEmotion)
         {
             if(fromEmotion == Emotion.Default)
-                return defaultBehaviour;
+                return defaultState;
             
-            var speakerBehaviour =
-                narrativeBehaviours.Find(emotion => emotion.emotionLabel == fromEmotion)
-                ?? defaultBehaviour;
+            var state =
+                states.Find(emotion => emotion.emotionLabel == fromEmotion)
+                ?? defaultState;
             
-            return speakerBehaviour;
+            return state;
         }
     }
 }

@@ -19,10 +19,7 @@ namespace DialogueSystem.Runtime.Utility
         private CharacterData _currentCharacterData;
         private DialogueMessage _currentDialogueMessage;
 
-        private void Awake()
-        {
-            textTyper.OnTypingStart += HandleDialogueCommands;
-        }
+        private void Awake() => narrativeUI.OnMessageStart += HandleDialogueCommands;
 
         public string ParseDialogueCommands(string message)
         {
@@ -42,7 +39,7 @@ namespace DialogueSystem.Runtime.Utility
         {
             textTyper.ResetTyper();
             characterSpeaker.ChangeVoice(_currentCharacterData.speakingSound);
-            characterSpeaker.ChangePitch(_currentCharacterData.defaultBehaviour.speakingSoundPitch);
+            characterSpeaker.ChangePitch(_currentCharacterData.defaultState.speakingSoundPitch);
             ExecuteSpeedCommand();
         }
 
@@ -87,7 +84,7 @@ namespace DialogueSystem.Runtime.Utility
                 case DialogueCommandType.AnimStart:
                 case DialogueCommandType.AnimEnd:
                 case DialogueCommandType.DisplayedEmotion:
-                    ExecuteEmotionCommand(command.EmotionValue);
+                    ExecuteStateCommand(command.EmotionValue);
                     break;
                 case DialogueCommandType.Interaction:
                 case DialogueCommandType.MusicStart:
@@ -100,24 +97,15 @@ namespace DialogueSystem.Runtime.Utility
             }
         }
 
-        private void ExecuteSpeedCommand(float newSpeed = -1)
+        private void ExecuteSpeedCommand(float newSpeed = -1) => textTyper.ChangeSpeed(newSpeed);
+        private void ExecutePauseCommand(float pauseDuration) => textTyper.Pause(pauseDuration);
+        private void ExecuteStateCommand(Emotion emotion)
         {
-            textTyper.ChangeSpeed(newSpeed);
-        }
+            var characterState = _currentCharacterData.GetState(emotion);
 
-        private void ExecutePauseCommand(float pauseDuration)
-        {
-            textTyper.Pause(pauseDuration);
-        }
-
-        private void ExecuteEmotionCommand(Emotion emotion)
-        {
-            var characterEmotionBehaviour = _currentCharacterData.GetBehaviourByEmotion(emotion);
-
-            narrativeUI.DisplaySpeakerSprite(characterEmotionBehaviour.characterFace);
-            
-            characterSpeaker.React(characterEmotionBehaviour.emotionSound);
-            characterSpeaker.ChangePitch(characterEmotionBehaviour.speakingSoundPitch);
+            narrativeUI.DisplayCharacterSprite(characterState.characterFace);
+            characterSpeaker.React(characterState.emotionSound);
+            characterSpeaker.ChangePitch(characterState.speakingSoundPitch);
             // Also animate speaker to their emotion
         }
 

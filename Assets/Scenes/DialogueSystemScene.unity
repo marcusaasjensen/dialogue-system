@@ -1837,7 +1837,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1878870124}
   effectSource: {fileID: 1878870121}
-  pitchedSource: {fileID: 1878870125}
 --- !u!4 &1878870123
 Transform:
   m_ObjectHideFlags: 0
@@ -2184,10 +2183,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   narrativeUI: {fileID: 1138724647}
-  characterSpeaker: {fileID: 2089170442}
   narrativeLoader: {fileID: 2089170439}
   commandHandler: {fileID: 2089170441}
-  displayChoicesAutomatically: 1
   resetNarrativeOnLoad: 0
   defaultCharacterData: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
 --- !u!114 &2089170441

@@ -20,7 +20,6 @@ namespace DialogueSystem.Runtime.UI
         public event Action OnTypingEnd;
 
         private Coroutine _typeTextCoroutine;
-        
 
         private void Awake() => TyperPace = defaultTyperPace;
         
@@ -28,6 +27,7 @@ namespace DialogueSystem.Runtime.UI
         {
             TyperPace = defaultTyperPace;
             var plainText = DialogueParser.RemoveSimpleTextTags(text);
+            
             if(_typeTextCoroutine != null) StopCoroutine(_typeTextCoroutine);
             _typeTextCoroutine = StartCoroutine(TypeTextCoroutine(textContainer, plainText.Length));
         }

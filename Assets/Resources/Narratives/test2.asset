@@ -184,7 +184,7 @@ MonoBehaviour:
     EntryPoint: 0
     IsCheckpoint: 1
     DisableAlreadyChosenOptions: 0
-  pathToCheckpoint: 
+  pathToCheckpoint: 00.
   isNarrativeEndReached: 0
-  startFromPreviousNarrativePath: 1
+  startFromPreviousNarrativePath: 0
   characters: []

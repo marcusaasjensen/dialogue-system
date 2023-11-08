@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using DialogueSystem.Data;
-using DialogueSystem.Runtime.Audio;
 using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utility;
 
 namespace DialogueSystem.Runtime.Narration
@@ -12,15 +10,13 @@ namespace DialogueSystem.Runtime.Narration
     public class NarrativeController : MonoBehaviour
     {
         [SerializeField] private NarrativeUI narrativeUI;
-        [SerializeField] private CharacterSpeaker characterSpeaker;
         [SerializeField] private NarrativeLoader narrativeLoader;
         [SerializeField] private DialogueCommandHandler commandHandler;
         
         [Header("Options")]
-        [SerializeField] private bool displayChoicesAutomatically = true;
         [SerializeField] private bool resetNarrativeOnLoad;
         
-        [FormerlySerializedAs("defaultSpeaker")] [Space, Header("Default Values"), SerializeField]
+        [Space, Header("Default Values"), SerializeField]
         private CharacterData defaultCharacterData;
 
         private string NarrativePathID { get; set; }
@@ -73,8 +69,8 @@ namespace DialogueSystem.Runtime.Narration
 
         private void ContinueToChoiceAutomatically()
         {
-            var continueAutomatically = displayChoicesAutomatically && _narrativeQueue.Count == 0 && 
-                                        (_currentNarrative.HasNextChoice() || _currentNarrative.HasChoiceAfterTransition() 
+            var continueAutomatically = _narrativeQueue.Count == 0 && 
+                                        (_currentNarrative.HasNextChoice() || _currentNarrative.HasChoiceAfterSimpleNode() 
                                             && !_currentNarrative.IsCheckpoint);
         
             if (!continueAutomatically) return;
@@ -135,7 +131,7 @@ namespace DialogueSystem.Runtime.Narration
                 return;
             }
         
-            if (_currentNarrative.IsTransitionNode())
+            if (_currentNarrative.IsSimpleNode())
             {
                 StartNewDialogue(_currentNarrative.DefaultPath);
                 return;
@@ -174,13 +170,12 @@ namespace DialogueSystem.Runtime.Narration
             var messageWithoutCommands = commandHandler.ParseDialogueCommands(nextDialogueMessage.Content);
             
             //Display dialogue ui
-            narrativeUI.DisplayDialogueBubble(nextDialogueMessage, currentSpeakerData.defaultBehaviour.characterFace);
+            narrativeUI.DisplayDialogueBubble(nextDialogueMessage, currentSpeakerData.defaultState.characterFace);
             narrativeUI.DisplayMessage(messageWithoutCommands);
         }
 
         private void ChooseNarrativePath(int choiceIndex)
         {
-
             NarrativePathID += choiceIndex.ToString();
         
             UnsetNarrativeEvents();
@@ -198,21 +193,14 @@ namespace DialogueSystem.Runtime.Narration
             FinishDialogue();
         }
 
-        private void StopVoice()
-        {
-            characterSpeaker.StopSpeaking();
-        }
-
         private void SetupNarrativeEvents()
         {
             narrativeUI.OnMessageEnd += ContinueToChoiceAutomatically;
-            narrativeUI.OnMessageEnd += StopVoice;
         }
 
         private void UnsetNarrativeEvents()
         {
             narrativeUI.OnMessageEnd -= ContinueToChoiceAutomatically;
-            narrativeUI.OnMessageEnd -= StopVoice;
         }
 
         private void FinishAtCheckpoint()
