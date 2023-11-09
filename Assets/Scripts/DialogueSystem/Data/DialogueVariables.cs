@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,8 +12,9 @@ namespace DialogueSystem.Data
         private const string PathToResources = "Assets/Resources";
         private const string ResourcesPath = "Dialogue";
         private const string FileName = "DialogueVariables";
-        
-        private Dictionary<string, string> _variableDictionary = new(); 
+    
+        [SerializeField] private List<string> variableNames;
+        [SerializeField] private List<string> variableValues;
         
         public static DialogueVariables Instance
         {
@@ -41,31 +41,41 @@ namespace DialogueSystem.Data
                 
                 AssetDatabase.CreateAsset(_instance, assetPath);
                 
+                _instance.variableNames = new List<string>();
+                _instance.variableValues = new List<string>();
+                
                 AssetDatabase.SaveAssets();
 
                 return _instance;
             }
         }
 
-        public string GetValue(string variableName) => _variableDictionary[variableName];
+
+        public string GetValue(string variableName)
+        {
+            var index = variableNames.IndexOf(variableName);
+            return index >= 0 ? variableValues[index] : string.Empty;
+        }
 
         public void AddDialogueVariable<T>(string variableName, T value)
         {
-
-            if (_variableDictionary.ContainsKey(variableName))
+            var valueToString = value.ToString();
+            if (variableNames.Contains(variableName))
             {
-                ChangeDialogueVariable(variableName, value);
+                ChangeDialogueVariable(variableName, valueToString);
                 return;
             }
-            
-            _variableDictionary.Add(variableName, value.ToString());
+            variableNames.Add(variableName);
+            variableValues.Add(valueToString);
             SaveRuntimeData();
         }
 
         public void ChangeDialogueVariable<T>(string variableName, T newValue)
         {
-            if(_variableDictionary.ContainsKey(variableName))
-                _variableDictionary[variableName] = newValue.ToString();
+            var index = variableNames.IndexOf(variableName);
+        
+            if (index >= 0)
+                variableValues[index] = newValue.ToString();
             else
                 AddDialogueVariable(variableName, newValue);
             SaveRuntimeData();
