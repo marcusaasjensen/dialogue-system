@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using DialogueSystem.Runtime.CommandProcessor;
 using DialogueSystem.Runtime.Utility;
 using TMPro;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace DialogueSystem.Runtime.UI
         public void TypeText(string text, TextMeshProUGUI textContainer)
         {
             TyperPace = defaultTyperPace;
-            var plainText = DialogueParser.RemoveSimpleTextTags(text);
+            var plainText = DialogueCommandParser.RemoveSimpleTextTags(text);
             
             if(_typeTextCoroutine != null) StopCoroutine(_typeTextCoroutine);
             _typeTextCoroutine = StartCoroutine(TypeTextCoroutine(textContainer, plainText.Length));
@@ -81,7 +82,7 @@ namespace DialogueSystem.Runtime.UI
             TyperPace = defaultTyperPace;
         }
 
-        public void ChangeSpeed(float textSpeed) => TyperPace = textSpeed >= 0 ? textSpeed : defaultTyperPace;
+        public void ChangePace(float newPace) => TyperPace = newPace >= 0 ? newPace : defaultTyperPace;
         public void Pause(float floatValue) => StartCoroutine(PauseCoroutine(floatValue));
         
         private IEnumerator PauseCoroutine(float timeToWait)

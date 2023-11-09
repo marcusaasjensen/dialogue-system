@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using DialogueSystem.Data;
+using DialogueSystem.Runtime.CommandProcessor;
 using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utility;
 
 namespace DialogueSystem.Runtime.Narration
@@ -11,7 +13,7 @@ namespace DialogueSystem.Runtime.Narration
     {
         [SerializeField] private NarrativeUI narrativeUI;
         [SerializeField] private NarrativeLoader narrativeLoader;
-        [SerializeField] private DialogueCommandHandler commandHandler;
+        [FormerlySerializedAs("commandHandler")] [SerializeField] private CommandExecutionHandler commandExecutionHandler;
         
         [Header("Options")]
         [SerializeField] private bool resetNarrativeOnLoad;
@@ -120,7 +122,7 @@ namespace DialogueSystem.Runtime.Narration
         private void SkipCurrentMessage()
         {
             narrativeUI.DisplayAllMessage();
-            commandHandler.ExecuteAllCommands();
+            commandExecutionHandler.ExecuteAllCommands();
         }
 
         private void FindNextPath()
@@ -164,10 +166,10 @@ namespace DialogueSystem.Runtime.Narration
             var currentSpeakerData = GetCharacter(nextDialogueMessage.CharacterName);
             
             //Gather message commands and data
-            commandHandler.GatherCommandData(nextDialogueMessage, currentSpeakerData);
-            commandHandler.ExecuteDefaultCommands();
+            commandExecutionHandler.GatherCommandData(nextDialogueMessage, currentSpeakerData);
+            commandExecutionHandler.ExecuteDefaultCommands();
             
-            var messageWithoutCommands = commandHandler.ParseDialogueCommands(nextDialogueMessage.Content);
+            var messageWithoutCommands = commandExecutionHandler.ParseDialogueCommands(nextDialogueMessage.Content);
             
             //Display dialogue ui
             narrativeUI.DisplayDialogueBubble(nextDialogueMessage, currentSpeakerData.defaultState.characterFace);

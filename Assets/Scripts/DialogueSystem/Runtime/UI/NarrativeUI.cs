@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DialogueSystem.Runtime.CommandProcessor;
 using DialogueSystem.Runtime.Narration;
 using DialogueSystem.Runtime.Utility;
 using JetBrains.Annotations;
@@ -101,7 +102,7 @@ namespace DialogueSystem.Runtime.UI
                 newOptionButton.GetComponent<RectTransform>().localPosition = new Vector3(initialButtonXPosition + xOffset, initialButtonYPosition - yOffset,0);
 
                 var optionTextContainer = newOptionButton.transform.GetComponentInChildren<TextMeshProUGUI>();
-                DialogueParser.ProcessInputString(option.Text, out var processedMessageWithTags); //only process variable tags
+                DialogueCommandParser.Parse(option.Text, out var processedMessageWithTags); //only process variable tags
                 optionTextContainer.text = processedMessageWithTags;
 
                 var pathIndex = options.IndexOf(option);
