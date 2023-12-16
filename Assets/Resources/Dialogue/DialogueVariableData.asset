@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89028a3e253c40b190c5086a7b47f0fd, type: 3}
-  m_Name: DialogueVariables
+  m_Name: DialogueVariableData
   m_EditorClassIdentifier: 
   variableNames:
   - cost

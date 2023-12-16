@@ -51,7 +51,7 @@ MonoBehaviour:
   - Guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
     Dialogue:
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: I guess, everybody needs a friend.<p:long><sp:0,1>
+      <Content>k__BackingField: <music:playground>I guess, everybody needs a friend.<p:long><sp:0,1>
         <em:curious>Right?
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Shy
@@ -77,7 +77,7 @@ MonoBehaviour:
   - Guid: eceb53b7-9d18-4fa8-886b-396253d99edf
     Dialogue:
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: Oh... Sure.
+      <Content>k__BackingField: </music>Oh... Sure.
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: Me and my friends are playing some basketball. Do

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Utility;
 
 namespace Scene
 {
@@ -25,8 +26,20 @@ namespace Scene
 
         public void PlayMusic(AudioClip music)
         {
-            if (music != null)
-                musicSource.PlayOneShot(music);
+            if(musicSource.isPlaying)
+                musicSource.Stop();
+
+            if (music == null) return;
+            
+            LogHandler.Log($"Music playing: {music.name}", LogHandler.Color.Blue);
+            musicSource.PlayOneShot(music);
+        }
+        
+        public void StopMusic()
+        {
+            if (!musicSource.isPlaying) return;
+            LogHandler.Log($"Music stopped.", LogHandler.Color.Blue);
+            musicSource.Stop();
         }
     }
 }

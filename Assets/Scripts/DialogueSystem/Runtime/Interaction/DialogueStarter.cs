@@ -11,17 +11,10 @@ namespace DialogueSystem.Runtime.Interaction
         [SerializeField] private DialogueContainer narrativeScriptableObject;
         [SerializeField] private NarrativeController narrativeController;
      
-        [Header("Music")]
-        [SerializeField, CanBeNull] private AudioClip narrativeMusic;
-     
         private void Start() => StartDialogue();
         private void Update() => SkipDialogueWithSpaceBar();
      
-        private void StartDialogue()
-        {
-            AudioManager.Instance.PlayMusic(narrativeMusic);
-            narrativeController.BeginNarration(narrativeScriptableObject);
-        }
+        private void StartDialogue() => narrativeController.BeginNarration(narrativeScriptableObject);
      
         private void SkipDialogueWithSpaceBar()
         {

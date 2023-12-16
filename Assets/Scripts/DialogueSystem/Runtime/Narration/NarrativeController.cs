@@ -4,7 +4,7 @@ using DialogueSystem.Runtime.CommandProcessor;
 using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
-using Logger = Utility.Logger;
+using Utility;
 
 namespace DialogueSystem.Runtime.Narration
 {
@@ -39,7 +39,7 @@ namespace DialogueSystem.Runtime.Narration
 
             if (_narrative == null)
             {
-                Logger.LogError("Can't start narrative because the narrative was not loaded properly.");
+                LogHandler.Alert("Can't start narrative because the narrative was not loaded properly.");
                 return;
             }
         
@@ -93,7 +93,7 @@ namespace DialogueSystem.Runtime.Narration
             if (narrativeUI.IsMessageDisplaying())
             {
                 SkipCurrentMessage();
-                Logger.Log("Skip", Logger.Color.Yellow);
+                LogHandler.Log("Skip", LogHandler.Color.Yellow);
                 return;
             }
         
@@ -222,8 +222,8 @@ namespace DialogueSystem.Runtime.Narration
 
         private void LogResults()
         {
-            Logger.Log("Dialogue finished!", Logger.Color.Blue);
-            Logger.Log($"Final narrative path ID: {NarrativePathID}", Logger.Color.Blue);
+            LogHandler.Log("Dialogue finished!", LogHandler.Color.Blue);
+            LogHandler.Log($"Final narrative path ID: {NarrativePathID}", LogHandler.Color.Blue);
         }
     }
 }

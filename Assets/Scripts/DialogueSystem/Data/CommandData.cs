@@ -7,6 +7,7 @@
         public bool MustExecute;
         
         public float FloatValue;
+        public string StringValue;
         public TextAnimationType TextAnimValue;
         public Emotion EmotionValue;
     }

@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using DialogueSystem.Data;
 using UnityEngine;
 using Utility;
-using Logger = Utility.Logger;
 
 namespace DialogueSystem.Runtime.CommandProcessor
 {
@@ -15,18 +14,27 @@ namespace DialogueSystem.Runtime.CommandProcessor
     {
         // grab the remainder of the text until ">" or end of string
         private const string RemainderRegex = "(.*?((?=>)|(/|$)))";
+        
         private const string PauseRegexString = "<p:(?<pause>" + RemainderRegex + ")>";
         private static readonly Regex PauseRegex = new Regex(PauseRegexString);
         private const string SpeedRegexString = "<sp:(?<speed>" + RemainderRegex + ")>";
         private static readonly Regex SpeedRegex = new Regex(SpeedRegexString);
+        
         private const string ValueRegexString = "<val:(?<value>" + RemainderRegex + ")>";
         private static readonly Regex ValueRegex = new Regex(ValueRegexString);
+        
         private const string EmotionRegexString = "<em:(?<emotion>" + RemainderRegex + ")>";
         private static readonly Regex EmotionRegex = new Regex(EmotionRegexString);
+        
         private const string AnimStartRegexString = "<anim:(?<anim>" + RemainderRegex + ")>";
         private static readonly Regex AnimStartRegex = new Regex(AnimStartRegexString);
         private const string AnimEndRegexString = "</anim>";
         private static readonly Regex AnimEndRegex = new Regex(AnimEndRegexString);
+        
+        private const string MusicStartRegexString = "<music:(?<music>" + RemainderRegex + ")>";
+        private static readonly Regex MusicStartRegex = new Regex(MusicStartRegexString);
+        private const string MusicEndRegexString = "</music>";
+        private static readonly Regex MusicEndRegex = new Regex(MusicEndRegexString);
 
         private static readonly Dictionary<string, float> PauseDictionary = new()
         {
@@ -72,6 +80,8 @@ namespace DialogueSystem.Runtime.CommandProcessor
             processedMessage = HandleEmotionTags(processedMessage, result);
             processedMessage = HandleAnimStartTags(processedMessage, result);
             processedMessage = HandleAnimEndTags(processedMessage, result);
+            processedMessage = HandleMusicStartTags(processedMessage, result);
+            processedMessage = HandleMusicEndTags(processedMessage, result);
 
             return result;
         }
@@ -104,7 +114,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             foreach (Match match in valueMatches)
             {
                 var variableName = match.Groups["value"].Value;
-                var value = DialogueVariables.Instance.GetValue(variableName);
+                var value = DialogueVariableData.Instance.GetValue(variableName);
 
                 if (string.IsNullOrEmpty(value))
                     value = "X";
@@ -123,7 +133,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 result.Add(new CommandData
                 {
                     Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
-                    Type = DialogueCommandType.AnimEnd,
+                    Type = DialogueCommandType.AnimEnd
                 });
             }
 
@@ -146,6 +156,40 @@ namespace DialogueSystem.Runtime.CommandProcessor
             }
 
             processedMessage = Regex.Replace(processedMessage, AnimStartRegexString, "");
+            return processedMessage;
+        }
+        
+        private static string HandleMusicStartTags(string processedMessage, ICollection<CommandData> result)
+        {
+            MatchCollection musicStartMatches = MusicStartRegex.Matches(processedMessage);
+            foreach (Match match in musicStartMatches)
+            {
+                var stringVal = match.Groups["music"].Value;
+                result.Add(new CommandData
+                {
+                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    Type = DialogueCommandType.MusicStart,
+                    StringValue = stringVal
+                });
+            }
+
+            processedMessage = Regex.Replace(processedMessage, MusicStartRegexString, "");
+            return processedMessage;
+        }
+        
+        private static string HandleMusicEndTags(string processedMessage, ICollection<CommandData> result)
+        {
+            MatchCollection musicEndMatches = MusicEndRegex.Matches(processedMessage);
+            foreach (Match match in musicEndMatches)
+            {
+                result.Add(new CommandData
+                {
+                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    Type = DialogueCommandType.MusicEnd
+                });
+            }
+
+            processedMessage = Regex.Replace(processedMessage, MusicEndRegexString, "");
             return processedMessage;
         }
 
@@ -200,7 +244,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             }
             catch (ArgumentException)
             {
-                Logger.LogError($"Invalid Emotion: {stringVal}");
+                LogHandler.Alert($"Invalid Emotion: {stringVal}");
                 result = Emotion.Default;
             }
 
@@ -216,7 +260,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             }
             catch (ArgumentException)
             {
-                Logger.LogError($"Invalid Text Animation Type: {stringVal}");
+                LogHandler.Alert($"Invalid Text Animation Type: {stringVal}");
                 result = TextAnimationType.None;
             }
 

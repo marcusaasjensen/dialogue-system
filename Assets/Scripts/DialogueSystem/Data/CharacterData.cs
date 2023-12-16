@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace DialogueSystem.Data
 {
-    [CreateAssetMenu(fileName = "SpeakerScriptableObject", menuName = "ScriptableObjects/Speaker")]
+    [CreateAssetMenu(fileName = "CharacterScriptableObject", menuName = "ScriptableObjects/DialogueCharacter")]
     public class CharacterData : ScriptableObject
     {
         public string characterName;

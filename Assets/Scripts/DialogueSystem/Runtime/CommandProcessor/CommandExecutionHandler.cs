@@ -47,7 +47,11 @@ namespace DialogueSystem.Runtime.CommandProcessor
                     case DialogueCommandType.AnimEnd:
                     case DialogueCommandType.Interaction:
                     case DialogueCommandType.MusicStart:
+                        newCommand = CommandFactory.CreateMusicCommand(commandData);
+                        break;
                     case DialogueCommandType.MusicEnd:
+                        newCommand = CommandFactory.CreateMusicCommand(commandData, true);
+                        break;
                     case DialogueCommandType.SoundEffect:
                     case DialogueCommandType.CameraShake:
                     default:
