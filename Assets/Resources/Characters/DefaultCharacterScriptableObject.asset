@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: 
   speakingSound: {fileID: 8300000, guid: dec0dd068984f0c419c26b79302cd356, type: 3}
-  defaultBehaviour:
+  defaultState:
     emotionLabel: 0
-    emotionSound: {fileID: 8300000, guid: 71e97a95dee493e4ab7bc23ed0562223, type: 3}
-    speakingSoundPitch: 1
+    reactionSound: {fileID: 8300000, guid: 71e97a95dee493e4ab7bc23ed0562223, type: 3}
+    speakingSoundPitch: 0.833
     characterFace: {fileID: 0}
-  narrativeBehaviours: []
+  states:
+  - emotionLabel: 4
+    reactionSound: {fileID: 8300000, guid: 71e97a95dee493e4ab7bc23ed0562223, type: 3}
+    speakingSoundPitch: 0.684
+    characterFace: {fileID: 0}

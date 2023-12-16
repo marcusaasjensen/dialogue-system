@@ -218,14 +218,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1249654692}
+  m_Children: []
   m_Father: {fileID: 1138724646}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -10, y: -278}
+  m_AnchoredPosition: {x: -10, y: -250.5}
   m_SizeDelta: {x: 900, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &359445522
@@ -595,6 +594,7 @@ RectTransform:
   - {fileID: 1581070241}
   - {fileID: 366787870}
   - {fileID: 1582010746}
+  - {fileID: 1249654692}
   - {fileID: 222693666}
   - {fileID: 1919876753}
   m_Father: {fileID: 1751017563}
@@ -620,13 +620,13 @@ MonoBehaviour:
   speakerNameText: {fileID: 1582010744}
   messageTextContainer: {fileID: 366787871}
   textTyper: {fileID: 1138724648}
+  buttonPrefab: {fileID: 1851353415986813201, guid: cddc6c7c60e7316439d45cc2baa0952b, type: 3}
+  disabledButtonPrefab: {fileID: 1851353415986813201, guid: f052b6a0606a3f747b3ccfac2cd3c684, type: 3}
   buttonsParent: {fileID: 222693666}
-  dialogueOptionButtonPrefab: {fileID: 1851353415986813201, guid: cddc6c7c60e7316439d45cc2baa0952b, type: 3}
-  disabledOptionButtonPrefab: {fileID: 1851353415986813201, guid: f052b6a0606a3f747b3ccfac2cd3c684, type: 3}
   nextMessageButton: {fileID: 1249654693}
-  buttonOffset: {x: 100, y: 50}
+  buttonOffset: {x: 20, y: 20}
   numberOfColumns: 2
-  speakingCharacterSprite: {fileID: 1919876754}
+  characterSprite: {fileID: 1919876754}
 --- !u!114 &1138724648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -841,13 +841,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1340056076}
-  m_Father: {fileID: 222693666}
-  m_RootOrder: 0
+  m_Father: {fileID: 1138724646}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: 50}
-  m_SizeDelta: {x: 200, y: 80}
+  m_AnchoredPosition: {x: 339.9463, y: -81.361595}
+  m_SizeDelta: {x: 200.1085, y: 117.2748}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1249654693
 MonoBehaviour:
@@ -870,11 +870,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.13978878, g: 0.15294096, b: 0.1792453, a: 1}
-    m_HighlightedColor: {r: 0.050980393, g: 0.05882353, b: 0.07450981, a: 1}
-    m_PressedColor: {r: 0.050980393, g: 0.05882353, b: 0.07450981, a: 1}
-    m_SelectedColor: {r: 0.050980393, g: 0.05882353, b: 0.07450981, a: 1}
-    m_DisabledColor: {r: 0.050980393, g: 0.05882353, b: 0.07450981, a: 0.27450982}
+    m_NormalColor: {r: 0.050980397, g: 0.058823533, b: 0.07450981, a: 0}
+    m_HighlightedColor: {r: 0.050980393, g: 0.05882353, b: 0.07450981, a: 0}
+    m_PressedColor: {r: 0.050980393, g: 0.05882353, b: 0.07450981, a: 0}
+    m_SelectedColor: {r: 0.050980393, g: 0.05882353, b: 0.07450981, a: 0}
+    m_DisabledColor: {r: 0.050980393, g: 0.05882353, b: 0.07450981, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.2
   m_SpriteState:
@@ -968,14 +968,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1340056075}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7073299, w: -0.7068836}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1249654692}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 269.964}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -1028,8 +1028,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48
-  m_fontSizeBase: 48
+  m_fontSize: 72
+  m_fontSizeBase: 72
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2184,7 +2184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeUI: {fileID: 1138724647}
   narrativeLoader: {fileID: 2089170439}
-  commandHandler: {fileID: 2089170441}
+  commandExecutionHandler: {fileID: 2089170441}
   resetNarrativeOnLoad: 0
   defaultCharacterData: {fileID: 11400000, guid: a1fb6b12dfc84004496280234d98e3d5, type: 2}
 --- !u!114 &2089170441

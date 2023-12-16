@@ -4,8 +4,7 @@ using DialogueSystem.Runtime.CommandProcessor;
 using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Utility;
+using Logger = Utility.Logger;
 
 namespace DialogueSystem.Runtime.Narration
 {
@@ -13,7 +12,7 @@ namespace DialogueSystem.Runtime.Narration
     {
         [SerializeField] private NarrativeUI narrativeUI;
         [SerializeField] private NarrativeLoader narrativeLoader;
-        [FormerlySerializedAs("commandHandler")] [SerializeField] private CommandExecutionHandler commandExecutionHandler;
+        [SerializeField] private CommandExecutionHandler commandExecutionHandler;
         
         [Header("Options")]
         [SerializeField] private bool resetNarrativeOnLoad;
@@ -40,7 +39,7 @@ namespace DialogueSystem.Runtime.Narration
 
             if (_narrative == null)
             {
-                LogHandler.LogError("Can't start narrative because the narrative was not loaded properly.");
+                Logger.LogError("Can't start narrative because the narrative was not loaded properly.");
                 return;
             }
         
@@ -94,7 +93,7 @@ namespace DialogueSystem.Runtime.Narration
             if (narrativeUI.IsMessageDisplaying())
             {
                 SkipCurrentMessage();
-                LogHandler.Log("Skip", LogHandler.Color.Yellow);
+                Logger.Log("Skip", Logger.Color.Yellow);
                 return;
             }
         
@@ -152,7 +151,7 @@ namespace DialogueSystem.Runtime.Narration
         private void SetupDialogueOptions()
         {
             IsChoosing = true;
-            narrativeUI.DisplayDialogueOptionButtons(_currentNarrative.Options, _currentNarrative.DisableAlreadyChosenOptions, ChooseNarrativePath);
+            narrativeUI.DisplayOptions(_currentNarrative.Options, _currentNarrative.DisableAlreadyChosenOptions, ChooseNarrativePath);
         }
         
         private CharacterData GetCharacter(string characterName)
@@ -172,7 +171,7 @@ namespace DialogueSystem.Runtime.Narration
             var messageWithoutCommands = commandExecutionHandler.ParseDialogueCommands(nextDialogueMessage.Content);
             
             //Display dialogue ui
-            narrativeUI.DisplayDialogueBubble(nextDialogueMessage, currentSpeakerData.defaultState.characterFace);
+            narrativeUI.DisplayDialogue(nextDialogueMessage, currentSpeakerData);
             narrativeUI.DisplayMessage(messageWithoutCommands);
         }
 
@@ -223,8 +222,8 @@ namespace DialogueSystem.Runtime.Narration
 
         private void LogResults()
         {
-            LogHandler.Log("Dialogue finished!", LogHandler.Color.Blue);
-            LogHandler.Log($"Final narrative path ID: {NarrativePathID}", LogHandler.Color.Blue);
+            Logger.Log("Dialogue finished!", Logger.Color.Blue);
+            Logger.Log($"Final narrative path ID: {NarrativePathID}", Logger.Color.Blue);
         }
     }
 }

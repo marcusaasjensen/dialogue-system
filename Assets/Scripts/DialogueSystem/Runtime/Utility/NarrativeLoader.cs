@@ -4,6 +4,7 @@ using DialogueSystem.Data;
 using DialogueSystem.Runtime.Narration;
 using UnityEngine;
 using Utility;
+using Logger = Utility.Logger;
 
 namespace DialogueSystem.Runtime.Utility
 {
@@ -28,12 +29,12 @@ namespace DialogueSystem.Runtime.Utility
         {
             if (narrativeToLoad == null)
             { 
-                LogHandler.LogError(MissingReferenceError);
-                LogHandler.LogWarning(MissingReferenceHint);
+                Logger.LogError(MissingReferenceError);
+                Logger.LogWarning(MissingReferenceHint);
                 return null;
             }
         
-            LogHandler.Log($"Narrative loaded: {narrativeToLoad}", LogHandler.Color.Blue);
+            Logger.Log($"Narrative loaded: {narrativeToLoad}", Logger.Color.Blue);
             
             var loadedNarrative = new Narrative(narrativeToLoad.characters);
 

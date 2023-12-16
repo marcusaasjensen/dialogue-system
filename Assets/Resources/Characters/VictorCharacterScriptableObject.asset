@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Victor
   speakingSound: {fileID: 8300000, guid: e884bc21eb79fde42816deea8251b7ff, type: 3}
-  defaultBehaviour:
+  defaultState:
     emotionLabel: 0
-    emotionSound: {fileID: 0}
+    reactionSound: {fileID: 0}
     speakingSoundPitch: 1
     characterFace: {fileID: 21300000, guid: 4b9ada37f22f7604f8f395562472070e, type: 3}
-  narrativeBehaviours:
+  states:
   - emotionLabel: 11
-    emotionSound: {fileID: 0}
-    speakingSoundPitch: 1.09
+    reactionSound: {fileID: 0}
+    speakingSoundPitch: 1.13
     characterFace: {fileID: 21300000, guid: 847d85bc66f56914ebeb804be9e7f9ff, type: 3}

@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
-
 namespace DialogueSystem.Data
 {
     [CreateAssetMenu(fileName = "SpeakerScriptableObject", menuName = "ScriptableObjects/Speaker")]
@@ -9,8 +7,8 @@ namespace DialogueSystem.Data
     {
         public string characterName;
         public AudioClip speakingSound;
-        [FormerlySerializedAs("defaultBehaviour")] public CharacterState defaultState;
-        [FormerlySerializedAs("narrativeBehaviours")] public List<CharacterState> states;
+        public CharacterState defaultState;
+        public List<CharacterState> states;
 
         public CharacterState GetState(Emotion fromEmotion)
         {

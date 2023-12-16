@@ -72,7 +72,11 @@ namespace DialogueSystem.Editor
             dialogueContainer.characters = new List<CharacterData>();
 
             _containerCache = Resources.Load<DialogueContainer>($"{ResourcesPath}/{fileName}");
-            if(_containerCache) _containerCache.characters.ForEach(character => dialogueContainer.characters.Add(character));
+            if (_containerCache)
+            {
+                _containerCache.characters.ForEach(character => dialogueContainer.characters.Add(character));
+                dialogueContainer.StartFromPreviousNarrativePath = _containerCache.StartFromPreviousNarrativePath;
+            }
             
             if (!AssetDatabase.IsValidFolder($"{PathToResources}/{ResourcesPath}"))
                 Directory.CreateDirectory($"{PathToResources}/{ResourcesPath}");

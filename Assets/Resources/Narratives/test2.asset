@@ -143,7 +143,7 @@ MonoBehaviour:
   - Guid: b551527d-3554-405b-bd0d-5949924857ec
     Dialogue:
     - <CharacterName>k__BackingField: X
-      <Content>k__BackingField: <em:Angry><sp:0,2><i>Welcome</i><p:long> to my<p:normal>
+      <Content>k__BackingField: <sp:0,2><i>Welcome</i><p:long> to my<p:normal><em:Angry>
         <sp:0,01><color="green">shop</color><sp:0>!!!!!!!!!!!
       <HideCharacter>k__BackingField: 0
     Position: {x: 336, y: 278.66666}
@@ -184,7 +184,7 @@ MonoBehaviour:
     EntryPoint: 0
     IsCheckpoint: 1
     DisableAlreadyChosenOptions: 0
-  pathToCheckpoint: 00.
+  pathToCheckpoint: 
   isNarrativeEndReached: 0
-  startFromPreviousNarrativePath: 0
+  startFromPreviousNarrativePath: 1
   characters: []

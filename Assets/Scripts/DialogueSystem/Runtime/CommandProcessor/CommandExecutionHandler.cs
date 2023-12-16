@@ -41,8 +41,15 @@ namespace DialogueSystem.Runtime.CommandProcessor
                         newCommand = CommandFactory.CreateSpeedCommand(commandData, textTyper);
                         break;
                     case DialogueCommandType.DisplayedEmotion:
-                        newCommand = CommandFactory.CreateStateCommand(commandData, commandData.EmotionValue, narrativeUI, characterSpeaker, _currentCharacterData);
+                        newCommand = CommandFactory.CreateStateCommand(commandData, narrativeUI, characterSpeaker, _currentCharacterData);
                         break;
+                    case DialogueCommandType.AnimStart:
+                    case DialogueCommandType.AnimEnd:
+                    case DialogueCommandType.Interaction:
+                    case DialogueCommandType.MusicStart:
+                    case DialogueCommandType.MusicEnd:
+                    case DialogueCommandType.SoundEffect:
+                    case DialogueCommandType.CameraShake:
                     default:
                         newCommand = new NullCommand(commandData.Position, commandData.MustExecute);
                         break;
@@ -65,7 +72,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             textTyper.ResetTyper();
             characterSpeaker.ChangeVoice(_currentCharacterData.speakingSound);
             characterSpeaker.ChangePitch(_currentCharacterData.defaultState.speakingSoundPitch);
-            narrativeUI.DisplayCharacterSprite(_currentCharacterData.defaultState.characterFace);
+            characterSpeaker.React(_currentCharacterData.defaultState.reactionSound);
         }
 
         private void HandleCommandExecution() => StartCoroutine(HandleCommandExecutionCoroutine());

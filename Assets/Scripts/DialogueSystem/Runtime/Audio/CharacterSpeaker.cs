@@ -21,7 +21,13 @@ namespace DialogueSystem.Runtime.Audio
         private void Speak() => StartCoroutine(SpeakCoroutine());
         
         public void ChangePitch(float newPitch) => speakingAudioSource.pitch = newPitch;
-        public void React(AudioClip reactionClip) => reactionAudioSource.PlayOneShot(reactionClip);
+
+        public void React(AudioClip reactionClip)
+        {
+            if (reactionClip == null) return;
+            reactionAudioSource.PlayOneShot(reactionClip);
+        }
+
         public void ChangeVoice(AudioClip newVoice) => speakingAudioSource.clip = newVoice;
         private IEnumerator SpeakCoroutine()
         {

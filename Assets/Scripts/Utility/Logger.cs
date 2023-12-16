@@ -2,7 +2,7 @@
 
 namespace Utility
 {
-    public static class LogHandler
+    public static class Logger
     {
         private const string WhiteColorCode = "#FFFFFF";
         private const string BlueColorCode = "#2CD3E1";

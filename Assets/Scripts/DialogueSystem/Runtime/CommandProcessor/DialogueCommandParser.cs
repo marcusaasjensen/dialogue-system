@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using DialogueSystem.Data;
 using UnityEngine;
 using Utility;
+using Logger = Utility.Logger;
 
 namespace DialogueSystem.Runtime.CommandProcessor
 {
@@ -96,7 +97,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             return processedMessage;
         }
 
-        private static string ReplaceVariableTagsByValue(string processedMessage)
+        public static string ReplaceVariableTagsByValue(string processedMessage)
         {
             var valueMatches = ValueRegex.Matches(processedMessage);
 
@@ -199,7 +200,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             }
             catch (ArgumentException)
             {
-                LogHandler.LogError($"Invalid Emotion: {stringVal}");
+                Logger.LogError($"Invalid Emotion: {stringVal}");
                 result = Emotion.Default;
             }
 
@@ -215,7 +216,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             }
             catch (ArgumentException)
             {
-                LogHandler.LogError($"Invalid Text Animation Type: {stringVal}");
+                Logger.LogError($"Invalid Text Animation Type: {stringVal}");
                 result = TextAnimationType.None;
             }
 

@@ -24,7 +24,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             var characterState = _characterData.GetState(_emotion);
 
             _narrativeUI.DisplayCharacterSprite(characterState.characterFace);
-            _characterSpeaker.React(characterState.emotionSound);
+            _characterSpeaker.React(characterState.reactionSound);
             _characterSpeaker.ChangePitch(characterState.speakingSoundPitch);
         }
     }
