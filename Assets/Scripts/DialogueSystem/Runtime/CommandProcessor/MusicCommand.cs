@@ -26,7 +26,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 return;
             }
             
-            AudioManager.Instance.PlayMusic(_musicClip);
+            AudioManager.Instance.LoopMusic(_musicClip);
         }
     }
 }

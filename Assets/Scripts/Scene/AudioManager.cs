@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Utility;
 
 namespace Scene
@@ -26,13 +27,18 @@ namespace Scene
 
         public void PlayMusic(AudioClip music)
         {
-            if(musicSource.isPlaying)
-                musicSource.Stop();
-
-            if (music == null) return;
-            
+            StopMusic();
             LogHandler.Log($"Music playing: {music.name}", LogHandler.Color.Blue);
             musicSource.PlayOneShot(music);
+        }
+        
+        public void LoopMusic(AudioClip music)
+        {
+            StopMusic();
+            LogHandler.Log($"Music looping: {music.name}", LogHandler.Color.Blue);
+            musicSource.clip = music;
+            musicSource.loop = true;
+            musicSource.Play();
         }
         
         public void StopMusic()
@@ -40,6 +46,7 @@ namespace Scene
             if (!musicSource.isPlaying) return;
             LogHandler.Log($"Music stopped.", LogHandler.Color.Blue);
             musicSource.Stop();
+            musicSource.loop = false;
         }
     }
 }

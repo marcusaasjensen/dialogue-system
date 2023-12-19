@@ -12,7 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89028a3e253c40b190c5086a7b47f0fd, type: 3}
   m_Name: DialogueVariableData
   m_EditorClassIdentifier: 
-  variableNames:
-  - cost
-  variableValues:
-  - 1,5
+  variables:
+  - rid: 7527076728631984129
+  - rid: 7527076728631984130
+  - rid: 7527076728631984131
+  references:
+    version: 2
+    RefIds:
+    - rid: 7527076728631984129
+      type: {class: FloatVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
+      data:
+        name: cost_coffee
+        value: 1.5
+    - rid: 7527076728631984130
+      type: {class: IntVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
+      data:
+        name: cost_bread
+        value: 1
+    - rid: 7527076728631984131
+      type: {class: StringVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
+      data:
+        name: character
+        value: John

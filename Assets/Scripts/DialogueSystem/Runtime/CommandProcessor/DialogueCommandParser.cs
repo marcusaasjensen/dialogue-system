@@ -114,7 +114,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             foreach (Match match in valueMatches)
             {
                 var variableName = match.Groups["value"].Value;
-                var value = DialogueVariableData.Instance.GetValue(variableName);
+                var value = DialogueVariableData.Instance.GetValueAsString(variableName);
 
                 if (string.IsNullOrEmpty(value))
                     value = "X";
