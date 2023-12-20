@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 930803b681b04c1b912d93a45f49be2a, type: 3}
-  m_Name: DialogueMusicData
+  m_Name: DialogueAudioData
   m_EditorClassIdentifier: 
   musicList:
-  - musicName: playground
-    musicClip: {fileID: 8300000, guid: ebd04bea60accfa44a671d7ad562a416, type: 3}
+  - name: playground
+    audioClip: {fileID: 8300000, guid: ebd04bea60accfa44a671d7ad562a416, type: 3}
+  soundEffectList: []

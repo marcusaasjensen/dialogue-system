@@ -23,14 +23,14 @@ MonoBehaviour:
       type: {class: FloatVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
       data:
         name: cost_coffee
-        value: 1.5
+        floatValue: 1.5
     - rid: 7527076728631984130
       type: {class: IntVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
       data:
         name: cost_bread
-        value: 1
+        intValue: 1
     - rid: 7527076728631984131
       type: {class: StringVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
       data:
         name: character
-        value: John
+        stringValue: John

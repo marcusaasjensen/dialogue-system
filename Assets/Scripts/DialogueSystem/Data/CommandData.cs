@@ -22,7 +22,7 @@
         Interaction, //must execute
         MusicStart, //must execute
         MusicEnd, //must execute
-        SoundEffect, //ignorable
+        SoundEffect, //must execute
         CameraShake //ignorable
     }
 

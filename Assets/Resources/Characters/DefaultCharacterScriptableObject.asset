@@ -22,5 +22,5 @@ MonoBehaviour:
   states:
   - emotionLabel: 4
     reactionSound: {fileID: 8300000, guid: 71e97a95dee493e4ab7bc23ed0562223, type: 3}
-    speakingSoundPitch: 0.684
+    speakingSoundPitch: 0.409
     characterFace: {fileID: 0}

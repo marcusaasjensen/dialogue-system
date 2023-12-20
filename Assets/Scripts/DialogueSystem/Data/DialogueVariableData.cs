@@ -18,14 +18,14 @@ namespace DialogueSystem.Data
     [Serializable]
     public class IntVariable : Variable
     {
-        public int value;
+        public int intValue;
         
-        public override object GetValue() => value;
+        public override object GetValue() => intValue;
 
         public override void SetValue(object newValue)
         {
             try{
-                value = int.Parse(newValue.ToString());
+                intValue = int.Parse(newValue.ToString());
             }
             catch (Exception e)
             {
@@ -33,21 +33,21 @@ namespace DialogueSystem.Data
             }
         }
 
-        public override string ToString() => value.ToString(CultureInfo.InvariantCulture);
+        public override string ToString() => intValue.ToString(CultureInfo.InvariantCulture);
     }
 
     [Serializable]
     public class StringVariable : Variable
     {
-        public string value;
+        public string stringValue;
 
-        public override object GetValue() => value;
+        public override object GetValue() => stringValue;
         
         public override void SetValue(object newValue)
         {
             try
             {
-                value = newValue.ToString();
+                stringValue = newValue.ToString();
             }
             catch (Exception e)
             {
@@ -55,21 +55,21 @@ namespace DialogueSystem.Data
             }
         }
         
-        public override string ToString() => value;
+        public override string ToString() => stringValue;
     }
 
     [Serializable]
     public class FloatVariable : Variable
     {
-        public float value;
+        public float floatValue;
 
-        public override object GetValue() => value;
+        public override object GetValue() => floatValue;
         
         public override void SetValue(object newValue)
         {
             try
             {
-                value = float.Parse(newValue.ToString());
+                floatValue = float.Parse(newValue.ToString());
             }
             catch (Exception e)
             {
@@ -77,7 +77,7 @@ namespace DialogueSystem.Data
             }
         }
         
-        public override string ToString() => value.ToString(CultureInfo.InvariantCulture);
+        public override string ToString() => floatValue.ToString(CultureInfo.InvariantCulture);
     }
 
 
@@ -85,8 +85,6 @@ namespace DialogueSystem.Data
     
     public sealed class DialogueVariableData : EasyScriptableSingleton<DialogueVariableData>
     {
-        private static DialogueVariableData _instance;
-
         protected override string PathToResources => "Assets/Resources";
         protected override string ResourcesPath => "Dialogue";
         protected override string FileName => "DialogueVariableData";
@@ -113,13 +111,13 @@ namespace DialogueSystem.Data
             switch (value)
             {
                 case int _:
-                    variables.Add(new IntVariable {name = variableName, value = (int) (object) value});
+                    variables.Add(new IntVariable {name = variableName, intValue = (int) (object) value});
                     break;
                 case string _:
-                    variables.Add(new StringVariable {name = variableName, value = (string) (object) value});
+                    variables.Add(new StringVariable {name = variableName, stringValue = (string) (object) value});
                     break;
                 case float _:
-                    variables.Add(new FloatVariable {name = variableName, value = (float) (object) value});
+                    variables.Add(new FloatVariable {name = variableName, floatValue = (float) (object) value});
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);

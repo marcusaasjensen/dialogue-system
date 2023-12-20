@@ -53,6 +53,8 @@ namespace DialogueSystem.Runtime.CommandProcessor
                         newCommand = CommandFactory.CreateMusicCommand(commandData, true);
                         break;
                     case DialogueCommandType.SoundEffect:
+                        newCommand = CommandFactory.CreateSoundEffectCommand(commandData);
+                        break;
                     case DialogueCommandType.CameraShake:
                     default:
                         newCommand = new NullCommand(commandData.Position, commandData.MustExecute);

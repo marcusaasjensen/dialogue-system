@@ -16,25 +16,30 @@ namespace DialogueSystem.Runtime.CommandProcessor
         private const string RemainderRegex = "(.*?((?=>)|(/|$)))";
         
         private const string PauseRegexString = "<p:(?<pause>" + RemainderRegex + ")>";
-        private static readonly Regex PauseRegex = new Regex(PauseRegexString);
+        private static readonly Regex PauseRegex = new (PauseRegexString);
         private const string SpeedRegexString = "<sp:(?<speed>" + RemainderRegex + ")>";
-        private static readonly Regex SpeedRegex = new Regex(SpeedRegexString);
+        private static readonly Regex SpeedRegex = new (SpeedRegexString);
         
         private const string ValueRegexString = "<val:(?<value>" + RemainderRegex + ")>";
-        private static readonly Regex ValueRegex = new Regex(ValueRegexString);
+        private static readonly Regex ValueRegex = new (ValueRegexString);
         
         private const string EmotionRegexString = "<em:(?<emotion>" + RemainderRegex + ")>";
-        private static readonly Regex EmotionRegex = new Regex(EmotionRegexString);
+        private static readonly Regex EmotionRegex = new (EmotionRegexString);
         
         private const string AnimStartRegexString = "<anim:(?<anim>" + RemainderRegex + ")>";
-        private static readonly Regex AnimStartRegex = new Regex(AnimStartRegexString);
+        private static readonly Regex AnimStartRegex = new (AnimStartRegexString);
         private const string AnimEndRegexString = "</anim>";
-        private static readonly Regex AnimEndRegex = new Regex(AnimEndRegexString);
+        private static readonly Regex AnimEndRegex = new (AnimEndRegexString);
         
         private const string MusicStartRegexString = "<music:(?<music>" + RemainderRegex + ")>";
-        private static readonly Regex MusicStartRegex = new Regex(MusicStartRegexString);
+        private static readonly Regex MusicStartRegex = new (MusicStartRegexString);
         private const string MusicEndRegexString = "</music>";
-        private static readonly Regex MusicEndRegex = new Regex(MusicEndRegexString);
+        private static readonly Regex MusicEndRegex = new (MusicEndRegexString);
+        
+        private const string SoundRegexString = "<sfx:(?<sfx>" + RemainderRegex + ")>";
+        private static readonly Regex SoundRegex = new (SoundRegexString);
+        
+        
 
         private static readonly Dictionary<string, float> PauseDictionary = new()
         {
@@ -67,6 +72,52 @@ namespace DialogueSystem.Runtime.CommandProcessor
 
             return result;
         }
+        
+        private static T GetValue<T>(string stringVal, string typeName = "Type")
+        {
+            T result;
+            try
+            {
+                result = (T)Enum.Parse(typeof(T), stringVal, true);
+            }
+            catch (ArgumentException)
+            {
+                LogHandler.Alert($"Invalid {typeName}: {stringVal}");
+                result = default;
+            }
+
+            return result;
+        }
+
+        private static int VisibleCharactersUpToIndex(string message, int index)
+        {
+            var result = 0;
+            var insideBrackets = false;
+            for (var i = 0; i < index; i++)
+            {
+                switch (message[i])
+                {
+                    case '<':
+                        insideBrackets = true;
+                        break;
+                    case '>':
+                        insideBrackets = false;
+                        result--;
+                        break;
+                }
+
+                if (!insideBrackets)
+                {
+                    result++;
+                }
+                // else if (i + 6 < index && message.Substring(i, 6) == "sprite")
+                // {
+                //     result++;
+                // }
+            }
+
+            return result;
+        }
 
         public static List<CommandData> Parse(string message, out string processedMessage)
         {
@@ -78,10 +129,11 @@ namespace DialogueSystem.Runtime.CommandProcessor
             processedMessage = HandlePauseTags(processedMessage, result);
             processedMessage = HandleSpeedTags(processedMessage, result);
             processedMessage = HandleEmotionTags(processedMessage, result);
-            processedMessage = HandleAnimStartTags(processedMessage, result);
-            processedMessage = HandleAnimEndTags(processedMessage, result);
             processedMessage = HandleMusicStartTags(processedMessage, result);
             processedMessage = HandleMusicEndTags(processedMessage, result);
+            processedMessage = HandleSoundTags(processedMessage, result);
+            // processedMessage = HandleAnimStartTags(processedMessage, result);
+            // processedMessage = HandleAnimEndTags(processedMessage, result);
 
             return result;
         }
@@ -98,7 +150,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 {
                     Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.DisplayedEmotion,
-                    EmotionValue = GetEmotionValue(stringVal),
+                    EmotionValue = GetValue<Emotion>(stringVal, "Emotion"),
                     MustExecute = true
                 });
             }
@@ -151,7 +203,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 {
                     Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.AnimStart,
-                    TextAnimValue = GetTextAnimationType(stringVal)
+                    TextAnimValue = GetValue<TextAnimationType>(stringVal, "Text Animation Type")
                 });
             }
 
@@ -169,11 +221,31 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 {
                     Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.MusicStart,
-                    StringValue = stringVal
+                    StringValue = stringVal,
+                    MustExecute = true
                 });
             }
 
             processedMessage = Regex.Replace(processedMessage, MusicStartRegexString, "");
+            return processedMessage;
+        }
+
+        private static string HandleSoundTags(string processedMessage, ICollection<CommandData> result)
+        {
+            MatchCollection musicStartMatches = SoundRegex.Matches(processedMessage);
+            foreach (Match match in musicStartMatches)
+            {
+                var stringVal = match.Groups["sfx"].Value;
+                result.Add(new CommandData
+                {
+                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    Type = DialogueCommandType.SoundEffect,
+                    StringValue = stringVal,
+                    MustExecute = true
+                });
+            }
+
+            processedMessage = Regex.Replace(processedMessage, SoundRegexString, "");
             return processedMessage;
         }
         
@@ -221,80 +293,17 @@ namespace DialogueSystem.Runtime.CommandProcessor
             foreach (Match match in pauseMatches)
             {
                 var val = match.Groups["pause"].Value;
-                var pauseName = val;
-                Debug.Assert(PauseDictionary.ContainsKey(pauseName), "no pause registered for '" + pauseName + "'");
+                Debug.Assert(PauseDictionary.ContainsKey(val), "no pause registered for '" + val + "'");
                 result.Add(new CommandData
                 {
                     Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.Pause,
-                    FloatValue = PauseDictionary[pauseName]
+                    FloatValue = PauseDictionary[val]
                 });
             }
 
             processedMessage = Regex.Replace(processedMessage, PauseRegexString, "");
             return processedMessage;
-        }
-
-        private static Emotion GetEmotionValue(string stringVal)
-        {
-            Emotion result;
-            try
-            {
-                result = (Emotion)Enum.Parse(typeof(Emotion), stringVal, true);
-            }
-            catch (ArgumentException)
-            {
-                LogHandler.Alert($"Invalid Emotion: {stringVal}");
-                result = Emotion.Default;
-            }
-
-            return result;
-        }
-
-        private static TextAnimationType GetTextAnimationType(string stringVal)
-        {
-            TextAnimationType result;
-            try
-            {
-                result = (TextAnimationType)Enum.Parse(typeof(TextAnimationType), stringVal, true);
-            }
-            catch (ArgumentException)
-            {
-                LogHandler.Alert($"Invalid Text Animation Type: {stringVal}");
-                result = TextAnimationType.None;
-            }
-
-            return result;
-        }
-
-        private static int VisibleCharactersUpToIndex(string message, int index)
-        {
-            var result = 0;
-            var insideBrackets = false;
-            for (var i = 0; i < index; i++)
-            {
-                switch (message[i])
-                {
-                    case '<':
-                        insideBrackets = true;
-                        break;
-                    case '>':
-                        insideBrackets = false;
-                        result--;
-                        break;
-                }
-
-                if (!insideBrackets)
-                {
-                    result++;
-                }
-                else if (i + 6 < index && message.Substring(i, 6) == "sprite")
-                {
-                    result++;
-                }
-            }
-
-            return result;
         }
     }
 }

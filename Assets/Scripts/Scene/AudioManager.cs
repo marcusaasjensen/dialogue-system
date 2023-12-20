@@ -19,10 +19,10 @@ namespace Scene
 
         public void PlaySound(AudioClip sound, AudioSource source = null)
         {
-            if (source == null) source = effectSource;
-        
-            if (sound != null)
-                source.PlayOneShot(sound);
+            if (sound == null) return;
+            source = source ? source : effectSource;
+            LogHandler.Log($"SFX played: {sound.name}", LogHandler.Color.Blue);
+            source.PlayOneShot(sound);
         }
 
         public void PlayMusic(AudioClip music)

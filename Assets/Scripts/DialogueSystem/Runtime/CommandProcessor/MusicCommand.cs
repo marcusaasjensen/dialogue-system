@@ -12,7 +12,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
 
         public MusicCommand(int position, bool mustExecute, string musicName, bool stopMusic = false) : base(position, mustExecute)
         {
-            _musicClip = DialogueMusicData.Instance.GetMusic(musicName);
+            _musicClip = DialogueAudioData.Instance.GetMusic(musicName);
             _stopMusic = stopMusic;
             
             if(_musicClip == null && !_stopMusic) LogHandler.Warn($"Music not found: {musicName}");
