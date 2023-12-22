@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace DialogueSystem.Runtime.Interaction
 {
-    public class InteractableDialogue : MonoBehaviour, IInteractable
+    public class InteractableDialogue : DialogueMonoBehaviour, IInteractable
     {
-        [SerializeField] private DialogueContainer narrativeScriptableObject;
-        [SerializeField] private NarrativeController narrativeController;
         [SerializeField] private bool stopInteractAtNarrativeEnd;
 
         [Header("Hint")]
@@ -23,7 +21,7 @@ namespace DialogueSystem.Runtime.Interaction
 
         private void Update()
         {
-            SkipDialogueWithSpaceBar();
+            SkipDialogueWithInput();
             ShowHint();
         }
 
@@ -31,16 +29,15 @@ namespace DialogueSystem.Runtime.Interaction
 
         public void Interact()
         {
-            // We assume it can interact when using the function
-            narrativeController.BeginNarration(narrativeScriptableObject);
+            TurnCharacterTowardsPlayer();
+            StartDialogue();
         }
-    
-        private void SkipDialogueWithSpaceBar()
-        {
-            if (!Input.GetKeyDown(KeyCode.Space) || narrativeController.IsChoosing ||
-                !narrativeController.IsNarrating) return;
 
-            narrativeController.NextNarrative();
+        private void TurnCharacterTowardsPlayer()
+        {
+            var position = player.position;
+            position.y = transform.position.y;
+            transform.LookAt(position);
         }
 
         private void ShowHint()

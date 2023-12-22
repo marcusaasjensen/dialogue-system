@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using DialogueSystem.Runtime.UI;
 using UnityEngine;
+using Utility;
 
 namespace DialogueSystem.Runtime.Audio
 {
     public class CharacterSpeaker : MonoBehaviour
     {
+        [SerializeField] private TextTyper textTyper;
+        [Header("Audio Sources")]
         [SerializeField] private AudioSource speakingAudioSource;
         [SerializeField] private AudioSource reactionAudioSource;
+        [Header("Speaking Pace")]
         [SerializeField] private float speakingPace = 1f;
         [SerializeField] private bool synchronizeWithVariablePace = true;
-        [SerializeField] private TextTyper textTyper;
         
         private void Awake()
         {
@@ -22,10 +25,10 @@ namespace DialogueSystem.Runtime.Audio
         
         public void ChangePitch(float newPitch) => speakingAudioSource.pitch = newPitch;
 
-        public void React(AudioClip reactionClip)
+        public void React(Optional<AudioClip> reactionClip)
         {
-            if (reactionClip == null) return;
-            reactionAudioSource.PlayOneShot(reactionClip);
+            if (!reactionClip.Enabled) return;
+            reactionAudioSource.PlayOneShot(reactionClip.Value);
         }
 
         public void ChangeVoice(AudioClip newVoice) => speakingAudioSource.clip = newVoice;

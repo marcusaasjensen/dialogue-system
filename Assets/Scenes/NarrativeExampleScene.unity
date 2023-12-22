@@ -154,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeScriptableObject: {fileID: 11400000, guid: 49b663f3268ddcb41a9e511e08c1a07f, type: 2}
   narrativeController: {fileID: 2089170440}
-  narrativeMusic: {fileID: 8300000, guid: ebd04bea60accfa44a671d7ad562a416, type: 3}
 --- !u!4 &1329084
 Transform:
   m_ObjectHideFlags: 0
@@ -769,9 +768,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03fb819014e3ad64495dc8f636a7325d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textTyper: {fileID: 1138724648}
   speakerNameText: {fileID: 1582010744}
   messageTextContainer: {fileID: 366787871}
-  textTyper: {fileID: 1138724648}
   buttonPrefab: {fileID: 1851353415986813201, guid: 4e2170dc146a1c94e8c4a48ec625ef17, type: 3}
   disabledButtonPrefab: {fileID: 1851353415986813201, guid: 4e2170dc146a1c94e8c4a48ec625ef17, type: 3}
   buttonsParent: {fileID: 222693666}
@@ -779,6 +778,7 @@ MonoBehaviour:
   buttonOffset: {x: 20, y: 20}
   numberOfColumns: 2
   characterSprite: {fileID: 1919876754}
+  dialogueBubble: {fileID: 1581070242}
 --- !u!114 &1138724648
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DialogueSystem.Data;
 using DialogueSystem.Runtime.CommandProcessor;
@@ -8,6 +9,7 @@ using Utility;
 
 namespace DialogueSystem.Runtime.Narration
 {
+    [RequireComponent(typeof(NarrativeLoader)), RequireComponent(typeof(CommandExecutionHandler))]
     public class NarrativeController : MonoBehaviour
     {
         [SerializeField] private NarrativeUI narrativeUI;
@@ -33,6 +35,7 @@ namespace DialogueSystem.Runtime.Narration
 
         private const string PathSeparator = ".";
 
+        
         public void BeginNarration(DialogueContainer narrativeToLoad = null)
         {
             _narrative = narrativeLoader.LoadNarrative(narrativeToLoad);
@@ -53,7 +56,7 @@ namespace DialogueSystem.Runtime.Narration
         {
             IsNarrating = true;
         
-            narrativeUI.gameObject.SetActive(true); //to change with close dialogue that completely deactivate gameobject!
+            narrativeUI.SetUIActive(true);
             narrativeUI.InitializeUI();
 
             SetupNarrativeEvents();
@@ -171,7 +174,7 @@ namespace DialogueSystem.Runtime.Narration
             var messageWithoutCommands = commandExecutionHandler.ParseDialogueCommands(nextDialogueMessage.Content);
             
             //Display dialogue ui
-            narrativeUI.DisplayDialogue(nextDialogueMessage, currentSpeakerData);
+            narrativeUI.DisplayDialogueBubble(nextDialogueMessage, currentSpeakerData);
             narrativeUI.DisplayMessage(messageWithoutCommands);
         }
 
@@ -212,7 +215,7 @@ namespace DialogueSystem.Runtime.Narration
         
         private void FinishDialogue()
         {
-            narrativeUI.CloseDialogue();
+            narrativeUI.SetUIActive(false);
             IsNarrating = false;
 
             narrativeLoader.SaveNarrativePath(NarrativePathID, _currentNarrative?.IsTipNarrativeNode() ?? false);

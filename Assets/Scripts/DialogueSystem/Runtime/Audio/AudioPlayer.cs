@@ -1,28 +1,25 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Utility;
 
-namespace Scene
+namespace DialogueSystem.Runtime.Audio
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioPlayer : MonoBehaviour
     {
         [SerializeField] private AudioSource musicSource, effectSource;
-        public static AudioManager Instance { get; private set; }
+        public static AudioPlayer Instance { get; private set; }
 
         private void Awake()
         {
             #region Singleton
-            if (Instance == null)
-                Instance = this;
+            Instance ??= this;
             #endregion
         }
 
-        public void PlaySound(AudioClip sound, AudioSource source = null)
+        public void PlaySound(AudioClip sound)
         {
             if (sound == null) return;
-            source = source ? source : effectSource;
             LogHandler.Log($"SFX played: {sound.name}", LogHandler.Color.Blue);
-            source.PlayOneShot(sound);
+            effectSource.PlayOneShot(sound);
         }
 
         public void PlayMusic(AudioClip music)

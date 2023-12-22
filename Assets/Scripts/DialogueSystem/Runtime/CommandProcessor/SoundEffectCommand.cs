@@ -1,5 +1,5 @@
 ﻿using DialogueSystem.Data;
-using Scene;
+using DialogueSystem.Runtime.Audio;
 using UnityEngine;
 using Utility;
 
@@ -15,6 +15,6 @@ namespace DialogueSystem.Runtime.CommandProcessor
             if(_audioClip == null) LogHandler.Warn($"Sound effect not found: {audioName}");
         }
 
-        public override void Execute() => AudioManager.Instance.PlaySound(_audioClip);
+        public override void Execute() => AudioPlayer.Instance.PlaySound(_audioClip);
     }
 }

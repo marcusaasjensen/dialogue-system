@@ -1,5 +1,5 @@
 ﻿using DialogueSystem.Data;
-using Scene;
+using DialogueSystem.Runtime.Audio;
 using UnityEngine;
 using Utility;
 
@@ -22,11 +22,11 @@ namespace DialogueSystem.Runtime.CommandProcessor
         {
             if (_stopMusic)
             {
-                AudioManager.Instance.StopMusic();
+                AudioPlayer.Instance.StopMusic();
                 return;
             }
             
-            AudioManager.Instance.LoopMusic(_musicClip);
+            AudioPlayer.Instance.LoopMusic(_musicClip);
         }
     }
 }
