@@ -1,22 +1,29 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace DialogueSystem.Data
 {
-    [CreateAssetMenu(fileName = "SpeakerScriptableObject", menuName = "ScriptableObjects/Speaker")]
+    [CreateAssetMenu(fileName = "CharacterScriptableObject", menuName = "ScriptableObjects/DialogueCharacter")]
     public class CharacterData : ScriptableObject
     {
-        public string characterName;
-        public AudioClip speakingSound;
-        public CharacterNarrativeBehaviour defaultBehaviour;
-        public List<CharacterNarrativeBehaviour> narrativeBehaviours;
+        [SerializeField] private string characterName;
+        [SerializeField] private AudioClip speakingSound;
+        [SerializeField] private CharacterState defaultState;
+        [SerializeField] private List<CharacterState> states;
+        
+        public string CharacterName => characterName;
+        public AudioClip SpeakingSound => speakingSound;
+        public CharacterState DefaultState => defaultState;
 
-        public CharacterNarrativeBehaviour GetBehaviourByEmotion(Emotion fromEmotion)
+        public CharacterState GetState(Emotion fromEmotion)
         {
-            var speakerBehaviour =
-                narrativeBehaviours.Find(emotion => emotion.emotionLabel == fromEmotion)
-                ?? defaultBehaviour;
-            return speakerBehaviour;
+            if(fromEmotion == Emotion.Default)
+                return defaultState;
+            
+            var state =
+                states.Find(emotion => emotion.EmotionLabel == fromEmotion)
+                ?? defaultState;
+            
+            return state;
         }
     }
 }

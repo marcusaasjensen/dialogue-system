@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89028a3e253c40b190c5086a7b47f0fd, type: 3}
-  m_Name: DialogueVariables
+  m_Script: {fileID: 11500000, guid: 930803b681b04c1b912d93a45f49be2a, type: 3}
+  m_Name: DialogueAudioData
   m_EditorClassIdentifier: 
-  variableNames:
-  - cost
-  variableValues:
-  - 1,5
+  musicList:
+  - name: playground
+    audioClip: {fileID: 8300000, guid: ebd04bea60accfa44a671d7ad562a416, type: 3}
+  soundEffectList: []

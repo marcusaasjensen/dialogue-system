@@ -1,178 +1,72 @@
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using DialogueSystem.Data;
 using DialogueSystem.Runtime.Narration;
-using DialogueSystem.Runtime.Utility;
-using JetBrains.Annotations;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using Utility;
 
 namespace DialogueSystem.Runtime.UI
 {
-    public class NarrativeUI : MonoBehaviour
+    [RequireComponent(typeof(TextTyper))]
+    public abstract class NarrativeUI : MonoBehaviour
     {
         [Header("UI Texts")]
-        [SerializeField] private TextMeshProUGUI speakerNameText;
-        [SerializeField] private TextMeshProUGUI messageTextContainer;
-        [SerializeField] private TextTyper textTyper;
-
-        [Space, Header("UI Buttons")] 
-        [SerializeField] private Transform buttonsParent;
-        [SerializeField] private Button dialogueOptionButtonPrefab;
-        [SerializeField] private Button disabledOptionButtonPrefab;
-        [SerializeField] private Button nextMessageButton;
-        [SerializeField] private Vector2 buttonOffset;
-        [SerializeField, Min(1)] private int numberOfColumns = 2;
-
-        [Space, Header("UI Rendering")]
-        [SerializeField, CanBeNull] private Image speakingCharacterSprite;
-    
-        private List<Button> _currentOptionButtonList;
-        private bool _disabledButtonPrefabNotNull;
-        private bool _narrativeWriterNotNull;
-        private bool _speakingCharacterSpriteNull;
-
-        public event Action OnMessageEnd;
-    
-        private void Awake()
+        [SerializeField] protected TextTyper textTyper;
+        
+        public event Action OnMessageStart
         {
-            _currentOptionButtonList = new List<Button>();
-            _speakingCharacterSpriteNull = speakingCharacterSprite == null;
-            _narrativeWriterNotNull = textTyper != null;
-            _disabledButtonPrefabNotNull = disabledOptionButtonPrefab != null;
-            CloseDialogue();
+            add => textTyper.OnTypingStart += value;
+            remove => textTyper.OnTypingStart -= value;
         }
-    
+        
+        public event Action OnMessageEnd
+        {
+            add => textTyper.OnTypingEnd += value;
+            remove => textTyper.OnTypingEnd -= value;
+        }
+
         public delegate void ChoosePathDelegate(int index);
-
-        public void DisplayDialogueOptionButtons(List<DialogueOption> options, bool disableChosenOptions, ChoosePathDelegate choosePathFunction)
-        {
-            DisableNextNarrationUI();
-
-            var buttonRect = dialogueOptionButtonPrefab.GetComponent<RectTransform>().rect;
-            var parentRect = buttonsParent.GetComponent<RectTransform>().rect;
-        
-            var columnIndex = 0;
-            var rowIndex = 0;
-        
-            var optionsLeft = new Queue<DialogueOption>(options);
-            var numberOfOptionsInRow = Mathf.Min(optionsLeft.Count, numberOfColumns);
-        
-            var initialButtonXPosition = (buttonRect.width * (1 - numberOfOptionsInRow) - numberOfOptionsInRow * buttonOffset.x + buttonOffset.x) / 2;
-            var initialButtonYPosition = parentRect.height / 2 - buttonRect.height / 2;
-        
-            foreach(var option in options)
-            {
-                if (columnIndex == numberOfColumns)
-                {
-                    numberOfOptionsInRow = Mathf.Min(optionsLeft.Count, numberOfColumns);
-                    initialButtonXPosition = (buttonRect.width * (1 - numberOfOptionsInRow) - numberOfOptionsInRow * buttonOffset.x + buttonOffset.x) / 2;
-                    columnIndex = 0;
-                    rowIndex++;
-                }
-
-                var isDisabledOption = disableChosenOptions && option.HasAlreadyBeenChosen;
-            
-                Button newOptionButton;
-
-                if (isDisabledOption)
-                {
-                    newOptionButton = Instantiate(_disabledButtonPrefabNotNull ? disabledOptionButtonPrefab : dialogueOptionButtonPrefab, buttonsParent);
-                    newOptionButton.interactable = false;
-                }
-                else
-                    newOptionButton = Instantiate(dialogueOptionButtonPrefab, buttonsParent);
-
-                var xOffset = columnIndex * (buttonRect.width + buttonOffset.x);
-                var yOffset = rowIndex * (buttonRect.height + buttonOffset.y);
-            
-                newOptionButton.GetComponent<RectTransform>().localPosition = new Vector3(initialButtonXPosition + xOffset, initialButtonYPosition - yOffset,0);
-
-                var optionTextContainer = newOptionButton.transform.GetComponentInChildren<TextMeshProUGUI>();
-                DialogueParser.ProcessInputString(option.Text, out var processedMessageWithTags); //only process variable tags
-                optionTextContainer.text = processedMessageWithTags;
-
-                var pathIndex = options.IndexOf(option);
-            
-                newOptionButton.onClick.AddListener(
-                    delegate 
-                    {
-                        choosePathFunction(pathIndex); 
-                        EnableNextNarrationUI(); 
-                        RemoveOptions(); 
-                    });
-
-                columnIndex++;
-                optionsLeft.Dequeue();
-
-                _currentOptionButtonList.Add(newOptionButton);
-            }
-        }
-
-        private void RemoveOptions()
-        {
-            _currentOptionButtonList.ForEach(button => Destroy(button.gameObject));
-            _currentOptionButtonList.Clear();
-        }
-
-        private void DisplaySpeakerName(string speakerName, bool hide)
-        {
-            speakerNameText.text = speakerName;
-            speakerNameText.maxVisibleCharacters = hide ? 0 : int.MaxValue;
-        }
-    
-        public void DisplayDialogueBubble(string speakerName, Sprite characterFace, bool hideCharacter)
-        {
-            DisplaySpeakerName(speakerName, hideCharacter);
-            DisplaySpeakerSprite(characterFace, hideCharacter);
-        }
-
-        public void DisplayMessage(string text)
-        {
-            messageTextContainer.text = text;
-            if(textTyper) textTyper.TypeText(text, messageTextContainer);
-            StartCoroutine(WaitMessageEnd());
-        }
-
-        private IEnumerator WaitMessageEnd()
-        {
-            if (_narrativeWriterNotNull)
-                yield return new WaitUntil(() => textTyper.IsTyping == false);
-
-            OnMessageEnd?.Invoke(); //move to text typer?
-            yield return null;
-        }
-
-        public void DisplaySpeakerSprite(Sprite sprite, bool hideCharacter = false)
-        {
-            if (_speakingCharacterSpriteNull) return;
-        
-            speakingCharacterSprite!.sprite = sprite;
-            speakingCharacterSprite.gameObject.SetActive(sprite != null && !hideCharacter);
-        }
-
-        private void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
-        private void DisableNextNarrationUI() => nextMessageButton.gameObject.SetActive(false);
-
-        public void CloseDialogue() => gameObject.SetActive(false);
-        public void OpenDialogue() => gameObject.SetActive(true);
-    
-        public void InitializeUI()
-        {
-            messageTextContainer.text = string.Empty;
-            speakerNameText.text = string.Empty;
-            DisplaySpeakerSprite(null, true);
-        }
-
-        public bool IsMessageDisplaying() => _narrativeWriterNotNull && textTyper.IsTyping;
-
-        public void DisplayAllMessage()
-        {
-            StartCoroutine(WaitMessageEnd());
-            textTyper.FinishTyping();
-            messageTextContainer.maxVisibleCharacters = int.MaxValue;
-            //execute commands of all position?
-        }
+                
+        /// <summary>
+        /// Display the message in the UI.
+        /// </summary>
+        /// <param name="message">parsed message you can show.</param>
+        public abstract void DisplayMessage(string message);
+        /// <summary>
+        /// Display dialogue bubble with message data and character data.
+        /// </summary>
+        /// <param name="messageData">Message data with information about the text to show and the character's name.</param>
+        /// <param name="characterData">Character data with information about the character's UI.</param>
+        public abstract void DisplayDialogueBubble(DialogueMessage messageData, CharacterData characterData);
+        /// <summary>
+        /// Display the possible dialogue options the player can choose.
+        /// </summary>
+        /// <param name="options">List of dialogue options with each containing information about the chosen option.</param>
+        /// <param name="disableAlreadyChosenOptions">Disable option if it has already been chosen by the player.</param>
+        /// <param name="chooseNarrativePath">Function to call when the player chooses an option. It is generally the function that changes the path of the narrative.</param>
+        public abstract void DisplayOptions(List<DialogueOption> options, bool disableAlreadyChosenOptions, ChoosePathDelegate chooseNarrativePath);
+        /// <summary>
+        /// Display entire message without typing.
+        /// </summary>
+        public abstract void DisplayAllMessage();
+        /// <summary>
+        /// If the message is currently being displayed by the typer.
+        /// </summary>
+        public abstract bool IsMessageDisplaying();
+        /// <summary>
+        /// Initialize UI values before displaying anything (example: set a default value for the message displayed).
+        /// </summary>
+        public abstract void InitializeUI();
+        /// <summary>
+        /// Show or hide the set of dialogue UI.
+        /// </summary>
+        /// <param name="active">UI Active state.</param>
+        public abstract void SetUIActive(bool active);
+        /// <summary>
+        /// Display the character's sprite if exists or not hidden.
+        /// </summary>
+        /// <param name="characterStateFace">Character's sprite.</param>
+        /// <param name="hideCharacter">Hide character's sprite.</param>
+        public abstract void DisplayCharacter(Optional<Sprite> characterStateFace, bool hideCharacter = false);
     }
 }

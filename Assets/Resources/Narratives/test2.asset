@@ -23,10 +23,10 @@ MonoBehaviour:
     PortName: <i>I'm guud</i>
     TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
   - BaseNodeGuid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
-    PortName: "Pay <val:cost>\u20AC"
+    PortName: "Pay <val:cost_coffee>\u20AC"
     TargetNodeGuid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
   - BaseNodeGuid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
-    PortName: "Pay <val:cost>\u20AC"
+    PortName: "Pay <val:cost_bread>\u20AC"
     TargetNodeGuid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
   - BaseNodeGuid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
     PortName: Output
@@ -82,7 +82,7 @@ MonoBehaviour:
   - Guid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
     Dialogue:
     - <CharacterName>k__BackingField: X
-      <Content>k__BackingField: "Nice choice. A coffee for <val:cost>\u20AC!"
+      <Content>k__BackingField: "Nice choice. A coffee for <val:cost_coffee>\u20AC!"
       <HideCharacter>k__BackingField: 0
     Position: {x: 1126.6666, y: 429.3333}
     TransitionNode: 0
@@ -92,7 +92,8 @@ MonoBehaviour:
   - Guid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
     Dialogue:
     - <CharacterName>k__BackingField: X
-      <Content>k__BackingField: "Okay then. That would cost<sp:0,2> <val:cost><p:long>\u20AC!!!!!"
+      <Content>k__BackingField: "Okay then. That would cost<sp:0,2> <val:cost_bread>\u20AC<p:long>
+        !!!!!"
       <HideCharacter>k__BackingField: 0
     Position: {x: 1126.6666, y: 318}
     TransitionNode: 0
@@ -142,8 +143,8 @@ MonoBehaviour:
   - Guid: b551527d-3554-405b-bd0d-5949924857ec
     Dialogue:
     - <CharacterName>k__BackingField: X
-      <Content>k__BackingField: <em:Angry><sp:0,06><i>Welcome</i><p:long> to my<p:normal>
-        <sp:0,01><color="green">shop</color><sp:0>!!!!!!!!!!!
+      <Content>k__BackingField: <sp:0,2><i>Welcome <val:character></i><p:long> to
+        my<p:normal><em:Angry> <sp:0,01><color="green">shop</color><sp:0>!!!!!!!!!!!
       <HideCharacter>k__BackingField: 0
     Position: {x: 336, y: 278.66666}
     TransitionNode: 1
@@ -184,6 +185,6 @@ MonoBehaviour:
     IsCheckpoint: 1
     DisableAlreadyChosenOptions: 0
   pathToCheckpoint: 
-  isNarrativeEndReached: 1
+  isNarrativeEndReached: 0
   startFromPreviousNarrativePath: 1
   characters: []

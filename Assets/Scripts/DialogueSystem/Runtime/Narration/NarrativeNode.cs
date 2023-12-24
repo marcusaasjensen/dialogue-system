@@ -38,9 +38,9 @@ namespace DialogueSystem.Runtime.Narration
         }
 
         public bool IsTipNarrativeNode() => Options.Count == 0 && DefaultPath == null;
-        public bool IsTransitionNode() => Options.Count == 0 && DefaultPath != null;
+        public bool IsSimpleNode() => Options.Count == 0 && DefaultPath != null;
         public bool HasNextChoice() => Options.Count > 0;
-        public bool HasChoiceAfterTransition() => !HasNextChoice() && DefaultPath != null && DefaultPath.HasOnlyChoices();
+        public bool HasChoiceAfterSimpleNode() => !HasNextChoice() && DefaultPath != null && DefaultPath.HasOnlyChoices();
         private bool HasOnlyChoices() => Dialogue.Count == 0 && HasNextChoice();
     }
 }

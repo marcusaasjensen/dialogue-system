@@ -5,6 +5,11 @@ namespace Scene
 {
     public class ExampleSceneScript : MonoBehaviour
     {
-        private void Awake() => DialogueVariables.Instance.AddDialogueVariable("cost", 1.5f);        
+        private void Awake()
+        {
+            DialogueVariableData.Instance.AddDialogueVariable("cost_coffee", 1.5f);
+            DialogueVariableData.Instance.AddDialogueVariable("cost_bread", 1);
+            DialogueVariableData.Instance.AddDialogueVariable("character", "John");
+        }
     }
 }

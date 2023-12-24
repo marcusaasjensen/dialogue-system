@@ -17,7 +17,10 @@ namespace Scene
 
         private void FixedUpdate()
         {
-            if (narrativeController.IsNarrating) return;
+            if (narrativeController.IsNarrating)
+            {
+                return;
+            }
             InputDirection = new Vector3(Input.GetAxisRaw("Horizontal"),0, Input.GetAxisRaw("Vertical"));
             _transform.Translate( Time.deltaTime * moveSpeed * InputDirection.normalized);
             var position = _transform.position;

@@ -10,9 +10,10 @@ namespace DialogueSystem.Editor
 {
     public class DialogueGraphView : GraphView
     {
-        public readonly Vector2 DefaultNodeSize = new(150, 200);
         private const int MaxChoiceTextLength = 50;
-    
+
+        public Vector2 DefaultNodeSize { get; } = new(150, 200);
+
         public DialogueGraphView()
         {
             styleSheets.Add(Resources.Load<StyleSheet>("Editor/DialogueGraph"));
