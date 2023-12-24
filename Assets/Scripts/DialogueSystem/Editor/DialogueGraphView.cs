@@ -90,7 +90,7 @@ namespace DialogueSystem.Editor
                 DialogueView.OpenWindow(dialogueNode.Messages);
             }) { text = "Edit Dialogue" };
         
-            var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode); }) { text = "New Choice" };
+            var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode, ""); }) { text = "New Choice" };
         
             var optionDisablingToggle = new Toggle("Disable already chosen options") { value =  disableOptions };
             
@@ -120,7 +120,7 @@ namespace DialogueSystem.Editor
             dialogueNode.mainContainer.AddToClassList("dialogueNodeMainContainer");
         }
 
-        public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "")
+        public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName)
         {
             var generatedPort = GeneratePort(dialogueNode, Direction.Output);
 

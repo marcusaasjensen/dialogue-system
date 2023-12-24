@@ -10,7 +10,7 @@ namespace DialogueSystem.Runtime.Command
         private readonly AudioClip _musicClip;
         private readonly bool _stopMusic;
 
-        public MusicCommand(int position, bool mustExecute, string musicName, bool stopMusic = false) : base(position, mustExecute)
+        public MusicCommand(int position, bool mustExecute, string musicName, bool stopMusic) : base(position, mustExecute)
         {
             _musicClip = DialogueAudioData.Instance.GetMusic(musicName);
             _stopMusic = stopMusic;

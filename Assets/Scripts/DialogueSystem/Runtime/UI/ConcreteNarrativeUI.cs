@@ -111,7 +111,7 @@ namespace DialogueSystem.Runtime.UI
             }
         }
 
-        public override void DisplayCharacter(Optional<Sprite> sprite, bool hideCharacter = false)
+        public override void DisplayCharacter(Optional<Sprite> sprite, bool hideCharacter)
         {
             if (!characterSprite.Enabled)
             {

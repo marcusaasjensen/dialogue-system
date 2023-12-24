@@ -59,7 +59,9 @@ namespace DialogueSystem.Runtime.Command
                 if (message[i] == '<')
                 {
                     while (i < message.Length && message[i] != '>')
+                    {
                         i++;
+                    }
                     i++;
                 }
                 else
@@ -91,18 +93,19 @@ namespace DialogueSystem.Runtime.Command
         private static int VisibleCharactersUpToIndex(string message, int index)
         {
             var result = 0;
-            var insideBrackets = false;
             for (var i = 0; i < index; i++)
             {
+                var insideBrackets = false;
                 switch (message[i])
                 {
                     case '<':
                         insideBrackets = true;
                         break;
                     case '>':
-                        insideBrackets = false;
                         result--;
                         break;
+                    default:
+                        continue;
                 }
 
                 if (!insideBrackets)
