@@ -4,13 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text.RegularExpressions;
 using DialogueSystem.Data;
 using UnityEngine;
 using Utility;
 
-namespace DialogueSystem.Runtime.CommandProcessor
+namespace DialogueSystem.Runtime.Command
 {
     public abstract class DialogueCommandParser
     {
@@ -110,10 +109,6 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 {
                     result++;
                 }
-                // else if (i + 6 < index && message.Substring(i, 6) == "sprite")
-                // {
-                //     result++;
-                // }
             }
 
             return result;
@@ -133,8 +128,6 @@ namespace DialogueSystem.Runtime.CommandProcessor
             processedMessage = HandleMusicEndTags(processedMessage, result);
             processedMessage = HandleSoundTags(processedMessage, result);
             processedMessage = HandleAnimTags(processedMessage, result);
-            // processedMessage = HandleAnimStartTags(processedMessage, result);
-            // processedMessage = HandleAnimEndTags(processedMessage, result);
 
             return result;
         }
@@ -287,12 +280,14 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 var stringVal = match.Groups["speed"].Value;
 
                 if (!float.TryParse(stringVal, out var val))
+                {
                     val = 0f;
+                }
 
                 result.Add(new CommandData
                 {
                     StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
-                    Type = DialogueCommandType.TextSpeedChange,
+                    Type = DialogueCommandType.Speed,
                     FloatValues = new [] { val }
                 });
             }

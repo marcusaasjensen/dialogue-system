@@ -16,15 +16,14 @@
     public enum DialogueCommandType
     {
         Pause, //ignorable
-        TextSpeedChange, //ignorable
-        AnimStart, //ignorable
-        AnimEnd, //ignorable
+        Speed, //ignorable
         DisplayedEmotion, //must execute //TODO: adapt with reactions of other characters
         MusicStart, //must execute
         MusicEnd, //must execute
         SoundEffect, //must execute
-        CameraShake, //ignorable
-        Animation
+        CameraShake, //must execute
+        Animation, //must execute
+        TimeLine //must execute
     }
 
     public enum TextAnimationType
@@ -33,8 +32,9 @@
         Shake,
         Wave,
         Wobble,
-        FadeInOut,
+        PingPong,
         Flicker,
-        Spiral
+        Spiral,
+        Jitter
     }
 }

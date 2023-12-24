@@ -3,7 +3,7 @@ using DialogueSystem.Runtime.Audio;
 using UnityEngine;
 using Utility;
 
-namespace DialogueSystem.Runtime.CommandProcessor
+namespace DialogueSystem.Runtime.Command
 {
     public class SoundEffectCommand : DialogueCommand
     {
@@ -12,7 +12,10 @@ namespace DialogueSystem.Runtime.CommandProcessor
         public SoundEffectCommand(int position, bool mustExecute, string audioName) : base(position, mustExecute)
         {
             _audioClip = DialogueAudioData.Instance.GetSoundEffect(audioName);
-            if(_audioClip == null) LogHandler.Warn($"Sound effect not found: {audioName}");
+            if (_audioClip == null)
+            {
+                LogHandler.Warn($"Sound effect not found: {audioName}");
+            }
         }
 
         public override void Execute() => AudioPlayer.Instance.PlaySound(_audioClip);

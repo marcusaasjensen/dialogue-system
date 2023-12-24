@@ -15,7 +15,9 @@ namespace DialogueSystem.Runtime.Interaction
     
         private bool _hintNull;
 
-        public bool CanInteract => !((stopInteractAtNarrativeEnd && (narrativeScriptableObject?.isNarrativeEndReached ?? false)) || narrativeController.IsNarrating);
+        public bool CanInteract =>
+            !((stopInteractAtNarrativeEnd && (narrativeScriptableObject is { isNarrativeEndReached: true })) ||
+              narrativeController.IsNarrating);
 
         private void Update()
         {
@@ -40,7 +42,10 @@ namespace DialogueSystem.Runtime.Interaction
 
         private void ShowHint()
         {
-            if (_hintNull) return;
+            if (_hintNull)
+            {
+                return;
+            }
         
             if (!CanInteract)
             {

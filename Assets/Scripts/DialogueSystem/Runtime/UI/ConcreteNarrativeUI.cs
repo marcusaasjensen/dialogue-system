@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using DialogueSystem.Data;
-using DialogueSystem.Runtime.CommandProcessor;
+using DialogueSystem.Runtime.Command;
 using DialogueSystem.Runtime.Narration;
 using JetBrains.Annotations;
 using TMPro;
@@ -24,17 +24,15 @@ namespace DialogueSystem.Runtime.UI
         [SerializeField, Min(1)] private int numberOfColumns = 2;
 
         [Space, Header("UI Rendering")]
-        [SerializeField, CanBeNull] private Image characterSprite;
+        [SerializeField] private Optional<Image> characterSprite;
         [SerializeField] private Image dialogueBubble;
     
         private List<Button> _currentOptionButtonList;
         private bool _textTyperNotNull;
-        private bool _characterSpriteNull;
     
         private void Awake()
         {
             _currentOptionButtonList = new List<Button>();
-            _characterSpriteNull = characterSprite == null;
             _textTyperNotNull = textTyper != null;
             SetUIActive(false);
         }
@@ -76,7 +74,10 @@ namespace DialogueSystem.Runtime.UI
 
                 _currentOptionButtonList.Add(newOptionButton);
 
-                if (columnIndex != numberOfColumns) continue;
+                if (columnIndex != numberOfColumns)
+                {
+                    continue;
+                }
                 numberOfOptionsInRow = Mathf.Min(numberOfOptionsLeft, numberOfColumns);
                 columnIndex = 0;
                 rowIndex++;
@@ -98,22 +99,27 @@ namespace DialogueSystem.Runtime.UI
         public override void DisplayDialogueBubble(DialogueMessage messageData, CharacterData characterData)
         {
             DisplayCharacterName(messageData.CharacterName, messageData.HideCharacter);
-            DisplayCharacter(characterData.defaultState.characterFace, messageData.HideCharacter);
+            DisplayCharacter(characterData.DefaultState.CharacterFace, messageData.HideCharacter);
         }
 
         public override void DisplayMessage(string text)
         {
             messageTextContainer.text = text;
-            if(textTyper) textTyper.TypeText(text, messageTextContainer);
+            if (textTyper)
+            {
+                textTyper.TypeText(text, messageTextContainer);
+            }
         }
 
         public override void DisplayCharacter(Optional<Sprite> sprite, bool hideCharacter = false)
         {
-            if (!sprite.Enabled) return;
-            if (_characterSpriteNull) return;
-        
-            characterSprite!.sprite = sprite.Value;
-            characterSprite.gameObject.SetActive(!hideCharacter);
+            if (!characterSprite.Enabled)
+            {
+                return;
+            }
+
+            characterSprite.Value.sprite = sprite.Value;
+            characterSprite.Value.gameObject.SetActive(!hideCharacter && sprite.Enabled);
         }
 
         private void EnableNextNarrationUI() => nextMessageButton.gameObject.SetActive(true);
@@ -126,14 +132,12 @@ namespace DialogueSystem.Runtime.UI
             buttonsParent.gameObject.SetActive(active);
             nextMessageButton.gameObject.SetActive(active);
             dialogueBubble.gameObject.SetActive(active);
-            if (characterSprite != null) 
-                characterSprite.gameObject.SetActive(active);
+            characterSprite.Value.gameObject.SetActive(active);
         }
     
         public override void InitializeUI()
         {
             _currentOptionButtonList = new List<Button>();
-            _characterSpriteNull = characterSprite == null;
             _textTyperNotNull = textTyper != null;
             messageTextContainer.text = string.Empty;
             speakerNameText.text = string.Empty;

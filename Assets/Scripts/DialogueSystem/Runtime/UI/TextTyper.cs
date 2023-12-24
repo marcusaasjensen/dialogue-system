@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using DialogueSystem.Runtime.CommandProcessor;
+using DialogueSystem.Runtime.Command;
 using TMPro;
 using UnityEngine;
 
@@ -27,8 +27,11 @@ namespace DialogueSystem.Runtime.UI
         {
             TyperPace = defaultTyperPace;
             var plainText = DialogueCommandParser.RemoveSimpleTextTags(text);
-            
-            if(_typeTextCoroutine != null) StopCoroutine(_typeTextCoroutine);
+
+            if (_typeTextCoroutine != null)
+            {
+                StopCoroutine(_typeTextCoroutine);
+            }
             _typeTextCoroutine = StartCoroutine(TypeTextCoroutine(textContainer, plainText.Length));
         }
 
@@ -67,7 +70,10 @@ namespace DialogueSystem.Runtime.UI
 
         public void FinishTyping()
         {
-            if (_typeTextCoroutine == null) return;
+            if (_typeTextCoroutine == null)
+            {
+                return;
+            }
             StopCoroutine(_typeTextCoroutine);
             ResetTyper();
             OnTypingEnd?.Invoke();

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using DialogueSystem.Data;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
-using Utility;
 
 namespace DialogueSystem.Runtime.UI
 {
@@ -10,7 +10,12 @@ namespace DialogueSystem.Runtime.UI
     public class TextAnimator : MonoBehaviour
     {
         [Header("To Animate"), SerializeField] private TMP_Text textMesh;
-        [Header("Default"), SerializeField] private float animationSpeed = 1.0f;
+        
+        [Header("Editor Mode"), SerializeField] private bool testAnimationInEditor;
+        [SerializeField] private TextAnimationType testAnimationType;
+        [SerializeField, Min(0)] private int testStartPosition;
+        [SerializeField, Min(0)] private int testEndPosition;
+        [Header("Default Values"), SerializeField] private float animationSpeed = 1.0f;
         [SerializeField] private float amount = 1.0f;
         [SerializeField] private bool synchronizeTextAnimation;
 
@@ -18,11 +23,41 @@ namespace DialogueSystem.Runtime.UI
         private Vector3[] _vertices;
 
         private readonly List<TextAnimation> _textAnimations = new ();
+        private bool _isTextMeshNull;
+
+        private void Awake()
+        {
+            testAnimationInEditor = false;
+            _isTextMeshNull = textMesh == null;
+        }
         
+        #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            _isTextMeshNull = textMesh == null;
+
+            if (!testAnimationInEditor)
+            {
+                EditorApplication.update -= AnimateTextMesh;
+                ResetAnimator();
+                return;
+            }
+            ResetAnimator();
+            PlayAnimationInEditor();
+            EditorApplication.update += AnimateTextMesh;
+        }
+        #endif
+        
+        private void PlayAnimationInEditor() => PlayAnimation(testAnimationType, testStartPosition, testEndPosition, null, null, null);
+
         private void Update() => AnimateTextMesh();
 
         private void AnimateTextMesh()
         {
+            if (_isTextMeshNull)
+            {
+                return;
+            }
             textMesh.ForceMeshUpdate();
             _mesh = textMesh.mesh;
             _vertices = _mesh.vertices;
@@ -34,7 +69,10 @@ namespace DialogueSystem.Runtime.UI
                 for (var i = textAnimation.StartPosition; i < textEndPosition && i < textMesh.textInfo.characterCount; i++)
                 {
                     var c = textMesh.textInfo.characterInfo[i];
-                    if (c.character == ' ' || c.vertexIndex < 0 || c.vertexIndex + 3 >= _vertices.Length) continue;
+                    if (c.character == ' ' || c.vertexIndex < 0 || c.vertexIndex + 3 >= _vertices.Length)
+                    {
+                        continue;
+                    }
                     
                     var vertexIndex = c.vertexIndex;
 
@@ -54,7 +92,11 @@ namespace DialogueSystem.Runtime.UI
         }
 
         public void PlayAnimation(TextAnimationType animationType, int startPosition, int endPosition, float? speedValue, float? amountValue, bool? sync) => _textAnimations.Add(new TextAnimation(animationType, startPosition, endPosition, speedValue, amountValue, sync));
-        public void ResetAnimator() => _textAnimations.Clear();
+
+        public void ResetAnimator()
+        {
+            _textAnimations.Clear();
+        }
 
         private class TextAnimation
         {
@@ -88,7 +130,7 @@ namespace DialogueSystem.Runtime.UI
                         return new Vector2(Mathf.PerlinNoise(adjustedTime * 5.0f, 0.0f), 0.0f) * newAmount;
                     case TextAnimationType.Wave:
                         return new Vector2(0.0f, Mathf.Sin(adjustedTime * 2.0f)) * newAmount;
-                    case TextAnimationType.FadeInOut:
+                    case TextAnimationType.PingPong:
                         var alpha = Mathf.PingPong(adjustedTime, 1.0f);
                         return new Vector2(0.0f, alpha - 0.5f) * newAmount;
                     case TextAnimationType.Flicker:
@@ -98,6 +140,8 @@ namespace DialogueSystem.Runtime.UI
                         var spiralRadius = Mathf.Sin(adjustedTime) * 0.5f + 1.0f;
                         var spiralAngle = adjustedTime * 180.0f;
                         return new Vector2(Mathf.Cos(spiralAngle), Mathf.Sin(spiralAngle)) * (spiralRadius * newAmount);
+                    case TextAnimationType.Jitter:
+                        return new Vector2(Random.Range(-newAmount, newAmount), Random.Range(-newAmount, newAmount));
                     case TextAnimationType.None:
                     default:
                         return Vector2.zero;

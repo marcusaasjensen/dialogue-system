@@ -17,18 +17,23 @@ namespace DialogueSystem.Runtime.Narration
     
         public void AddNarrativeNode(NarrativeNode node) => NarrativeNodes.Add(node);
     
-        public CharacterData FindCharacter(string characterName) => Characters.Find(character => character.characterName == characterName);
+        public CharacterData FindCharacter(string characterName) => Characters.Find(character => character.CharacterName == characterName);
         
         public NarrativeNode FindStartNodeFromPath(string pathID)
         {
             if (string.IsNullOrEmpty(pathID))
+            {
                 return NarrativeEntryNode;
+            }
 
             var node = NarrativeEntryNode;
 
             while (node != null)
             {
-                if (string.IsNullOrEmpty(pathID)) return node;
+                if (string.IsNullOrEmpty(pathID))
+                {
+                    return node;
+                }
 
                 if (node.IsCheckpoint)
                 {

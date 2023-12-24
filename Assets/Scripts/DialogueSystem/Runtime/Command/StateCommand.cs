@@ -2,7 +2,7 @@
 using DialogueSystem.Runtime.Audio;
 using DialogueSystem.Runtime.UI;
 
-namespace DialogueSystem.Runtime.CommandProcessor
+namespace DialogueSystem.Runtime.Command
 {
     public class StateCommand : DialogueCommand
     {
@@ -23,9 +23,9 @@ namespace DialogueSystem.Runtime.CommandProcessor
         {
             var characterState = _characterData.GetState(_emotion);
 
-            _narrativeUI.DisplayCharacter(characterState.characterFace);
-            _characterSpeaker.React(characterState.reactionSound);
-            _characterSpeaker.ChangePitch(characterState.speakingSoundPitch);
+            _narrativeUI.DisplayCharacter(characterState.CharacterFace);
+            _characterSpeaker.React(characterState.ReactionSound);
+            _characterSpeaker.ChangePitch(characterState.SpeakingSoundPitch);
         }
     }
 }

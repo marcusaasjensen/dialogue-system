@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DialogueSystem.Data;
-using DialogueSystem.Runtime.CommandProcessor;
+using DialogueSystem.Runtime.Command;
 using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
@@ -45,9 +45,11 @@ namespace DialogueSystem.Runtime.Narration
                 LogHandler.Alert("Can't start narrative because the narrative was not loaded properly.");
                 return;
             }
-        
-            if(resetNarrativeOnLoad)
+
+            if (resetNarrativeOnLoad)
+            {
                 narrativeLoader.ResetNarrative();
+            }
         
             StartNarrative();
         }
@@ -76,15 +78,21 @@ namespace DialogueSystem.Runtime.Narration
             var continueAutomatically = _narrativeQueue.Count == 0 && 
                                         (_currentNarrative.HasNextChoice() || _currentNarrative.HasChoiceAfterSimpleNode() 
                                             && !_currentNarrative.IsCheckpoint);
-        
-            if (!continueAutomatically) return;
+
+            if (!continueAutomatically)
+            {
+                return;
+            }
 
             FindNextPath();
         }
 
         private void StartNewDialogue(NarrativeNode narrative)
         {
-            if (narrative == null) return;
+            if (narrative == null)
+            {
+                return;
+            }
             _currentNarrative = narrative;
             _narrativeQueue = new Queue<DialogueMessage>(narrative.Dialogue);
             NextNarrative();
@@ -147,7 +155,10 @@ namespace DialogueSystem.Runtime.Narration
                 return;
             }
 
-            if (!_currentNarrative.IsTipNarrativeNode()) return;
+            if (!_currentNarrative.IsTipNarrativeNode())
+            {
+                return;
+            }
             FinishDialogue();
         }
 

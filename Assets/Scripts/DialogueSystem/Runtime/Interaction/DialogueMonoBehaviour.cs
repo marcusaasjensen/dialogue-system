@@ -16,7 +16,10 @@ namespace DialogueSystem.Runtime.Interaction
         protected void SkipDialogueWithInput()
         {
             if (!Input.GetKeyDown(skipInput) || narrativeController.IsChoosing ||
-                !narrativeController.IsNarrating) return;
+                !narrativeController.IsNarrating)
+            {
+                return;
+            }
 
             narrativeController.NextNarrative();
         }

@@ -1,9 +1,9 @@
-﻿namespace DialogueSystem.Runtime.CommandProcessor
+﻿namespace DialogueSystem.Runtime.Command
 {
     public abstract class DialogueCommand
     {
         public int StartPosition { get; }
-        public int EndPosition { get; }
+        protected int EndPosition { get; }
         public bool MustExecute { get; }
 
         protected DialogueCommand(int startPosition, bool mustExecute)

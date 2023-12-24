@@ -16,21 +16,39 @@ MonoBehaviour:
   - rid: 7527076728631984129
   - rid: 7527076728631984130
   - rid: 7527076728631984131
+  - rid: 7527076842017914880
+  - rid: 7527076842017914881
+  - rid: 7527076842017914882
   references:
     version: 2
     RefIds:
     - rid: 7527076728631984129
       type: {class: FloatVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
       data:
-        name: cost_coffee
+        <Name>k__BackingField: 
         floatValue: 1.5
     - rid: 7527076728631984130
       type: {class: IntVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
       data:
-        name: cost_bread
+        <Name>k__BackingField: 
         intValue: 1
     - rid: 7527076728631984131
       type: {class: StringVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
       data:
-        name: character
+        <Name>k__BackingField: 
+        stringValue: John
+    - rid: 7527076842017914880
+      type: {class: FloatVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
+      data:
+        <Name>k__BackingField: cost_coffee
+        floatValue: 1.5
+    - rid: 7527076842017914881
+      type: {class: IntVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
+      data:
+        <Name>k__BackingField: cost_bread
+        intValue: 1
+    - rid: 7527076842017914882
+      type: {class: StringVariable, ns: DialogueSystem.Data, asm: Assembly-CSharp}
+      data:
+        <Name>k__BackingField: character
         stringValue: John

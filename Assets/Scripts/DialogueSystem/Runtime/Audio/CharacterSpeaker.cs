@@ -8,11 +8,9 @@ namespace DialogueSystem.Runtime.Audio
     public class CharacterSpeaker : MonoBehaviour
     {
         [SerializeField] private TextTyper textTyper;
-        [Header("Audio Sources")]
-        [SerializeField] private AudioSource speakingAudioSource;
+        [Header("Audio Sources"), SerializeField] private AudioSource speakingAudioSource;
         [SerializeField] private AudioSource reactionAudioSource;
-        [Header("Speaking Pace")]
-        [SerializeField] private float speakingPace = 1f;
+        [Header("Speaking Pace"), SerializeField] private float speakingPace = 1f;
         [SerializeField] private bool synchronizeWithVariablePace = true;
         
         private void Awake()

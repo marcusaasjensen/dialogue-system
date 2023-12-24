@@ -6,7 +6,7 @@ using DialogueSystem.Runtime.Narration;
 using DialogueSystem.Runtime.UI;
 using UnityEngine;
 
-namespace DialogueSystem.Runtime.CommandProcessor
+namespace DialogueSystem.Runtime.Command
 {
     public class CommandExecutionHandler : MonoBehaviour
     {
@@ -38,14 +38,11 @@ namespace DialogueSystem.Runtime.CommandProcessor
                     case DialogueCommandType.Pause:
                         newCommand = CommandFactory.CreatePauseCommand(commandData, textTyper);
                         break;
-                    case DialogueCommandType.TextSpeedChange:
+                    case DialogueCommandType.Speed:
                         newCommand = CommandFactory.CreateSpeedCommand(commandData, textTyper);
                         break;
                     case DialogueCommandType.DisplayedEmotion:
                         newCommand = CommandFactory.CreateStateCommand(commandData, narrativeUI, characterSpeaker, _currentCharacterData);
-                        break;
-                    case DialogueCommandType.AnimStart:
-                        newCommand = CommandFactory.CreateAnimationCommand(commandData, textAnimator);
                         break;
                     case DialogueCommandType.Animation:
                         newCommand = CommandFactory.CreateAnimationCommand(commandData, textAnimator);
@@ -81,9 +78,9 @@ namespace DialogueSystem.Runtime.CommandProcessor
         {
             textTyper.ResetTyper();
             textAnimator.ResetAnimator();
-            characterSpeaker.ChangeVoice(_currentCharacterData.speakingSound);
-            characterSpeaker.ChangePitch(_currentCharacterData.defaultState.speakingSoundPitch);
-            characterSpeaker.React(_currentCharacterData.defaultState.reactionSound);
+            characterSpeaker.ChangeVoice(_currentCharacterData.SpeakingSound);
+            characterSpeaker.ChangePitch(_currentCharacterData.DefaultState.SpeakingSoundPitch);
+            characterSpeaker.React(_currentCharacterData.DefaultState.ReactionSound);
         }
 
         private void HandleCommandExecution() => StartCoroutine(HandleCommandExecutionCoroutine());

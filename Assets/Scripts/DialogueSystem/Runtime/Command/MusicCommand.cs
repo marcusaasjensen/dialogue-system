@@ -3,7 +3,7 @@ using DialogueSystem.Runtime.Audio;
 using UnityEngine;
 using Utility;
 
-namespace DialogueSystem.Runtime.CommandProcessor
+namespace DialogueSystem.Runtime.Command
 {
     public class MusicCommand : DialogueCommand
     {
@@ -14,8 +14,11 @@ namespace DialogueSystem.Runtime.CommandProcessor
         {
             _musicClip = DialogueAudioData.Instance.GetMusic(musicName);
             _stopMusic = stopMusic;
-            
-            if(_musicClip == null && !_stopMusic) LogHandler.Warn($"Music not found: {musicName}");
+
+            if (_musicClip == null && !_stopMusic)
+            {
+                LogHandler.Warn($"Music not found: {musicName}");
+            }
         }
 
         public override void Execute()

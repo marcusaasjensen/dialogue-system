@@ -1,7 +1,7 @@
 ﻿using DialogueSystem.Data;
 using DialogueSystem.Runtime.UI;
 
-namespace DialogueSystem.Runtime.CommandProcessor
+namespace DialogueSystem.Runtime.Command
 {
     public class AnimationCommand : DialogueCommand
     {

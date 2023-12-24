@@ -19,7 +19,9 @@ namespace DialogueSystem.Runtime.Utility
         public Narrative LoadNarrative(DialogueContainer narrative)
         {
             if (narrative != null)
+            {
                 narrativeToLoad = narrative;
+            }
 
             return LoadNarrativeFromData();
         }
@@ -47,7 +49,10 @@ namespace DialogueSystem.Runtime.Utility
         {
             var entryLink = narrativeToLoad.nodeLinks.Find(link => link.BaseNodeGuid == entryNode.Guid);
 
-            if (entryLink == null) return;
+            if (entryLink == null)
+            {
+                return;
+            }
         
             var firstNode = narrativeToLoad.dialogueNodeData.Find(node => node.Guid == entryLink.TargetNodeGuid);
             narrative.NarrativeEntryNode = CreateNextNode(firstNode, narrative);
@@ -55,10 +60,16 @@ namespace DialogueSystem.Runtime.Utility
 
         private NarrativeNode CreateNextNode(DialogueNodeData node, Narrative narrative)
         {
-            if (node == null) return null;
+            if (node == null)
+            {
+                return null;
+            }
             var sameExistingNode = narrative.NarrativeNodes.Find(existingNode => existingNode.NodeId == node.Guid);
 
-            if (sameExistingNode != null) return sameExistingNode;
+            if (sameExistingNode != null)
+            {
+                return sameExistingNode;
+            }
 
             var dialogue = new List<DialogueMessage>(node.Dialogue);
 
@@ -96,14 +107,20 @@ namespace DialogueSystem.Runtime.Utility
 
         public void SaveNarrativePath(string narrativePathID, bool narrativeEndReached)
         {
-            if (narrativeToLoad == null) return;
+            if (narrativeToLoad == null)
+            {
+                return;
+            }
             narrativeToLoad.pathToCheckpoint = narrativePathID;
             narrativeToLoad.isNarrativeEndReached = narrativeEndReached;
         }
 
         public void ResetNarrative()
         {
-            if (narrativeToLoad == null) return;
+            if (narrativeToLoad == null)
+            {
+                return;
+            }
             narrativeToLoad.pathToCheckpoint = string.Empty;
             narrativeToLoad.isNarrativeEndReached = false;
         }

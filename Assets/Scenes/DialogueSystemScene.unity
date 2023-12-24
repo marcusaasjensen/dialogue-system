@@ -572,6 +572,7 @@ GameObject:
   - component: {fileID: 1138724646}
   - component: {fileID: 1138724647}
   - component: {fileID: 1138724648}
+  - component: {fileID: 1138724649}
   m_Layer: 5
   m_Name: Dialogue UI
   m_TagString: Untagged
@@ -617,16 +618,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03fb819014e3ad64495dc8f636a7325d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textTyper: {fileID: 1138724648}
   speakerNameText: {fileID: 1582010744}
   messageTextContainer: {fileID: 366787871}
-  textTyper: {fileID: 1138724648}
   buttonPrefab: {fileID: 1851353415986813201, guid: cddc6c7c60e7316439d45cc2baa0952b, type: 3}
   disabledButtonPrefab: {fileID: 1851353415986813201, guid: f052b6a0606a3f747b3ccfac2cd3c684, type: 3}
   buttonsParent: {fileID: 222693666}
   nextMessageButton: {fileID: 1249654693}
   buttonOffset: {x: 20, y: 20}
   numberOfColumns: 2
-  characterSprite: {fileID: 1919876754}
+  characterSprite:
+    enabled: 1
+    value: {fileID: 1919876754}
   dialogueBubble: {fileID: 1581070242}
 --- !u!114 &1138724648
 MonoBehaviour:
@@ -641,6 +644,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultTyperPace: 0.05
+--- !u!114 &1138724649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138724645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4c05662bf4c45a8aadb3a58be4b7c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 366787871}
+  testAnimationInEditor: 0
+  testAnimationType: 1
+  testStartPosition: 2
+  testEndPosition: 7
+  animationSpeed: 1.08
+  amount: 19.23
+  synchronizeTextAnimation: 1
 --- !u!1 &1222860797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1407,6 +1430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeScriptableObject: {fileID: 11400000, guid: 1c1c9d1ab11b4a241b2ed4ceb58af6b2, type: 2}
   narrativeController: {fileID: 2089170440}
+  skipInput: 32
   stopInteractAtNarrativeEnd: 0
   player: {fileID: 1222860799}
   hintRadius: 4
@@ -2103,8 +2127,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3531c70f8daa4fb4781b059d4d81ee02, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2203,6 +2227,7 @@ MonoBehaviour:
   textTyper: {fileID: 1138724648}
   narrativeUI: {fileID: 1138724647}
   characterSpeaker: {fileID: 2089170442}
+  textAnimator: {fileID: 1138724649}
 --- !u!114 &2089170442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2215,11 +2240,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b6417d89e34b8191c02e6b8bd65571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textTyper: {fileID: 1138724648}
   speakingAudioSource: {fileID: 2089170443}
   reactionAudioSource: {fileID: 2089170444}
   speakingPace: 2
   synchronizeWithVariablePace: 1
-  textTyper: {fileID: 1138724648}
 --- !u!82 &2089170443
 AudioSource:
   m_ObjectHideFlags: 0

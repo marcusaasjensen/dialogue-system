@@ -37,7 +37,7 @@ namespace DialogueSystem.Runtime.UI
         /// </summary>
         /// <param name="messageData">Message data with information about the text to show and the character's name.</param>
         /// <param name="characterData">Character data with information about the character's UI.</param>
-        public abstract void DisplayDialogueBubble(DialogueMessage messageData, CharacterData characterData = null);
+        public abstract void DisplayDialogueBubble(DialogueMessage messageData, CharacterData characterData);
         /// <summary>
         /// Display the possible dialogue options the player can choose.
         /// </summary>

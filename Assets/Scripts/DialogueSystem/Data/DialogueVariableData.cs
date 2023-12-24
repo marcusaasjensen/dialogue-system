@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utility;
 
 namespace DialogueSystem.Data
@@ -9,7 +10,7 @@ namespace DialogueSystem.Data
     [Serializable]
     public abstract class Variable
     {
-        public string name;
+        [field: SerializeField] public string Name { get; set; }
         public abstract object GetValue();
         public abstract void SetValue(object newValue);
         public abstract override string ToString();
@@ -18,7 +19,7 @@ namespace DialogueSystem.Data
     [Serializable]
     public class IntVariable : Variable
     {
-        public int intValue;
+        [SerializeField] internal int intValue;
         
         public override object GetValue() => intValue;
 
@@ -39,7 +40,7 @@ namespace DialogueSystem.Data
     [Serializable]
     public class StringVariable : Variable
     {
-        public string stringValue;
+        [SerializeField] internal string stringValue;
 
         public override object GetValue() => stringValue;
         
@@ -61,7 +62,7 @@ namespace DialogueSystem.Data
     [Serializable]
     public class FloatVariable : Variable
     {
-        public float floatValue;
+        [SerializeField] internal float floatValue;
 
         public override object GetValue() => floatValue;
         
@@ -95,14 +96,14 @@ namespace DialogueSystem.Data
 
         public string GetValueAsString(string variableName)
         {
-            var variable = variables.Find(v => v.name == variableName);
+            var variable = variables.Find(v => v.Name == variableName);
             return variable?.ToString();
         }
 
         public void AddDialogueVariable<T>(string variableName, T value)
         {
             var valueToString = value.ToString();
-            if (variables.Exists(v => v.name == variableName))
+            if (variables.Exists(v => v.Name == variableName))
             {
                 ChangeDialogueVariable(variableName, valueToString);
                 return;
@@ -111,13 +112,13 @@ namespace DialogueSystem.Data
             switch (value)
             {
                 case int _:
-                    variables.Add(new IntVariable {name = variableName, intValue = (int) (object) value});
+                    variables.Add(new IntVariable {Name = variableName, intValue = (int) (object) value});
                     break;
                 case string _:
-                    variables.Add(new StringVariable {name = variableName, stringValue = (string) (object) value});
+                    variables.Add(new StringVariable {Name = variableName, stringValue = (string) (object) value});
                     break;
                 case float _:
-                    variables.Add(new FloatVariable {name = variableName, floatValue = (float) (object) value});
+                    variables.Add(new FloatVariable {Name = variableName, floatValue = (float) (object) value});
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
@@ -128,7 +129,7 @@ namespace DialogueSystem.Data
 
         public void ChangeDialogueVariable<T>(string variableName, T newValue)
         {
-            var variable = variables.Find(v => v.name == variableName);
+            var variable = variables.Find(v => v.Name == variableName);
             if(variable != null)
                 variable.SetValue(newValue);
             else

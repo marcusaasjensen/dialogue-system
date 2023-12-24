@@ -25,16 +25,24 @@ namespace DialogueSystem.Runtime.Interaction
 
         private void InteractWithCharacter()
         {
-            if (!Input.GetKeyDown(InteractionKey)) return;
+            if (!Input.GetKeyDown(InteractionKey))
+            {
+                return;
+            }
 
             var ray = new Ray(interactSource.position, _rayDirection);
 
-            if (!Physics.Raycast(ray, out var hit, interactionDistance, interactableLayer)) return;
+            if (!Physics.Raycast(ray, out var hit, interactionDistance, interactableLayer))
+            {
+                return;
+            }
 
             var interactable = hit.collider.GetComponent<IInteractable>();
 
             if (interactable.CanInteract)
+            {
                 interactable.Interact();
+            }
         }
 
         private void OnDrawGizmos()

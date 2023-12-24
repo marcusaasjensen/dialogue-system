@@ -1,4 +1,4 @@
-﻿namespace DialogueSystem.Runtime.CommandProcessor
+﻿namespace DialogueSystem.Runtime.Command
 {
     public class NullCommand : DialogueCommand
     {

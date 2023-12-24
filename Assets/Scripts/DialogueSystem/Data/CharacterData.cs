@@ -5,10 +5,14 @@ namespace DialogueSystem.Data
     [CreateAssetMenu(fileName = "CharacterScriptableObject", menuName = "ScriptableObjects/DialogueCharacter")]
     public class CharacterData : ScriptableObject
     {
-        public string characterName;
-        public AudioClip speakingSound;
-        public CharacterState defaultState;
-        public List<CharacterState> states;
+        [SerializeField] private string characterName;
+        [SerializeField] private AudioClip speakingSound;
+        [SerializeField] private CharacterState defaultState;
+        [SerializeField] private List<CharacterState> states;
+        
+        public string CharacterName => characterName;
+        public AudioClip SpeakingSound => speakingSound;
+        public CharacterState DefaultState => defaultState;
 
         public CharacterState GetState(Emotion fromEmotion)
         {
@@ -16,7 +20,7 @@ namespace DialogueSystem.Data
                 return defaultState;
             
             var state =
-                states.Find(emotion => emotion.emotionLabel == fromEmotion)
+                states.Find(emotion => emotion.EmotionLabel == fromEmotion)
                 ?? defaultState;
             
             return state;

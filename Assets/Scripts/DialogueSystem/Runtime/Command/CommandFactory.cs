@@ -1,9 +1,8 @@
-﻿using System.Buffers.Text;
-using DialogueSystem.Data;
+﻿using DialogueSystem.Data;
 using DialogueSystem.Runtime.Audio;
 using DialogueSystem.Runtime.UI;
 
-namespace DialogueSystem.Runtime.CommandProcessor
+namespace DialogueSystem.Runtime.Command
 {
     public static class CommandFactory
     {

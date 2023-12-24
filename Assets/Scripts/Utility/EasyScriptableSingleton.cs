@@ -17,7 +17,9 @@ namespace Utility
             get
             {
                 if (_instance == null)
+                {
                     InitializeInstance();
+                }
 
                 return _instance;
             }
@@ -26,11 +28,16 @@ namespace Utility
         private static void InitializeInstance()
         {
             var template = CreateInstance<T>() as EasyScriptableSingleton<T>;
-            
+
             if (template != null)
+            {
                 _instance = Resources.Load<T>($"{template.ResourcesPath}/{template.FileName}");
-            
-            if (_instance != null) return;
+            }
+
+            if (_instance != null)
+            {
+                return;
+            }
             
             _instance = CreateInstance<T>();
             template = _instance as EasyScriptableSingleton<T>;
