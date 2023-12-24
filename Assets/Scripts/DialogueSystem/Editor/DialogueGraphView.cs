@@ -35,8 +35,10 @@ namespace DialogueSystem.Editor
             var compatiblePorts = new List<Port>();
             ports.ForEach((port) =>
             {
-                if(startPort != port && startPort.node != port.node)
+                if (startPort != port && startPort.node != port.node)
+                {
                     compatiblePorts.Add(port);
+                }
             });
             return compatiblePorts;
         }
@@ -165,21 +167,22 @@ namespace DialogueSystem.Editor
                 .Where(x => x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
 
             dialogueNode.outputContainer.Remove(generatedPort);
-        
-            if (targetEdge.Any())
+
+            var enumerable = targetEdge.ToList();
+            if (enumerable.Any())
             {
-                var edge = targetEdge.First();
+                var edge = enumerable.First();
                 edge.input.Disconnect(edge);
-                RemoveElement(targetEdge.First());
+                RemoveElement(enumerable.First());
             }
         
             dialogueNode.outputContainer.Remove(generatedPort);
             RefreshNode(dialogueNode);
         }
 
-        public void CreateSimpleDialogueNode(string simpleNode) => AddElement(CreateSimpleDialogueNode(simpleNode, new List<DialogueMessage>()));
+        public void CreateSimpleDialogueNode(string simpleNode) => AddElement(CreateSimpleDialogueNode(simpleNode, new List<DialogueMessage>(), false));
 
-        public DialogueNode CreateSimpleDialogueNode(string simpleNode, List<DialogueMessage> messages, bool isCheckpoint = false)
+        public DialogueNode CreateSimpleDialogueNode(string simpleNode, List<DialogueMessage> messages, bool isCheckpoint)
         {
             var dialogueNode = new DialogueNode
             {
@@ -220,11 +223,15 @@ namespace DialogueSystem.Editor
         {
             var port = GeneratePort(dialogueNode, direction, direction == Direction.Input ? Port.Capacity.Multi : Port.Capacity.Single);
             port.portName = direction == Direction.Input ? "Input" : "Output";
-        
-            if(direction == Direction.Input) 
+
+            if (direction == Direction.Input)
+            {
                 dialogueNode.inputContainer.Add(port);
+            }
             else
+            {
                 dialogueNode.outputContainer.Add(port);
+            }
         }
     }
 }

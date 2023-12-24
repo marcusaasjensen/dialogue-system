@@ -20,7 +20,7 @@ namespace DialogueSystem.Runtime.UI
             return newButton;
         }
         
-        public static void PlaceButton(RectTransform button, Rect parentRect, int columnIndex, int rowIndex, int numberOfButtonsInRow, Vector2 buttonOffset = default)
+        public static void PlaceButton(RectTransform button, Rect parentRect, int columnIndex, int rowIndex, int numberOfButtonsInRow, Vector2 buttonOffset)
         {
             var buttonRect = button.rect;
 

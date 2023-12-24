@@ -49,7 +49,9 @@ namespace DialogueSystem.Runtime.Narration
                 }
 
                 if (node.Options.Count == 0)
+                {
                     return null;
+                }
 
                 var optionIndex = (int) char.GetNumericValue(pathID[0]);
 

@@ -72,11 +72,15 @@ namespace DialogueSystem.Editor
             }
 
             var saveUtility = GraphSaveUtility.GetInstance(_graphView);
-            
-            if(save)
+
+            if (save)
+            {
                 saveUtility.SaveGraph(_fileName);
+            }
             else
+            {
                 saveUtility.LoadGraph(_fileName);
+            }
         }
 
         private void OnEnable()

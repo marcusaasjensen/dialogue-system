@@ -130,10 +130,14 @@ namespace DialogueSystem.Data
         public void ChangeDialogueVariable<T>(string variableName, T newValue)
         {
             var variable = variables.Find(v => v.Name == variableName);
-            if(variable != null)
+            if (variable != null)
+            {
                 variable.SetValue(newValue);
+            }
             else
+            {
                 AddDialogueVariable(variableName, newValue);
+            }
             SaveRuntimeData();
         }
     }

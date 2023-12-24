@@ -36,7 +36,7 @@ namespace DialogueSystem.Runtime.Narration
         private const string PathSeparator = ".";
 
         
-        public void BeginNarration(DialogueContainer narrativeToLoad = null)
+        public void BeginNarration(DialogueContainer narrativeToLoad)
         {
             _narrative = narrativeLoader.LoadNarrative(narrativeToLoad);
 

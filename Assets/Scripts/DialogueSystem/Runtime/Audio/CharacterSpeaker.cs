@@ -25,7 +25,10 @@ namespace DialogueSystem.Runtime.Audio
 
         public void React(Optional<AudioClip> reactionClip)
         {
-            if (!reactionClip.Enabled) return;
+            if (!reactionClip.Enabled)
+            {
+                return;
+            }
             reactionAudioSource.PlayOneShot(reactionClip.Value);
         }
 
@@ -40,7 +43,10 @@ namespace DialogueSystem.Runtime.Audio
                 
                 yield return new WaitForSeconds(pace);
 
-                if (!textTyper.IsPaused) continue;
+                if (!textTyper.IsPaused)
+                {
+                    continue;
+                }
                 
                 speakingAudioSource.Play();
                 yield return new WaitUntil(() => textTyper.IsPaused == false);

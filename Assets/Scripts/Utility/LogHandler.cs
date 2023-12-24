@@ -26,8 +26,11 @@ namespace Utility
             };
         }
 
-        public static void Log<T>(T message, Color color = Color.White) => Debug.Log($"<color={GetColorCode(color)}>{message}</color>");
-        public static void Alert(string message, GameObject go = null) => Debug.LogError(message, go);
-        public static void Warn(string message, GameObject go = null) => Debug.LogWarning(message, go);
+        public static void Log<T>(T message) => Debug.Log($"<color={GetColorCode(Color.White)}>{message}</color>");
+        public static void Log<T>(T message, Color color) => Debug.Log($"<color={GetColorCode(color)}>{message}</color>");
+        public static void Alert(string message, GameObject go) => Debug.LogError(message, go);
+        public static void Alert(string message) => Debug.LogError(message);
+        public static void Warn(string message, GameObject go) => Debug.LogWarning(message, go);
+        public static void Warn(string message) => Debug.LogWarning(message);
     }
 }

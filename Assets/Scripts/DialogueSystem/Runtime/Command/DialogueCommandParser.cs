@@ -163,7 +163,9 @@ namespace DialogueSystem.Runtime.Command
                 var value = DialogueVariableData.Instance.GetValueAsString(variableName);
 
                 if (string.IsNullOrEmpty(value))
+                {
                     value = "X";
+                }
 
                 processedMessage = Regex.Replace(processedMessage, match.Value, value);
             }
@@ -188,7 +190,10 @@ namespace DialogueSystem.Runtime.Command
                 
                 foreach (Match endMatch in animEndMatches)
                 {
-                    if (endMatch.Index <= match.Index && matchesToIgnore.Contains(endMatch)) continue;
+                    if (endMatch.Index <= match.Index && matchesToIgnore.Contains(endMatch))
+                    {
+                        continue;
+                    }
                     endIndex = endMatch.Index;
                     matchesToIgnore.Add(endMatch);
                     break;

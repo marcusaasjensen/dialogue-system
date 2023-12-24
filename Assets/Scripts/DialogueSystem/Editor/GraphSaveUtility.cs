@@ -38,9 +38,9 @@ namespace DialogueSystem.Editor
 
                 dialogueContainer.nodeLinks.Add(new NodeLinkData
                 {
-                    BaseNodeGuid = outputNode.GUID,
+                    BaseNodeGuid = outputNode!.GUID,
                     PortName = edge.output.portName,
-                    TargetNodeGuid = inputNode.GUID
+                    TargetNodeGuid = inputNode!.GUID
                 });
             }
 
@@ -77,9 +77,11 @@ namespace DialogueSystem.Editor
                 _containerCache.characters.ForEach(character => dialogueContainer.characters.Add(character));
                 dialogueContainer.StartFromPreviousNarrativePath = _containerCache.StartFromPreviousNarrativePath;
             }
-            
+
             if (!AssetDatabase.IsValidFolder($"{PathToResources}/{ResourcesPath}"))
+            {
                 Directory.CreateDirectory($"{PathToResources}/{ResourcesPath}");
+            }
         
             AssetDatabase.DeleteAsset($"{PathToResources}/{ResourcesPath}/{fileName}.asset");
             AssetDatabase.CreateAsset(dialogueContainer, $"{PathToResources}/{ResourcesPath}/{fileName}.asset");
@@ -134,7 +136,10 @@ namespace DialogueSystem.Editor
         {
             foreach (var nodeData in _containerCache.dialogueNodeData)
             {
-                if (nodeData.EntryPoint) continue;
+                if (nodeData.EntryPoint)
+                {
+                    continue;
+                }
             
                 var tempNode =  nodeData.TransitionNode 
                     ? _targetGraphView.CreateSimpleDialogueNode("Transition Node", nodeData.Dialogue, nodeData.IsCheckpoint)
@@ -144,8 +149,11 @@ namespace DialogueSystem.Editor
                 tempNode.SetPosition(new Rect(nodeData.Position, _targetGraphView.DefaultNodeSize));
 
                 _targetGraphView.AddElement(tempNode);
-            
-                if (nodeData.TransitionNode) continue;
+
+                if (nodeData.TransitionNode)
+                {
+                    continue;
+                }
 
                 var nodePorts = _containerCache.nodeLinks.Where(x => x.BaseNodeGuid == nodeData.Guid).ToList();
                 nodePorts.ForEach(x => _targetGraphView.AddChoicePort(tempNode, x.PortName));
