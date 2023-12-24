@@ -1,6 +1,4 @@
-﻿using DialogueSystem.Data;
-using DialogueSystem.Runtime.Narration;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace DialogueSystem.Runtime.Interaction
 {

@@ -3,10 +3,11 @@
     public class CommandData
     {
         public DialogueCommandType Type;
-        public int Position;
+        public int StartPosition;
+        public int EndPosition;
         public bool MustExecute;
-        
-        public float FloatValue;
+        public bool[] BoolValues;
+        public float[] FloatValues;
         public string StringValue;
         public TextAnimationType TextAnimValue;
         public Emotion EmotionValue;
@@ -19,17 +20,21 @@
         AnimStart, //ignorable
         AnimEnd, //ignorable
         DisplayedEmotion, //must execute //TODO: adapt with reactions of other characters
-        Interaction, //must execute
         MusicStart, //must execute
         MusicEnd, //must execute
         SoundEffect, //must execute
-        CameraShake //ignorable
+        CameraShake, //ignorable
+        Animation
     }
 
     public enum TextAnimationType
     {
         None,
         Shake,
-        Wave
+        Wave,
+        Wobble,
+        FadeInOut,
+        Flicker,
+        Spiral
     }
 }

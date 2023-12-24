@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using DialogueSystem.Data;
 using UnityEngine;
@@ -26,10 +28,10 @@ namespace DialogueSystem.Runtime.CommandProcessor
         private const string EmotionRegexString = "<em:(?<emotion>" + RemainderRegex + ")>";
         private static readonly Regex EmotionRegex = new (EmotionRegexString);
         
-        private const string AnimStartRegexString = "<anim:(?<anim>" + RemainderRegex + ")>";
-        private static readonly Regex AnimStartRegex = new (AnimStartRegexString);
+        private const string AnimStartRegexString = @"<anim:(?<anim>[^\s>]+)(?:\s+s:(?<s>\d+(?:[\.,]\d+)?)\s*)?(?:\s+a:(?<a>\d+(?:[\.,]\d+)?)\s*)?(?:\s+sync:(?<sync>true|false)\s*)?>";
+        private static readonly Regex AnimStartRegex = new (AnimStartRegexString, RegexOptions.IgnoreCase);
         private const string AnimEndRegexString = "</anim>";
-        private static readonly Regex AnimEndRegex = new (AnimEndRegexString);
+        private static readonly Regex AnimEndRegex = new (AnimEndRegexString, RegexOptions.IgnoreCase);
         
         private const string MusicStartRegexString = "<music:(?<music>" + RemainderRegex + ")>";
         private static readonly Regex MusicStartRegex = new (MusicStartRegexString);
@@ -39,8 +41,6 @@ namespace DialogueSystem.Runtime.CommandProcessor
         private const string SoundRegexString = "<sfx:(?<sfx>" + RemainderRegex + ")>";
         private static readonly Regex SoundRegex = new (SoundRegexString);
         
-        
-
         private static readonly Dictionary<string, float> PauseDictionary = new()
         {
             { "tiny", .1f },
@@ -132,6 +132,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             processedMessage = HandleMusicStartTags(processedMessage, result);
             processedMessage = HandleMusicEndTags(processedMessage, result);
             processedMessage = HandleSoundTags(processedMessage, result);
+            processedMessage = HandleAnimTags(processedMessage, result);
             // processedMessage = HandleAnimStartTags(processedMessage, result);
             // processedMessage = HandleAnimEndTags(processedMessage, result);
 
@@ -148,7 +149,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
 
                 result.Add(new CommandData
                 {
-                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.DisplayedEmotion,
                     EmotionValue = GetValue<Emotion>(stringVal, "Emotion"),
                     MustExecute = true
@@ -177,37 +178,50 @@ namespace DialogueSystem.Runtime.CommandProcessor
             return processedMessage;
         }
 
-        private static string HandleAnimEndTags(string processedMessage, ICollection<CommandData> result)
+        private static string HandleAnimTags(string processedMessage, ICollection<CommandData> result)
         {
+            var animStartMatches = AnimStartRegex.Matches(processedMessage);
             var animEndMatches = AnimEndRegex.Matches(processedMessage);
-            foreach (Match match in animEndMatches)
-            {
-                result.Add(new CommandData
-                {
-                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
-                    Type = DialogueCommandType.AnimEnd
-                });
-            }
-
-            processedMessage = Regex.Replace(processedMessage, AnimEndRegexString, "");
-            return processedMessage;
-        }
-
-        private static string HandleAnimStartTags(string processedMessage, ICollection<CommandData> result)
-        {
-            MatchCollection animStartMatches = AnimStartRegex.Matches(processedMessage);
+            var matchesToIgnore = new List<Match>();
+            
             foreach (Match match in animStartMatches)
             {
                 var stringVal = match.Groups["anim"].Value;
+                var speedVal = match.Groups["s"].Value;
+                var amountVal = match.Groups["a"].Value;
+                var syncVal = match.Groups["sync"].Value;
+                
+                var endIndex = -1;
+                
+                foreach (Match endMatch in animEndMatches)
+                {
+                    if (endMatch.Index <= match.Index && matchesToIgnore.Contains(endMatch)) continue;
+                    endIndex = endMatch.Index;
+                    matchesToIgnore.Add(endMatch);
+                    break;
+                }
+                
+                var floatValues = string.IsNullOrEmpty(speedVal) || string.IsNullOrEmpty(amountVal)
+                    ? null
+                    : new[] {
+                        float.Parse(speedVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture),
+                        float.Parse(amountVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture)
+                    };
+
                 result.Add(new CommandData
                 {
-                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
-                    Type = DialogueCommandType.AnimStart,
-                    TextAnimValue = GetValue<TextAnimationType>(stringVal, "Text Animation Type")
+                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    EndPosition = VisibleCharactersUpToIndex(processedMessage, endIndex),
+                    Type = DialogueCommandType.Animation,
+                    TextAnimValue = GetValue<TextAnimationType>(stringVal, "Text Animation Type"),
+                    MustExecute = true,
+                    FloatValues = floatValues,
+                    BoolValues = new []{bool.Parse(syncVal)}
                 });
             }
 
             processedMessage = Regex.Replace(processedMessage, AnimStartRegexString, "");
+            processedMessage = Regex.Replace(processedMessage, AnimEndRegexString, "");
             return processedMessage;
         }
         
@@ -219,7 +233,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 var stringVal = match.Groups["music"].Value;
                 result.Add(new CommandData
                 {
-                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.MusicStart,
                     StringValue = stringVal,
                     MustExecute = true
@@ -238,7 +252,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 var stringVal = match.Groups["sfx"].Value;
                 result.Add(new CommandData
                 {
-                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.SoundEffect,
                     StringValue = stringVal,
                     MustExecute = true
@@ -256,7 +270,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
             {
                 result.Add(new CommandData
                 {
-                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.MusicEnd
                 });
             }
@@ -277,9 +291,9 @@ namespace DialogueSystem.Runtime.CommandProcessor
 
                 result.Add(new CommandData
                 {
-                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.TextSpeedChange,
-                    FloatValue = val
+                    FloatValues = new [] { val }
                 });
             }
 
@@ -296,9 +310,9 @@ namespace DialogueSystem.Runtime.CommandProcessor
                 Debug.Assert(PauseDictionary.ContainsKey(val), "no pause registered for '" + val + "'");
                 result.Add(new CommandData
                 {
-                    Position = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
                     Type = DialogueCommandType.Pause,
-                    FloatValue = PauseDictionary[val]
+                    FloatValues = new []{ PauseDictionary[val] }
                 });
             }
 

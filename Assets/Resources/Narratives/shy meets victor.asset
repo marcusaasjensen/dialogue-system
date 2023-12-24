@@ -152,7 +152,8 @@ MonoBehaviour:
   - Guid: 63dc8710-439f-48c0-8e63-75898d75b09f
     Dialogue:
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: Why are you sitting on that bench alone?
+      <Content>k__BackingField: <anim:Shake s:2.1 a:3 sync:false>Why are you sitting
+        on that bench alone?</anim>
       <HideCharacter>k__BackingField: 1
     Position: {x: 249.33333, y: 168}
     TransitionNode: 0

@@ -2,14 +2,17 @@
 {
     public abstract class DialogueCommand
     {
-        public int Position { get; }
+        public int StartPosition { get; }
+        public int EndPosition { get; }
         public bool MustExecute { get; }
 
-        protected DialogueCommand(int position, bool mustExecute)
+        protected DialogueCommand(int startPosition, bool mustExecute)
         {
-            Position = position;
+            StartPosition = startPosition;
             MustExecute = mustExecute;
         }
+        
+        protected DialogueCommand(int startPosition, int endPosition, bool mustExecute) : this(startPosition, mustExecute) => EndPosition = endPosition;
         
         public abstract void Execute();
     }

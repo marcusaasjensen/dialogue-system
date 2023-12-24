@@ -13,18 +13,19 @@ namespace DialogueSystem.Runtime.CommandProcessor
         [SerializeField] private TextTyper textTyper;
         [SerializeField] private NarrativeUI narrativeUI;
         [SerializeField] private CharacterSpeaker characterSpeaker;
+        [SerializeField] private TextAnimator textAnimator;
 
         private Queue<DialogueCommand> _commandQueue = new();
         private CharacterData _currentCharacterData;
         private DialogueMessage _currentDialogueMessage;
 
         private void Awake() => narrativeUI.OnMessageStart += HandleCommandExecution;
-
+        
         public string ParseDialogueCommands(string message)
         {
             var commandList = DialogueCommandParser.Parse(message, out var processedMessageWithTextTags);
             
-            commandList.Sort((command1, command2) => command1.Position.CompareTo(command2.Position));
+            commandList.Sort((command1, command2) => command1.StartPosition.CompareTo(command2.StartPosition));
             
             _commandQueue = new Queue<DialogueCommand>();
             
@@ -44,8 +45,11 @@ namespace DialogueSystem.Runtime.CommandProcessor
                         newCommand = CommandFactory.CreateStateCommand(commandData, narrativeUI, characterSpeaker, _currentCharacterData);
                         break;
                     case DialogueCommandType.AnimStart:
-                    case DialogueCommandType.AnimEnd:
-                    case DialogueCommandType.Interaction:
+                        newCommand = CommandFactory.CreateAnimationCommand(commandData, textAnimator);
+                        break;
+                    case DialogueCommandType.Animation:
+                        newCommand = CommandFactory.CreateAnimationCommand(commandData, textAnimator);
+                        break;
                     case DialogueCommandType.MusicStart:
                         newCommand = CommandFactory.CreateMusicCommand(commandData);
                         break;
@@ -57,7 +61,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
                         break;
                     case DialogueCommandType.CameraShake:
                     default:
-                        newCommand = new NullCommand(commandData.Position, commandData.MustExecute);
+                        newCommand = new NullCommand(commandData.StartPosition, commandData.MustExecute);
                         break;
                 }
 
@@ -76,6 +80,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
         public void ExecuteDefaultCommands()
         {
             textTyper.ResetTyper();
+            textAnimator.ResetAnimator();
             characterSpeaker.ChangeVoice(_currentCharacterData.speakingSound);
             characterSpeaker.ChangePitch(_currentCharacterData.defaultState.speakingSoundPitch);
             characterSpeaker.React(_currentCharacterData.defaultState.reactionSound);
@@ -96,7 +101,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
         {
             var commandsAtPosition = new List<DialogueCommand>();
             
-            while (_commandQueue.Count > 0 && _commandQueue.Peek().Position == typerPosition)
+            while (_commandQueue.Count > 0 && _commandQueue.Peek().StartPosition == typerPosition)
                 commandsAtPosition.Add(_commandQueue.Dequeue());
             
             return commandsAtPosition;

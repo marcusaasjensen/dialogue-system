@@ -7,7 +7,7 @@ namespace DialogueSystem.Runtime.CommandProcessor
         private readonly float _newSpeed;
         private readonly TextTyper _textTyper;
 
-        public SpeedCommand(int position, bool mustExecute, float speed, TextTyper typer) : base(position, mustExecute)
+        public SpeedCommand(int startPosition, bool mustExecute, float speed, TextTyper typer) : base(startPosition, mustExecute)
         {
             _newSpeed = speed;
             _textTyper = typer;

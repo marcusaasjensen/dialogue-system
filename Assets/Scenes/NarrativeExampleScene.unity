@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   narrativeScriptableObject: {fileID: 11400000, guid: 49b663f3268ddcb41a9e511e08c1a07f, type: 2}
   narrativeController: {fileID: 2089170440}
+  skipInput: 32
 --- !u!4 &1329084
 Transform:
   m_ObjectHideFlags: 0
@@ -438,7 +439,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Message \nText"
+  m_text: 'Message
+
+    Text'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6430e7d840333d348a8b1237f2c63ae9, type: 2}
   m_sharedMaterial: {fileID: 9039135510027449646, guid: 6430e7d840333d348a8b1237f2c63ae9, type: 2}
@@ -724,6 +727,7 @@ GameObject:
   - component: {fileID: 1138724646}
   - component: {fileID: 1138724647}
   - component: {fileID: 1138724648}
+  - component: {fileID: 1138724649}
   m_Layer: 5
   m_Name: Dialogue UI
   m_TagString: Untagged
@@ -792,6 +796,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultTyperPace: 0.05
+--- !u!114 &1138724649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138724645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4c05662bf4c45a8aadb3a58be4b7c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 366787871}
+  animationSpeed: 1
+  amount: 1
+  synchronizeTextAnimation: 0
 --- !u!1 &1249654691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1805,6 +1825,7 @@ MonoBehaviour:
   textTyper: {fileID: 1138724648}
   narrativeUI: {fileID: 1138724647}
   characterSpeaker: {fileID: 2089170443}
+  textAnimator: {fileID: 1138724649}
 --- !u!114 &2089170443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1817,11 +1838,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b6417d89e34b8191c02e6b8bd65571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textTyper: {fileID: 1138724648}
   speakingAudioSource: {fileID: 2089170444}
   reactionAudioSource: {fileID: 2089170445}
   speakingPace: 1.3
   synchronizeWithVariablePace: 1
-  textTyper: {fileID: 1138724648}
 --- !u!82 &2089170444
 AudioSource:
   m_ObjectHideFlags: 0

@@ -12,8 +12,8 @@ namespace DialogueSystem.Runtime.UI
 {
     public class ConcreteNarrativeUI : NarrativeUI
     {
-        [SerializeField] private TextMeshProUGUI speakerNameText;
-        [SerializeField] private TextMeshProUGUI messageTextContainer;
+        [SerializeField] private TMP_Text speakerNameText;
+        [SerializeField] private TMP_Text messageTextContainer;
         
         [Space, Header("UI Buttons")] 
         [SerializeField] private Button buttonPrefab;

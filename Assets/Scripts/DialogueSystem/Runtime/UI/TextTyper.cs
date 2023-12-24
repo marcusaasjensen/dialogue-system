@@ -23,7 +23,7 @@ namespace DialogueSystem.Runtime.UI
 
         private void Awake() => TyperPace = defaultTyperPace;
         
-        public void TypeText(string text, TextMeshProUGUI textContainer)
+        public void TypeText(string text, TMP_Text textContainer)
         {
             TyperPace = defaultTyperPace;
             var plainText = DialogueCommandParser.RemoveSimpleTextTags(text);

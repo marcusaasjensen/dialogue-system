@@ -16,7 +16,11 @@ MonoBehaviour:
   speakingSound: {fileID: 8300000, guid: b346cd7f5fc97624a8f1b4fe99722024, type: 3}
   defaultState:
     emotionLabel: 0
-    reactionSound: {fileID: 0}
     speakingSoundPitch: 1
-    characterFace: {fileID: 21300000, guid: 3531c70f8daa4fb4781b059d4d81ee02, type: 3}
+    reactionSound:
+      enabled: 0
+      value: {fileID: 0}
+    characterFace:
+      enabled: 1
+      value: {fileID: 21300000, guid: 3531c70f8daa4fb4781b059d4d81ee02, type: 3}
   states: []
