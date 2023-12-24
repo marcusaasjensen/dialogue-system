@@ -56,8 +56,6 @@ namespace DialogueSystem.Runtime.Command
                     case DialogueCommandType.SoundEffect:
                         newCommand = CommandFactory.CreateSoundEffectCommand(commandData);
                         break;
-                    case DialogueCommandType.CameraShake:
-                    case DialogueCommandType.TimeLine:
                     default:
                         newCommand = new NullCommand(commandData.StartPosition, commandData.MustExecute);
                         break;
