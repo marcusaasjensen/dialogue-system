@@ -27,9 +27,6 @@ namespace DialogueSystem.Editor
         
             _graphView.StretchToParentSize();
             rootVisualElement.Add(_graphView);
-        
-            var miniMap = new MiniMap();
-
         }
 
         private void GenerateToolbar()
