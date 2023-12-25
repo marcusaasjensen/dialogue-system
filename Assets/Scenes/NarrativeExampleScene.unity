@@ -831,7 +831,9 @@ MonoBehaviour:
   nextMessageButton: {fileID: 1249654693}
   buttonOffset: {x: 20, y: 20}
   numberOfColumns: 2
-  characterSprite: {fileID: 1919876754}
+  characterSprite:
+    enabled: 1
+    value: {fileID: 1919876754}
   dialogueBubble: {fileID: 1581070242}
 --- !u!114 &1138724648
 MonoBehaviour:
@@ -859,6 +861,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 366787871}
+  testAnimationInEditor: 0
+  testAnimationType: 0
+  testStartPosition: 0
+  testEndPosition: 0
   animationSpeed: 1
   amount: 1
   synchronizeTextAnimation: 0

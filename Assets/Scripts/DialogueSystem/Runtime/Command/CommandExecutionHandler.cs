@@ -23,7 +23,10 @@ namespace DialogueSystem.Runtime.Command
         
         public string ParseDialogueCommands(string message)
         {
-            var commandList = DialogueCommandParser.Parse(message, out var processedMessageWithTextTags);
+            var parsedMessage = DialogueCommandParser.Parse(message);
+            
+            var processedMessageWithTextTags = parsedMessage.Message;
+            var commandList = parsedMessage.Commands;
             
             commandList.Sort((command1, command2) => command1.StartPosition.CompareTo(command2.StartPosition));
             

@@ -11,6 +11,12 @@ using Utility;
 
 namespace DialogueSystem.Runtime.Command
 {
+    public class ParsedMessage
+    {
+        public string Message { get; set; }
+        public List<CommandData> Commands { get; set; }
+    }
+    
     public abstract class DialogueCommandParser
     {
         // grab the remainder of the text until ">" or end of string
@@ -93,9 +99,9 @@ namespace DialogueSystem.Runtime.Command
         private static int VisibleCharactersUpToIndex(string message, int index)
         {
             var result = 0;
+            var insideBrackets = false;
             for (var i = 0; i < index; i++)
             {
-                var insideBrackets = false;
                 switch (message[i])
                 {
                     case '<':
@@ -103,9 +109,10 @@ namespace DialogueSystem.Runtime.Command
                         break;
                     case '>':
                         result--;
+                        insideBrackets = false;
                         break;
                     default:
-                        continue;
+                        break;
                 }
 
                 if (!insideBrackets)
@@ -116,23 +123,26 @@ namespace DialogueSystem.Runtime.Command
 
             return result;
         }
-
-        public static List<CommandData> Parse(string message, out string processedMessage)
+        
+        public static ParsedMessage Parse(string message)
         {
             var result = new List<CommandData>();
-            processedMessage = message;
 
-            processedMessage = ReplaceVariableTagsByValue(processedMessage);
+            message = ReplaceVariableTagsByValue(message);
             
-            processedMessage = HandlePauseTags(processedMessage, result);
-            processedMessage = HandleSpeedTags(processedMessage, result);
-            processedMessage = HandleEmotionTags(processedMessage, result);
-            processedMessage = HandleMusicStartTags(processedMessage, result);
-            processedMessage = HandleMusicEndTags(processedMessage, result);
-            processedMessage = HandleSoundTags(processedMessage, result);
-            processedMessage = HandleAnimTags(processedMessage, result);
+            message = HandlePauseTags(message, result);
+            message = HandleSpeedTags(message, result);
+            message = HandleEmotionTags(message, result);
+            message = HandleMusicStartTags(message, result);
+            message = HandleMusicEndTags(message, result);
+            message = HandleSoundTags(message, result);
+            message = HandleAnimTags(message, result);
 
-            return result;
+            return new ParsedMessage
+            {
+                Message = message, 
+                Commands = result
+            };
         }
 
         private static string HandleEmotionTags(string processedMessage, ICollection<CommandData> result)
@@ -181,44 +191,56 @@ namespace DialogueSystem.Runtime.Command
             var animStartMatches = AnimStartRegex.Matches(processedMessage);
             var animEndMatches = AnimEndRegex.Matches(processedMessage);
             var matchesToIgnore = new List<Match>();
-            
+
             foreach (Match match in animStartMatches)
             {
-                var stringVal = match.Groups["anim"].Value;
-                var speedVal = match.Groups["s"].Value;
-                var amountVal = match.Groups["a"].Value;
-                var syncVal = match.Groups["sync"].Value;
-                
-                var endIndex = -1;
-                
-                foreach (Match endMatch in animEndMatches)
+                try
                 {
-                    if (endMatch.Index <= match.Index && matchesToIgnore.Contains(endMatch))
-                    {
-                        continue;
-                    }
-                    endIndex = endMatch.Index;
-                    matchesToIgnore.Add(endMatch);
-                    break;
-                }
-                
-                var floatValues = string.IsNullOrEmpty(speedVal) || string.IsNullOrEmpty(amountVal)
-                    ? null
-                    : new[] {
-                        float.Parse(speedVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture),
-                        float.Parse(amountVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture)
-                    };
+                    var stringVal = match.Groups["anim"].Value;
+                    var speedVal = match.Groups["s"].Value;
+                    var amountVal = match.Groups["a"].Value;
+                    var syncVal = match.Groups["sync"].Value;
 
-                result.Add(new CommandData
+                    var endIndex = -1;
+                    
+
+                    foreach (Match endMatch in animEndMatches)
+                    {
+                        if (endMatch.Index <= match.Index && matchesToIgnore.Contains(endMatch))
+                        {
+                            continue;
+                        }
+
+                        endIndex = endMatch.Index;
+                        matchesToIgnore.Add(endMatch);
+                        break;
+                    }
+
+                    var floatValues = string.IsNullOrEmpty(speedVal) || string.IsNullOrEmpty(amountVal)
+                        ? null
+                        : new[]
+                        {
+                            float.Parse(speedVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture),
+                            float.Parse(amountVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture)
+                        };
+
+                    var boolValues = string.IsNullOrEmpty(syncVal) ? null : new[] { bool.Parse(syncVal) };
+                    
+                    result.Add(new CommandData
+                    {
+                        StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                        EndPosition = VisibleCharactersUpToIndex(processedMessage, endIndex),
+                        Type = DialogueCommandType.Animation,
+                        TextAnimValue = GetValue<TextAnimationType>(stringVal, "Text Animation Type"),
+                        MustExecute = true,
+                        FloatValues = floatValues,
+                        BoolValues = boolValues
+                    });
+                }
+                catch (Exception e)
                 {
-                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
-                    EndPosition = VisibleCharactersUpToIndex(processedMessage, endIndex),
-                    Type = DialogueCommandType.Animation,
-                    TextAnimValue = GetValue<TextAnimationType>(stringVal, "Text Animation Type"),
-                    MustExecute = true,
-                    FloatValues = floatValues,
-                    BoolValues = new []{bool.Parse(syncVal)}
-                });
+                    LogHandler.Alert($"Error parsing animation command: {e.Message}");
+                }
             }
 
             processedMessage = Regex.Replace(processedMessage, AnimStartRegexString, "");

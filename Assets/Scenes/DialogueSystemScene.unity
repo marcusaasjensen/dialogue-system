@@ -379,7 +379,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Message Text
+  m_text: <color="red">Message </color>Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6430e7d840333d348a8b1237f2c63ae9, type: 2}
   m_sharedMaterial: {fileID: 9039135510027449646, guid: 6430e7d840333d348a8b1237f2c63ae9, type: 2}
@@ -658,12 +658,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMesh: {fileID: 366787871}
   testAnimationInEditor: 0
-  testAnimationType: 1
-  testStartPosition: 2
-  testEndPosition: 7
-  animationSpeed: 1.08
-  amount: 19.23
-  synchronizeTextAnimation: 1
+  testAnimationType: 2
+  testStartPosition: 4
+  testEndPosition: 10
+  animationSpeed: 1
+  amount: 1
+  synchronizeTextAnimation: 0
 --- !u!1 &1222860797
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,8 +8,12 @@ namespace DialogueSystem.Data
     [Serializable]
     public class AudioData
     {
-        public string name;
-        public AudioClip audioClip;
+        [SerializeField] private string name;
+        [SerializeField] private AudioClip audioClip;
+        
+        public string Name => name;
+        public AudioClip AudioClip => audioClip;
+        
     }
     
     [CreateAssetMenu(fileName = "DialogueAudioData", menuName = "ScriptableObjects/EasyScriptableSingletons/DialogueAudioData")]
@@ -31,14 +35,14 @@ namespace DialogueSystem.Data
 
         public AudioClip GetMusic(string musicName)
         {
-            var music = musicList.Find(m => m.name == musicName);
-            return music?.audioClip;
+            var music = musicList.Find(m => m.Name == musicName);
+            return music?.AudioClip;
         }
         
         public AudioClip GetSoundEffect(string soundEffectName)
         {
-            var soundEffect = soundEffectList.Find(s => s.name == soundEffectName);
-            return soundEffect?.audioClip;
+            var soundEffect = soundEffectList.Find(s => s.Name == soundEffectName);
+            return soundEffect?.AudioClip;
         }
     }
 }

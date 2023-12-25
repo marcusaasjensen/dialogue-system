@@ -67,9 +67,9 @@ namespace DialogueSystem.Editor
             return node;
         }
 
-        public void CreateNode(string nodeName) => AddElement(CreateMultipleChoiceNode(nodeName, new List<DialogueMessage>()));
+        public void CreateNode(string nodeName) => AddElement(CreateMultipleChoiceNode(nodeName, new List<DialogueMessage>(), false));
 
-        public DialogueNode CreateMultipleChoiceNode(string nodeName, List<DialogueMessage> messages, bool disableOptions = false)
+        public DialogueNode CreateMultipleChoiceNode(string nodeName, List<DialogueMessage> messages, bool disableOptions)
         {
             var dialogueNode = new DialogueNode
             {

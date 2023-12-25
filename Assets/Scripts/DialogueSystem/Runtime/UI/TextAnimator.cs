@@ -10,7 +10,6 @@ namespace DialogueSystem.Runtime.UI
     public class TextAnimator : MonoBehaviour
     {
         [Header("To Animate"), SerializeField] private TMP_Text textMesh;
-        
         [Header("Editor Mode"), SerializeField] private bool testAnimationInEditor;
         [SerializeField] private TextAnimationType testAnimationType;
         [SerializeField, Min(0)] private int testStartPosition;
@@ -34,6 +33,10 @@ namespace DialogueSystem.Runtime.UI
         #if UNITY_EDITOR
         private void OnValidate()
         {
+            if (Application.isPlaying)
+            {
+                return;
+            }
             _isTextMeshNull = textMesh == null;
 
             if (!testAnimationInEditor)
@@ -58,6 +61,7 @@ namespace DialogueSystem.Runtime.UI
             {
                 return;
             }
+
             textMesh.ForceMeshUpdate();
             _mesh = textMesh.mesh;
             _vertices = _mesh.vertices;
@@ -65,7 +69,7 @@ namespace DialogueSystem.Runtime.UI
             foreach (var textAnimation in _textAnimations)
             {
                 var textEndPosition = textAnimation.EndPosition < 0 ? textMesh.textInfo.characterCount : textAnimation.EndPosition;
-
+                
                 for (var i = textAnimation.StartPosition; i < textEndPosition && i < textMesh.textInfo.characterCount; i++)
                 {
                     var c = textMesh.textInfo.characterInfo[i];
@@ -85,8 +89,7 @@ namespace DialogueSystem.Runtime.UI
                     _vertices[vertexIndex + 3] += offset;
                 }
             }
-
-
+            
             _mesh.vertices = _vertices;
             textMesh.canvasRenderer.SetMesh(_mesh);
         }
@@ -121,7 +124,7 @@ namespace DialogueSystem.Runtime.UI
             {
                 var adjustedTime = Speed == null ? time * defaultSpeed : time * Speed.Value;
                 var newAmount = Amount ?? defaultAmount;
-
+                
                 switch (AnimationType)
                 {
                     case TextAnimationType.Wobble:
