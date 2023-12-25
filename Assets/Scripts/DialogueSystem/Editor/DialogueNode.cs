@@ -6,11 +6,11 @@ namespace DialogueSystem.Editor
 {
     public class DialogueNode : Node
     {
-        public string GUID;
-        public List<DialogueMessage> Messages;
-        public bool EntryPoint = false;
-        public bool TransitionNode = false;
-        public bool Checkpoint = false;
-        public bool DisableAlreadyChosenOptions = false;
+        public string Guid { get; set; }
+        public List<DialogueMessage> Messages { get; set; } = new();
+        public bool EntryPoint { get; set; }
+        public bool TransitionNode { get; set; }
+        public bool Checkpoint { get; set; }
+        public bool DisableAlreadyChosenOptions { get; set; }
     }
 }

@@ -23,7 +23,10 @@ namespace DialogueSystem.Runtime.Command
         
         public string ParseDialogueCommands(string message)
         {
-            var commandList = DialogueCommandParser.Parse(message, out var processedMessageWithTextTags);
+            var parsedMessage = DialogueCommandParser.Parse(message);
+            
+            var processedMessageWithTextTags = parsedMessage.Message;
+            var commandList = parsedMessage.Commands;
             
             commandList.Sort((command1, command2) => command1.StartPosition.CompareTo(command2.StartPosition));
             
@@ -42,13 +45,13 @@ namespace DialogueSystem.Runtime.Command
                         newCommand = CommandFactory.CreateSpeedCommand(commandData, textTyper);
                         break;
                     case DialogueCommandType.DisplayedEmotion:
-                        newCommand = CommandFactory.CreateStateCommand(commandData, narrativeUI, characterSpeaker, _currentCharacterData);
+                        newCommand = CommandFactory.CreateStateCommand(commandData, narrativeUI, characterSpeaker, _currentCharacterData, _currentDialogueMessage.HideCharacter);
                         break;
                     case DialogueCommandType.Animation:
                         newCommand = CommandFactory.CreateAnimationCommand(commandData, textAnimator);
                         break;
                     case DialogueCommandType.MusicStart:
-                        newCommand = CommandFactory.CreateMusicCommand(commandData);
+                        newCommand = CommandFactory.CreateMusicCommand(commandData, false);
                         break;
                     case DialogueCommandType.MusicEnd:
                         newCommand = CommandFactory.CreateMusicCommand(commandData, true);
@@ -56,7 +59,6 @@ namespace DialogueSystem.Runtime.Command
                     case DialogueCommandType.SoundEffect:
                         newCommand = CommandFactory.CreateSoundEffectCommand(commandData);
                         break;
-                    case DialogueCommandType.CameraShake:
                     default:
                         newCommand = new NullCommand(commandData.StartPosition, commandData.MustExecute);
                         break;
@@ -97,9 +99,11 @@ namespace DialogueSystem.Runtime.Command
         private List<DialogueCommand> FindCommandsAtPosition(int typerPosition)
         {
             var commandsAtPosition = new List<DialogueCommand>();
-            
+
             while (_commandQueue.Count > 0 && _commandQueue.Peek().StartPosition == typerPosition)
+            {
                 commandsAtPosition.Add(_commandQueue.Dequeue());
+            }
             
             return commandsAtPosition;
         }
@@ -115,7 +119,10 @@ namespace DialogueSystem.Runtime.Command
             while (_commandQueue.Count > 0)
             {
                 var command = _commandQueue.Dequeue();
-                if (command.MustExecute) command.Execute();
+                if (command.MustExecute)
+                {
+                    command.Execute();
+                }
             }
         }
     }

@@ -11,22 +11,23 @@ namespace DialogueSystem.Runtime.Narration
         public bool IsCheckpoint { get; }
         public bool DisableAlreadyChosenOptions { get;  }
 
-        public NarrativeNode(List<DialogueMessage> dialogue, string nodeId, bool isCheckpoint = false, NarrativeNode defaultPath = null)
+        private NarrativeNode(List<DialogueMessage> dialogue, string nodeId)
         {
             Dialogue = dialogue;
             NodeId = nodeId;
-            DefaultPath = defaultPath;
             Options = new List<DialogueOption>();
+        }
+
+        public NarrativeNode(List<DialogueMessage> dialogue, string nodeId, bool isCheckpoint, NarrativeNode defaultPath) : this(dialogue, nodeId)
+        {
+            DefaultPath = defaultPath;
             IsCheckpoint = isCheckpoint;
             DisableAlreadyChosenOptions = false;
         }
         
-        public NarrativeNode(List<DialogueMessage> dialogue, string nodeId, bool disableAlreadyChosenOptions = false)
+        public NarrativeNode(List<DialogueMessage> dialogue, string nodeId, bool disableAlreadyChosenOptions) : this(dialogue, nodeId)
         {
-            Dialogue = dialogue;
-            NodeId = nodeId;
             DefaultPath = null;
-            Options = new List<DialogueOption>();
             IsCheckpoint = false;
             DisableAlreadyChosenOptions = disableAlreadyChosenOptions;
         }

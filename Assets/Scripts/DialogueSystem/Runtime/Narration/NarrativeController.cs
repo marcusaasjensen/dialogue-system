@@ -28,15 +28,13 @@ namespace DialogueSystem.Runtime.Narration
         public bool IsNarrating { get; private set; }
     
         private NarrativeNode _currentNarrative;
-        private DialogueMessage _currentDialogueMessage = new();
         private Queue<DialogueMessage> _narrativeQueue;
         private Narrative _narrative;
-        private NarrativeNode _startNode;
 
         private const string PathSeparator = ".";
 
         
-        public void BeginNarration(DialogueContainer narrativeToLoad = null)
+        public void BeginNarration(DialogueContainer narrativeToLoad)
         {
             _narrative = narrativeLoader.LoadNarrative(narrativeToLoad);
 
@@ -63,8 +61,8 @@ namespace DialogueSystem.Runtime.Narration
 
             SetupNarrativeEvents();
         
-            _startNode = GetStartNode();
-            StartNewDialogue(_startNode);
+            var startNode = GetStartNode();
+            StartNewDialogue(startNode);
         }
 
         private NarrativeNode GetStartNode()
@@ -125,8 +123,8 @@ namespace DialogueSystem.Runtime.Narration
                 return;
             }
 
-            _currentDialogueMessage = _narrativeQueue.Dequeue();
-            ShowNextMessage(_currentDialogueMessage);
+            var currentDialogueMessage = _narrativeQueue.Dequeue();
+            ShowNextMessage(currentDialogueMessage);
         }
 
         private void SkipCurrentMessage()

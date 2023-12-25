@@ -2,15 +2,15 @@
 {
     public class CommandData
     {
-        public DialogueCommandType Type;
-        public int StartPosition;
-        public int EndPosition;
-        public bool MustExecute;
-        public bool[] BoolValues;
-        public float[] FloatValues;
-        public string StringValue;
-        public TextAnimationType TextAnimValue;
-        public Emotion EmotionValue;
+        public DialogueCommandType Type { get; set; }
+        public int StartPosition { get; set; }
+        public int EndPosition { get; set; }
+        public bool MustExecute { get; set; }
+        public bool[] BoolValues { get; set; }
+        public float[] FloatValues { get; set; }
+        public string StringValue { get; set; }
+        public TextAnimationType TextAnimValue { get; set; }
+        public Emotion EmotionValue { get; set; }
     }
     
     public enum DialogueCommandType

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d50752db9e472b8d367dcf46cdbad8, type: 3}
+  m_Name: New Narrative
+  m_EditorClassIdentifier: 
+  nodeLinks:
+  - BaseNodeGuid: bd1e4555-dc74-41d6-88fc-437aa5e4d48d
+    PortName: Next
+    TargetNodeGuid: c929f31c-ae45-4f4c-9352-b1a91906bc9d
+  - BaseNodeGuid: 5f50ebc2-7a2c-4f78-8133-8bc15f1c0a50
+    PortName: Choice 1
+    TargetNodeGuid: e5d20c2a-1a75-4f8b-ac58-5df27755fd18
+  - BaseNodeGuid: c929f31c-ae45-4f4c-9352-b1a91906bc9d
+    PortName: Output
+    TargetNodeGuid: 5f50ebc2-7a2c-4f78-8133-8bc15f1c0a50
+  dialogueNodeData:
+  - Guid: bd1e4555-dc74-41d6-88fc-437aa5e4d48d
+    Dialogue: []
+    Position: {x: 100, y: 200}
+    TransitionNode: 0
+    EntryPoint: 1
+    IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
+  - Guid: e5d20c2a-1a75-4f8b-ac58-5df27755fd18
+    Dialogue: []
+    Position: {x: 1114, y: 78.666664}
+    TransitionNode: 1
+    EntryPoint: 0
+    IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
+  - Guid: 5f50ebc2-7a2c-4f78-8133-8bc15f1c0a50
+    Dialogue:
+    - <CharacterName>k__BackingField: Monster
+      <Content>k__BackingField: <sp:0,01><anim:Jitter>Choose</anim> <p:long>an <sp:0,1><anim:Spiral>option...</anim>
+      <HideCharacter>k__BackingField: 0
+    Position: {x: 650.6667, y: 200}
+    TransitionNode: 0
+    EntryPoint: 0
+    IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
+  - Guid: c929f31c-ae45-4f4c-9352-b1a91906bc9d
+    Dialogue:
+    - <CharacterName>k__BackingField: Monster
+      <Content>k__BackingField: <anim:Shake>Hello</anim>
+      <HideCharacter>k__BackingField: 1
+    Position: {x: 367.33334, y: 200}
+    TransitionNode: 1
+    EntryPoint: 0
+    IsCheckpoint: 0
+    DisableAlreadyChosenOptions: 0
+  pathToCheckpoint: 
+  isNarrativeEndReached: 0
+  startFromPreviousNarrativePath: 0
+  characters: []

@@ -16,8 +16,10 @@ namespace DialogueSystem.Data
 
         public CharacterState GetState(Emotion fromEmotion)
         {
-            if(fromEmotion == Emotion.Default)
+            if (fromEmotion == Emotion.Default)
+            {
                 return defaultState;
+            }
             
             var state =
                 states.Find(emotion => emotion.EmotionLabel == fromEmotion)

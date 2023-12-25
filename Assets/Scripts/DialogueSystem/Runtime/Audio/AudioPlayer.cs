@@ -17,7 +17,10 @@ namespace DialogueSystem.Runtime.Audio
 
         public void PlaySound(AudioClip sound)
         {
-            if (sound == null) return;
+            if (sound == null)
+            {
+                return;
+            }
             LogHandler.Log($"SFX played: {sound.name}", LogHandler.Color.Blue);
             effectSource.PlayOneShot(sound);
         }
@@ -40,7 +43,10 @@ namespace DialogueSystem.Runtime.Audio
         
         public void StopMusic()
         {
-            if (!musicSource.isPlaying) return;
+            if (!musicSource.isPlaying)
+            {
+                return;
+            }
             LogHandler.Log($"Music stopped.", LogHandler.Color.Blue);
             musicSource.Stop();
             musicSource.loop = false;

@@ -35,8 +35,10 @@ namespace DialogueSystem.Editor
             var compatiblePorts = new List<Port>();
             ports.ForEach((port) =>
             {
-                if(startPort != port && startPort.node != port.node)
+                if (startPort != port && startPort.node != port.node)
+                {
                     compatiblePorts.Add(port);
+                }
             });
             return compatiblePorts;
         }
@@ -49,7 +51,7 @@ namespace DialogueSystem.Editor
             var node = new DialogueNode
             {
                 title = "START",
-                GUID = Guid.NewGuid().ToString(),
+                Guid = Guid.NewGuid().ToString(),
                 EntryPoint = true
             };
             var port = GeneratePort(node, Direction.Output);
@@ -65,15 +67,15 @@ namespace DialogueSystem.Editor
             return node;
         }
 
-        public void CreateNode(string nodeName) => AddElement(CreateMultipleChoiceNode(nodeName, new List<DialogueMessage>()));
+        public void CreateNode(string nodeName) => AddElement(CreateMultipleChoiceNode(nodeName, new List<DialogueMessage>(), false));
 
-        public DialogueNode CreateMultipleChoiceNode(string nodeName, List<DialogueMessage> messages, bool disableOptions = false)
+        public DialogueNode CreateMultipleChoiceNode(string nodeName, List<DialogueMessage> messages, bool disableOptions)
         {
             var dialogueNode = new DialogueNode
             {
                 title = nodeName,
                 Messages = messages,
-                GUID = Guid.NewGuid().ToString(),
+                Guid = Guid.NewGuid().ToString(),
                 TransitionNode = false,
                 DisableAlreadyChosenOptions = disableOptions
             };
@@ -88,7 +90,7 @@ namespace DialogueSystem.Editor
                 DialogueView.OpenWindow(dialogueNode.Messages);
             }) { text = "Edit Dialogue" };
         
-            var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode); }) { text = "New Choice" };
+            var addChoiceButton = new Button(() => { AddChoicePort(dialogueNode, ""); }) { text = "New Choice" };
         
             var optionDisablingToggle = new Toggle("Disable already chosen options") { value =  disableOptions };
             
@@ -118,7 +120,7 @@ namespace DialogueSystem.Editor
             dialogueNode.mainContainer.AddToClassList("dialogueNodeMainContainer");
         }
 
-        public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "")
+        public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName)
         {
             var generatedPort = GeneratePort(dialogueNode, Direction.Output);
 
@@ -165,27 +167,28 @@ namespace DialogueSystem.Editor
                 .Where(x => x.output.portName == generatedPort.portName && x.output.node == generatedPort.node);
 
             dialogueNode.outputContainer.Remove(generatedPort);
-        
-            if (targetEdge.Any())
+
+            var enumerable = targetEdge.ToList();
+            if (enumerable.Any())
             {
-                var edge = targetEdge.First();
+                var edge = enumerable.First();
                 edge.input.Disconnect(edge);
-                RemoveElement(targetEdge.First());
+                RemoveElement(enumerable.First());
             }
         
             dialogueNode.outputContainer.Remove(generatedPort);
             RefreshNode(dialogueNode);
         }
 
-        public void CreateSimpleDialogueNode(string simpleNode) => AddElement(CreateSimpleDialogueNode(simpleNode, new List<DialogueMessage>()));
+        public void CreateSimpleDialogueNode(string simpleNode) => AddElement(CreateSimpleDialogueNode(simpleNode, new List<DialogueMessage>(), false));
 
-        public DialogueNode CreateSimpleDialogueNode(string simpleNode, List<DialogueMessage> messages, bool isCheckpoint = false)
+        public DialogueNode CreateSimpleDialogueNode(string simpleNode, List<DialogueMessage> messages, bool isCheckpoint)
         {
             var dialogueNode = new DialogueNode
             {
                 title = simpleNode,
                 Messages = messages,
-                GUID = Guid.NewGuid().ToString(),
+                Guid = Guid.NewGuid().ToString(),
                 TransitionNode = true,
                 Checkpoint = isCheckpoint
             };
@@ -220,11 +223,15 @@ namespace DialogueSystem.Editor
         {
             var port = GeneratePort(dialogueNode, direction, direction == Direction.Input ? Port.Capacity.Multi : Port.Capacity.Single);
             port.portName = direction == Direction.Input ? "Input" : "Output";
-        
-            if(direction == Direction.Input) 
+
+            if (direction == Direction.Input)
+            {
                 dialogueNode.inputContainer.Add(port);
+            }
             else
+            {
                 dialogueNode.outputContainer.Add(port);
+            }
         }
     }
 }

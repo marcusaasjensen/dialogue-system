@@ -130,11 +130,43 @@ namespace DialogueSystem.Data
         public void ChangeDialogueVariable<T>(string variableName, T newValue)
         {
             var variable = variables.Find(v => v.Name == variableName);
-            if(variable != null)
+            if (variable != null)
+            {
                 variable.SetValue(newValue);
+            }
             else
+            {
                 AddDialogueVariable(variableName, newValue);
+            }
             SaveRuntimeData();
+        }
+
+        public void RemoveAllDialogueVariables()
+        {
+            variables.Clear();
+            SaveRuntimeData();
+        }
+        
+        public void RemoveDialogueVariable(string variableName)
+        {
+            variables.RemoveAll(v => v.Name == variableName);
+            SaveRuntimeData();
+        }
+        
+        public void ListAllDialogueVariables()
+        {
+            LogHandler.Log("Dialogue Variables:", LogHandler.Color.Green);
+            
+            if(variables.Count == 0)
+            {
+                LogHandler.Log("No variables.", LogHandler.Color.Green);
+                return;
+            }
+            
+            foreach (var variable in variables)
+            {
+                LogHandler.Log( $"{variable.Name}: {variable}", LogHandler.Color.Green);
+            }
         }
     }
 }

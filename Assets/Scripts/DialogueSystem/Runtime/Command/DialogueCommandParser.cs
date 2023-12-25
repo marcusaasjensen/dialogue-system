@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 using DialogueSystem.Data;
 using UnityEngine;
@@ -11,6 +12,12 @@ using Utility;
 
 namespace DialogueSystem.Runtime.Command
 {
+    public class ParsedMessage
+    {
+        public string Message { get; set; }
+        public List<CommandData> Commands { get; set; }
+    }
+    
     public abstract class DialogueCommandParser
     {
         // grab the remainder of the text until ">" or end of string
@@ -51,7 +58,8 @@ namespace DialogueSystem.Runtime.Command
 
         public static string RemoveSimpleTextTags(string message)
         {
-            var result = string.Empty;
+            var result = new StringBuilder();
+
             var i = 0;
 
             while (i < message.Length)
@@ -59,17 +67,19 @@ namespace DialogueSystem.Runtime.Command
                 if (message[i] == '<')
                 {
                     while (i < message.Length && message[i] != '>')
+                    {
                         i++;
+                    }
                     i++;
                 }
                 else
                 {
-                    result += message[i];
+                    result.Append(message[i]);
                     i++;
                 }
             }
 
-            return result;
+            return result.ToString();
         }
         
         private static T GetValue<T>(string stringVal, string typeName = "Type")
@@ -94,15 +104,17 @@ namespace DialogueSystem.Runtime.Command
             var insideBrackets = false;
             for (var i = 0; i < index; i++)
             {
-                switch (message[i])
+                if (message[i] != '<')
                 {
-                    case '<':
-                        insideBrackets = true;
-                        break;
-                    case '>':
-                        insideBrackets = false;
+                    if (message[i] == '>')
+                    {
                         result--;
-                        break;
+                        insideBrackets = false;
+                    }
+                }
+                else
+                {
+                    insideBrackets = true;
                 }
 
                 if (!insideBrackets)
@@ -113,23 +125,26 @@ namespace DialogueSystem.Runtime.Command
 
             return result;
         }
-
-        public static List<CommandData> Parse(string message, out string processedMessage)
+        
+        public static ParsedMessage Parse(string message)
         {
             var result = new List<CommandData>();
-            processedMessage = message;
 
-            processedMessage = ReplaceVariableTagsByValue(processedMessage);
+            message = ReplaceVariableTagsByValue(message);
             
-            processedMessage = HandlePauseTags(processedMessage, result);
-            processedMessage = HandleSpeedTags(processedMessage, result);
-            processedMessage = HandleEmotionTags(processedMessage, result);
-            processedMessage = HandleMusicStartTags(processedMessage, result);
-            processedMessage = HandleMusicEndTags(processedMessage, result);
-            processedMessage = HandleSoundTags(processedMessage, result);
-            processedMessage = HandleAnimTags(processedMessage, result);
+            message = HandlePauseTags(message, result);
+            message = HandleSpeedTags(message, result);
+            message = HandleEmotionTags(message, result);
+            message = HandleMusicStartTags(message, result);
+            message = HandleMusicEndTags(message, result);
+            message = HandleSoundTags(message, result);
+            message = HandleAnimTags(message, result);
 
-            return result;
+            return new ParsedMessage
+            {
+                Message = message, 
+                Commands = result
+            };
         }
 
         private static string HandleEmotionTags(string processedMessage, ICollection<CommandData> result)
@@ -163,7 +178,9 @@ namespace DialogueSystem.Runtime.Command
                 var value = DialogueVariableData.Instance.GetValueAsString(variableName);
 
                 if (string.IsNullOrEmpty(value))
+                {
                     value = "X";
+                }
 
                 processedMessage = Regex.Replace(processedMessage, match.Value, value);
             }
@@ -176,41 +193,56 @@ namespace DialogueSystem.Runtime.Command
             var animStartMatches = AnimStartRegex.Matches(processedMessage);
             var animEndMatches = AnimEndRegex.Matches(processedMessage);
             var matchesToIgnore = new List<Match>();
-            
+
             foreach (Match match in animStartMatches)
             {
-                var stringVal = match.Groups["anim"].Value;
-                var speedVal = match.Groups["s"].Value;
-                var amountVal = match.Groups["a"].Value;
-                var syncVal = match.Groups["sync"].Value;
-                
-                var endIndex = -1;
-                
-                foreach (Match endMatch in animEndMatches)
+                try
                 {
-                    if (endMatch.Index <= match.Index && matchesToIgnore.Contains(endMatch)) continue;
-                    endIndex = endMatch.Index;
-                    matchesToIgnore.Add(endMatch);
-                    break;
-                }
-                
-                var floatValues = string.IsNullOrEmpty(speedVal) || string.IsNullOrEmpty(amountVal)
-                    ? null
-                    : new[] {
-                        float.Parse(speedVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture),
-                        float.Parse(amountVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture)
-                    };
+                    var stringVal = match.Groups["anim"].Value;
+                    var speedVal = match.Groups["s"].Value;
+                    var amountVal = match.Groups["a"].Value;
+                    var syncVal = match.Groups["sync"].Value;
 
-                result.Add(new CommandData
+                    var endIndex = -1;
+                    
+
+                    foreach (Match endMatch in animEndMatches)
+                    {
+                        if (endMatch.Index <= match.Index && matchesToIgnore.Contains(endMatch))
+                        {
+                            continue;
+                        }
+
+                        endIndex = endMatch.Index;
+                        matchesToIgnore.Add(endMatch);
+                        break;
+                    }
+
+                    var floatValues = string.IsNullOrEmpty(speedVal) || string.IsNullOrEmpty(amountVal)
+                        ? null
+                        : new[]
+                        {
+                            float.Parse(speedVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture),
+                            float.Parse(amountVal.Replace(',', '.'), NumberStyles.Any, CultureInfo.InvariantCulture)
+                        };
+
+                    var boolValues = string.IsNullOrEmpty(syncVal) ? null : new[] { bool.Parse(syncVal) };
+                    
+                    result.Add(new CommandData
+                    {
+                        StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                        EndPosition = VisibleCharactersUpToIndex(processedMessage, endIndex),
+                        Type = DialogueCommandType.Animation,
+                        TextAnimValue = GetValue<TextAnimationType>(stringVal, "Text Animation Type"),
+                        MustExecute = true,
+                        FloatValues = floatValues,
+                        BoolValues = boolValues
+                    });
+                }
+                catch (Exception e)
                 {
-                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
-                    EndPosition = VisibleCharactersUpToIndex(processedMessage, endIndex),
-                    Type = DialogueCommandType.Animation,
-                    TextAnimValue = GetValue<TextAnimationType>(stringVal, "Text Animation Type"),
-                    MustExecute = true,
-                    FloatValues = floatValues,
-                    BoolValues = new []{bool.Parse(syncVal)}
-                });
+                    LogHandler.Alert($"Error parsing animation command: {e.Message}");
+                }
             }
 
             processedMessage = Regex.Replace(processedMessage, AnimStartRegexString, "");

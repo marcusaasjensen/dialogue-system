@@ -20,7 +20,10 @@ namespace DialogueSystem.Editor
             _dialogue = messages;
             var window = GetWindow<DialogueView>();
 
-            if (_windowProperties) window.position = _windowProperties.position;
+            if (_windowProperties)
+            {
+                window.position = _windowProperties.position;
+            }
 
             window.titleContent = new GUIContent("Dialogue Editor");
             window.Show();
@@ -45,13 +48,16 @@ namespace DialogueSystem.Editor
         {
             _reorderableMessages = new ReorderableList(_dialogue, typeof(DialogueMessage),true, true, true, true);
 
-            _reorderableMessages.drawElementCallback = (rect, index, isActive, isFocused) =>
+            _reorderableMessages.drawElementCallback = (rect, index, _, _) =>
             {
                 var element = _reorderableMessages.list[index] as DialogueMessage;
             
                 EditorGUI.EnumFlagsField(new Rect(), Emotion.Default);
 
-                if (element == null) return;
+                if (element == null)
+                {
+                    return;
+                }
             
                 element.CharacterName =
                     EditorGUI.TextField(new Rect(rect.x + GUIOffset, rect.y + GUIOffset, position.width - 50, 20),
@@ -63,7 +69,7 @@ namespace DialogueSystem.Editor
                         element.Content);
             };
         
-            _reorderableMessages.elementHeightCallback = index => EditorGUIUtility.singleLineHeight + 170f + GUIOffset;
+            _reorderableMessages.elementHeightCallback = _ => EditorGUIUtility.singleLineHeight + 170f + GUIOffset;
         }
     
         private void OnGUI()

@@ -67,6 +67,6 @@ namespace DialogueSystem.Runtime.UI
         /// </summary>
         /// <param name="characterStateFace">Character's sprite.</param>
         /// <param name="hideCharacter">Hide character's sprite.</param>
-        public abstract void DisplayCharacter(Optional<Sprite> characterStateFace, bool hideCharacter = false);
+        public abstract void DisplayCharacter(Optional<Sprite> characterStateFace, bool hideCharacter);
     }
 }

@@ -16,7 +16,7 @@ namespace DialogueSystem.Runtime.Interaction
         private bool _hintNull;
 
         public bool CanInteract =>
-            !((stopInteractAtNarrativeEnd && (narrativeScriptableObject is { isNarrativeEndReached: true })) ||
+            !((stopInteractAtNarrativeEnd && (narrativeScriptableObject is { IsNarrativeEndReached: true })) ||
               narrativeController.IsNarrating);
 
         private void Update()

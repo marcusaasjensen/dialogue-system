@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Utility 
 {
     [Serializable]
-    public struct Optional<T>
+    public struct Optional<T> : IEquatable<Optional<T>>
     {
         [SerializeField] private bool enabled;
         [SerializeField] private T value;
@@ -20,5 +20,7 @@ namespace Utility
         }
         
         public static implicit operator Optional<T>(T value) => new (value);
+        
+        public bool Equals(Optional<T> other) => other.Value.Equals(Value);
     }
 }

@@ -57,8 +57,11 @@ namespace DialogueSystem.Runtime.UI
                 yield return new WaitUntil(() => IsPaused == false);
                 
                 TyperPosition = i;
-                
-                if (currentPace != 0) yield return new WaitForSeconds(currentPace);
+
+                if (currentPace > 0.0f)
+                {
+                    yield return new WaitForSeconds(currentPace);
+                }
 
                 currentPace = TyperPace;
                 
