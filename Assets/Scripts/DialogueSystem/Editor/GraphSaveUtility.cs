@@ -36,19 +36,19 @@ namespace DialogueSystem.Editor
                 var outputNode = edge.output.node as DialogueNode;
                 var inputNode = edge.input.node as DialogueNode;
 
-                dialogueContainer.nodeLinks.Add(new NodeLinkData
+                dialogueContainer.NodeLinks.Add(new NodeLinkData
                 {
-                    BaseNodeGuid = outputNode!.GUID,
+                    BaseNodeGuid = outputNode!.Guid,
                     PortName = edge.output.portName,
-                    TargetNodeGuid = inputNode!.GUID
+                    TargetNodeGuid = inputNode!.Guid
                 });
             }
 
             var entryPoint = Nodes.Find(node => node.EntryPoint);
         
-            dialogueContainer.dialogueNodeData.Add(new DialogueNodeData
+            dialogueContainer.DialogueNodeData.Add(new DialogueNodeData
                 {
-                    Guid = entryPoint.GUID,
+                    Guid = entryPoint.Guid,
                     Dialogue = null,
                     Position = entryPoint.GetPosition().position,
                     TransitionNode = false,
@@ -58,9 +58,9 @@ namespace DialogueSystem.Editor
 
             foreach (var dialogueNode in Nodes.Where(node => !node.EntryPoint))
             {
-                dialogueContainer.dialogueNodeData.Add(new DialogueNodeData
+                dialogueContainer.DialogueNodeData.Add(new DialogueNodeData
                 {
-                    Guid = dialogueNode.GUID,
+                    Guid = dialogueNode.Guid,
                     Dialogue = dialogueNode.Messages,
                     Position = dialogueNode.GetPosition().position,
                     TransitionNode = dialogueNode.TransitionNode,
@@ -69,12 +69,12 @@ namespace DialogueSystem.Editor
                 });
             }
             
-            dialogueContainer.characters = new List<CharacterData>();
+            dialogueContainer.Characters = new List<CharacterData>();
 
             _containerCache = Resources.Load<DialogueContainer>($"{ResourcesPath}/{fileName}");
             if (_containerCache)
             {
-                _containerCache.characters.ForEach(character => dialogueContainer.characters.Add(character));
+                _containerCache.Characters.ForEach(character => dialogueContainer.Characters.Add(character));
                 dialogueContainer.StartFromPreviousNarrativePath = _containerCache.StartFromPreviousNarrativePath;
             }
 
@@ -108,12 +108,12 @@ namespace DialogueSystem.Editor
             foreach (var currentNode in Nodes)
             {
                 var node = currentNode;
-                var connections = _containerCache.nodeLinks.Where(x => x.BaseNodeGuid == node.GUID).ToList();
+                var connections = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == node.Guid).ToList();
   
                 for (var j = 0; j < connections.Count; j++)
                 {
                     var targetNodeGuid = connections[j].TargetNodeGuid;
-                    var targetNode = Nodes.Find(x => x.GUID == targetNodeGuid);
+                    var targetNode = Nodes.Find(x => x.Guid == targetNodeGuid);
 
                     LinkNodes(currentNode.outputContainer[j].Q<Port>(), (Port) targetNode.inputContainer[0]);
                 }
@@ -134,7 +134,7 @@ namespace DialogueSystem.Editor
         }
         private void CreateNodes()
         {
-            foreach (var nodeData in _containerCache.dialogueNodeData)
+            foreach (var nodeData in _containerCache.DialogueNodeData)
             {
                 if (nodeData.EntryPoint)
                 {
@@ -144,7 +144,7 @@ namespace DialogueSystem.Editor
                 var tempNode =  nodeData.TransitionNode 
                     ? _targetGraphView.CreateSimpleDialogueNode("Transition Node", nodeData.Dialogue, nodeData.IsCheckpoint)
                     : _targetGraphView.CreateMultipleChoiceNode("Multiple Choice Node", nodeData.Dialogue, nodeData.DisableAlreadyChosenOptions);
-                tempNode.GUID = nodeData.Guid;
+                tempNode.Guid = nodeData.Guid;
             
                 tempNode.SetPosition(new Rect(nodeData.Position, _targetGraphView.DefaultNodeSize));
 
@@ -155,14 +155,14 @@ namespace DialogueSystem.Editor
                     continue;
                 }
 
-                var nodePorts = _containerCache.nodeLinks.Where(x => x.BaseNodeGuid == nodeData.Guid).ToList();
+                var nodePorts = _containerCache.NodeLinks.Where(x => x.BaseNodeGuid == nodeData.Guid).ToList();
                 nodePorts.ForEach(x => _targetGraphView.AddChoicePort(tempNode, x.PortName));
             }
         }
 
         private void ClearGraph()
         {
-            Nodes.Find(node => node.EntryPoint).GUID = _containerCache.dialogueNodeData.Find(node => node.EntryPoint)?.Guid;
+            Nodes.Find(node => node.EntryPoint).Guid = _containerCache.DialogueNodeData.Find(node => node.EntryPoint)?.Guid;
         
             foreach (var node in Nodes.Where(node => !node.EntryPoint))
             {

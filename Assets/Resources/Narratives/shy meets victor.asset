@@ -160,9 +160,9 @@ MonoBehaviour:
     EntryPoint: 0
     IsCheckpoint: 0
     DisableAlreadyChosenOptions: 0
-  pathToCheckpoint: 
-  isNarrativeEndReached: 0
-  startFromPreviousNarrativePath: 0
-  characters:
+  <PathToCheckpoint>k__BackingField: 
+  <IsNarrativeEndReached>k__BackingField: 0
+  <StartFromPreviousNarrativePath>k__BackingField: 1
+  <Characters>k__BackingField:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}

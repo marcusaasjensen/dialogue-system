@@ -51,7 +51,7 @@ namespace DialogueSystem.Editor
             var node = new DialogueNode
             {
                 title = "START",
-                GUID = Guid.NewGuid().ToString(),
+                Guid = Guid.NewGuid().ToString(),
                 EntryPoint = true
             };
             var port = GeneratePort(node, Direction.Output);
@@ -75,7 +75,7 @@ namespace DialogueSystem.Editor
             {
                 title = nodeName,
                 Messages = messages,
-                GUID = Guid.NewGuid().ToString(),
+                Guid = Guid.NewGuid().ToString(),
                 TransitionNode = false,
                 DisableAlreadyChosenOptions = disableOptions
             };
@@ -188,7 +188,7 @@ namespace DialogueSystem.Editor
             {
                 title = simpleNode,
                 Messages = messages,
-                GUID = Guid.NewGuid().ToString(),
+                Guid = Guid.NewGuid().ToString(),
                 TransitionNode = true,
                 Checkpoint = isCheckpoint
             };

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 using DialogueSystem.Data;
 using UnityEngine;
@@ -57,7 +58,8 @@ namespace DialogueSystem.Runtime.Command
 
         public static string RemoveSimpleTextTags(string message)
         {
-            var result = string.Empty;
+            var result = new StringBuilder();
+
             var i = 0;
 
             while (i < message.Length)
@@ -72,12 +74,12 @@ namespace DialogueSystem.Runtime.Command
                 }
                 else
                 {
-                    result += message[i];
+                    result.Append(message[i]);
                     i++;
                 }
             }
 
-            return result;
+            return result.ToString();
         }
         
         private static T GetValue<T>(string stringVal, string typeName = "Type")
@@ -110,8 +112,6 @@ namespace DialogueSystem.Runtime.Command
                     case '>':
                         result--;
                         insideBrackets = false;
-                        break;
-                    default:
                         break;
                 }
 

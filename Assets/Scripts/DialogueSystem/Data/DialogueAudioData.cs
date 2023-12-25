@@ -20,9 +20,9 @@ namespace DialogueSystem.Data
     
     public sealed class DialogueAudioData : EasyScriptableSingleton<DialogueAudioData>
     {
-        public List<AudioData> musicList;
-        public List<AudioData> soundEffectList;
-
+        [SerializeField] private List<AudioData> musicList;
+        [SerializeField] private List<AudioData> soundEffectList;
+        
         protected override string PathToResources => "Assets/Resources";
         protected override string ResourcesPath => "Dialogue";
         protected override string FileName => "DialogueAudioData";

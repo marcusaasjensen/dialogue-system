@@ -17,10 +17,7 @@ namespace DialogueSystem.Runtime.UI
         [Header("Default Values"), SerializeField] private float animationSpeed = 1.0f;
         [SerializeField] private float amount = 1.0f;
         [SerializeField] private bool synchronizeTextAnimation;
-
-        private Mesh _mesh;
-        private Vector3[] _vertices;
-
+        
         private readonly List<TextAnimation> _textAnimations = new ();
         private bool _isTextMeshNull;
 
@@ -63,8 +60,8 @@ namespace DialogueSystem.Runtime.UI
             }
 
             textMesh.ForceMeshUpdate();
-            _mesh = textMesh.mesh;
-            _vertices = _mesh.vertices;
+            var mesh = textMesh.mesh;
+            var vertices = mesh.vertices;
             
             foreach (var textAnimation in _textAnimations)
             {
@@ -73,7 +70,7 @@ namespace DialogueSystem.Runtime.UI
                 for (var i = textAnimation.StartPosition; i < textEndPosition && i < textMesh.textInfo.characterCount; i++)
                 {
                     var c = textMesh.textInfo.characterInfo[i];
-                    if (c.character == ' ' || c.vertexIndex < 0 || c.vertexIndex + 3 >= _vertices.Length)
+                    if (c.character == ' ' || c.vertexIndex < 0 || c.vertexIndex + 3 >= vertices.Length)
                     {
                         continue;
                     }
@@ -83,15 +80,15 @@ namespace DialogueSystem.Runtime.UI
                     var sync = textAnimation.Sync ?? synchronizeTextAnimation;
                     
                     Vector3 offset = textAnimation.GetOffset(sync ? Time.time : Time.time + i, animationSpeed, amount);
-                    _vertices[vertexIndex] += offset;
-                    _vertices[vertexIndex + 1] += offset;
-                    _vertices[vertexIndex + 2] += offset;
-                    _vertices[vertexIndex + 3] += offset;
+                    vertices[vertexIndex] += offset;
+                    vertices[vertexIndex + 1] += offset;
+                    vertices[vertexIndex + 2] += offset;
+                    vertices[vertexIndex + 3] += offset;
                 }
             }
             
-            _mesh.vertices = _vertices;
-            textMesh.canvasRenderer.SetMesh(_mesh);
+            mesh.vertices = vertices;
+            textMesh.canvasRenderer.SetMesh(mesh);
         }
 
         public void PlayAnimation(TextAnimationType animationType, int startPosition, int endPosition, float? speedValue, float? amountValue, bool? sync) => _textAnimations.Add(new TextAnimation(animationType, startPosition, endPosition, speedValue, amountValue, sync));

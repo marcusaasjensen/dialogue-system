@@ -14,7 +14,7 @@ namespace DialogueSystem.Runtime.Utility
         private const string MissingReferenceError = "Narrative's reference missing.";
         private const string MissingReferenceHint = "Hint: if you have made any changes to your current narrative, do not forget to set up its new reference in the NarrativeLoader component!";
     
-        public string GetSavedNarrativePathID() => narrativeToLoad.StartFromPreviousNarrativePath ? narrativeToLoad.pathToCheckpoint : string.Empty;
+        public string GetSavedNarrativePathID() => narrativeToLoad.StartFromPreviousNarrativePath ? narrativeToLoad.PathToCheckpoint : string.Empty;
 
         public Narrative LoadNarrative(DialogueContainer narrative)
         {
@@ -37,9 +37,9 @@ namespace DialogueSystem.Runtime.Utility
         
             LogHandler.Log($"Narrative loaded: {narrativeToLoad.name}", LogHandler.Color.Blue);
             
-            var loadedNarrative = new Narrative(narrativeToLoad.characters);
+            var loadedNarrative = new Narrative(narrativeToLoad.Characters);
 
-            var entryNode = narrativeToLoad.dialogueNodeData.Find(node => node.EntryPoint);
+            var entryNode = narrativeToLoad.DialogueNodeData.Find(node => node.EntryPoint);
             CreateNodesFromEntryNode(entryNode, loadedNarrative);
 
             return loadedNarrative;
@@ -47,14 +47,14 @@ namespace DialogueSystem.Runtime.Utility
 
         private void CreateNodesFromEntryNode(DialogueNodeData entryNode, Narrative narrative)
         {
-            var entryLink = narrativeToLoad.nodeLinks.Find(link => link.BaseNodeGuid == entryNode.Guid);
+            var entryLink = narrativeToLoad.NodeLinks.Find(link => link.BaseNodeGuid == entryNode.Guid);
 
             if (entryLink == null)
             {
                 return;
             }
         
-            var firstNode = narrativeToLoad.dialogueNodeData.Find(node => node.Guid == entryLink.TargetNodeGuid);
+            var firstNode = narrativeToLoad.DialogueNodeData.Find(node => node.Guid == entryLink.TargetNodeGuid);
             narrative.NarrativeEntryNode = CreateNextNode(firstNode, narrative);
         }
 
@@ -80,13 +80,13 @@ namespace DialogueSystem.Runtime.Utility
         {
             var choiceNode = new NarrativeNode(dialogue, node.Guid, node.DisableAlreadyChosenOptions);
 
-            var options = narrativeToLoad.nodeLinks.Where(x => x.BaseNodeGuid == node.Guid).ToList();
+            var options = narrativeToLoad.NodeLinks.Where(x => x.BaseNodeGuid == node.Guid).ToList();
 
             narrative.AddNarrativeNode(choiceNode);
 
             options.ForEach(option =>
             {
-                var nextNode = narrativeToLoad.dialogueNodeData.Find(dialogueNode => option.TargetNodeGuid == dialogueNode.Guid);
+                var nextNode = narrativeToLoad.DialogueNodeData.Find(dialogueNode => option.TargetNodeGuid == dialogueNode.Guid);
                 choiceNode.AddOption(option.PortName, CreateNextNode(nextNode, narrative));
             });
 
@@ -95,9 +95,9 @@ namespace DialogueSystem.Runtime.Utility
 
         private NarrativeNode CreateTransitionNode(DialogueNodeData node, Narrative narrative, List<DialogueMessage> dialogue)
         {
-            var nextPath = narrativeToLoad.nodeLinks.Find(x => x.BaseNodeGuid == node.Guid);
+            var nextPath = narrativeToLoad.NodeLinks.Find(x => x.BaseNodeGuid == node.Guid);
 
-            var nextNode = nextPath == null ? null : narrativeToLoad.dialogueNodeData.Find(dialogueNode => nextPath.TargetNodeGuid == dialogueNode.Guid);
+            var nextNode = nextPath == null ? null : narrativeToLoad.DialogueNodeData.Find(dialogueNode => nextPath.TargetNodeGuid == dialogueNode.Guid);
 
             var transitionNode = new NarrativeNode(dialogue, node.Guid, node.IsCheckpoint, CreateNextNode(nextNode, narrative));
         
@@ -111,8 +111,8 @@ namespace DialogueSystem.Runtime.Utility
             {
                 return;
             }
-            narrativeToLoad.pathToCheckpoint = narrativePathID;
-            narrativeToLoad.isNarrativeEndReached = narrativeEndReached;
+            narrativeToLoad.PathToCheckpoint = narrativePathID;
+            narrativeToLoad.IsNarrativeEndReached = narrativeEndReached;
         }
 
         public void ResetNarrative()
@@ -121,8 +121,8 @@ namespace DialogueSystem.Runtime.Utility
             {
                 return;
             }
-            narrativeToLoad.pathToCheckpoint = string.Empty;
-            narrativeToLoad.isNarrativeEndReached = false;
+            narrativeToLoad.PathToCheckpoint = string.Empty;
+            narrativeToLoad.IsNarrativeEndReached = false;
         }
     }
 }

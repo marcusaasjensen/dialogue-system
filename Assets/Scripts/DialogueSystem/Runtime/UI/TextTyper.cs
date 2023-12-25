@@ -58,7 +58,7 @@ namespace DialogueSystem.Runtime.UI
                 
                 TyperPosition = i;
 
-                if (currentPace != 0)
+                if (currentPace > 0.0f)
                 {
                     yield return new WaitForSeconds(currentPace);
                 }
