@@ -104,15 +104,17 @@ namespace DialogueSystem.Runtime.Command
             var insideBrackets = false;
             for (var i = 0; i < index; i++)
             {
-                switch (message[i])
+                if (message[i] != '<')
                 {
-                    case '<':
-                        insideBrackets = true;
-                        break;
-                    case '>':
+                    if (message[i] == '>')
+                    {
                         result--;
                         insideBrackets = false;
-                        break;
+                    }
+                }
+                else
+                {
+                    insideBrackets = true;
                 }
 
                 if (!insideBrackets)
