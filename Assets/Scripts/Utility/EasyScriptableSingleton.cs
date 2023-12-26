@@ -42,9 +42,9 @@ namespace Utility
             }
             
             _instance = CreateInstance<T>();
+            #if UNITY_EDITOR
             template = _instance as EasyScriptableSingleton<T>;
             
-            #if UNITY_EDITOR
             if (template != null)
             {
                 template.Initialize();
@@ -68,6 +68,7 @@ namespace Utility
         
         protected void SaveRuntimeData()
         {
+            // Only executes in editor mode
             #if UNITY_EDITOR
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
