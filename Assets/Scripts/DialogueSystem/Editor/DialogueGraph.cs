@@ -4,6 +4,8 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
+
 namespace DialogueSystem.Editor
 {
     public class DialogueGraph : EditorWindow
@@ -97,3 +99,5 @@ namespace DialogueSystem.Editor
         private void OnDisable() => rootVisualElement.Remove(_graphView);
     }
 }
+
+#endif

@@ -6,6 +6,8 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
+
 namespace DialogueSystem.Editor
 {
     public class DialogueGraphView : GraphView
@@ -238,3 +240,5 @@ namespace DialogueSystem.Editor
         }
     }
 }
+
+#endif
