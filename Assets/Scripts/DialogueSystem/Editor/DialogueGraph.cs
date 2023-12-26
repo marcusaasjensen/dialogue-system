@@ -4,6 +4,8 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
+
 namespace DialogueSystem.Editor
 {
     public class DialogueGraph : EditorWindow
@@ -11,18 +13,18 @@ namespace DialogueSystem.Editor
         private DialogueGraphView _graphView;
         private string _fileName = "New Narrative";
     
-        [MenuItem("Graph/Dialogue Graph")]
+        [MenuItem("Graph/Dialogue Graph Editor")]
         public static void OpenDialogueGraphWindow()
         {
             var window = GetWindow<DialogueGraph>();
-            window.titleContent = new GUIContent("Dialogue Graph");
+            window.titleContent = new GUIContent("Dialogue Graph Editor");
         }
 
         private void ConstructGraph()
         {
             _graphView = new DialogueGraphView
             {
-                name = "Dialogue Graph"
+                name = "Dialogue Graph Editor"
             };
         
             _graphView.StretchToParentSize();
@@ -97,3 +99,5 @@ namespace DialogueSystem.Editor
         private void OnDisable() => rootVisualElement.Remove(_graphView);
     }
 }
+
+#endif

@@ -15,4 +15,6 @@ MonoBehaviour:
   musicList:
   - name: playground
     audioClip: {fileID: 8300000, guid: ebd04bea60accfa44a671d7ad562a416, type: 3}
-  soundEffectList: []
+  soundEffectList:
+  - name: click
+    audioClip: {fileID: 8300000, guid: 259fd810bf390cf4ebe1220e3be1a0b7, type: 3}

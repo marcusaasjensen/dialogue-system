@@ -10,7 +10,9 @@ namespace DialogueSystem.Runtime.UI
     public class TextAnimator : MonoBehaviour
     {
         [Header("To Animate"), SerializeField] private TMP_Text textMesh;
+        #if UNITY_EDITOR
         [Header("Editor Mode"), SerializeField] private bool testAnimationInEditor;
+        #endif
         [SerializeField] private TextAnimationType testAnimationType;
         [SerializeField, Min(0)] private int testStartPosition;
         [SerializeField, Min(0)] private int testEndPosition;
@@ -23,7 +25,6 @@ namespace DialogueSystem.Runtime.UI
 
         private void Awake()
         {
-            testAnimationInEditor = false;
             _isTextMeshNull = textMesh == null;
         }
         
@@ -32,6 +33,7 @@ namespace DialogueSystem.Runtime.UI
         {
             if (Application.isPlaying)
             {
+                testAnimationInEditor = false;
                 return;
             }
             _isTextMeshNull = textMesh == null;

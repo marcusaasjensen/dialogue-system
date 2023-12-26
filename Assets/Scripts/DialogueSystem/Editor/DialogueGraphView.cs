@@ -6,6 +6,8 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+#if UNITY_EDITOR
+
 namespace DialogueSystem.Editor
 {
     public class DialogueGraphView : GraphView
@@ -54,6 +56,7 @@ namespace DialogueSystem.Editor
                 Guid = Guid.NewGuid().ToString(),
                 EntryPoint = true
             };
+
             var port = GeneratePort(node, Direction.Output);
             port.portName = "Next";
             node.outputContainer.Add(port);
@@ -122,12 +125,15 @@ namespace DialogueSystem.Editor
 
         public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName)
         {
+            var outputPortCount = dialogueNode.outputContainer.Query("connector").ToList().Count;
+            
+            if(outputPortCount >= 5) return;
+            
             var generatedPort = GeneratePort(dialogueNode, Direction.Output);
 
             var oldLabel = generatedPort.contentContainer.Q<Label>("type");
             generatedPort.contentContainer.Remove(oldLabel);
         
-            var outputPortCount = dialogueNode.outputContainer.Query("connector").ToList().Count;
             var choicePortName = string.IsNullOrEmpty(overridenPortName) 
                 ? $"Choice {outputPortCount+1}" 
                 : overridenPortName;
@@ -175,8 +181,7 @@ namespace DialogueSystem.Editor
                 edge.input.Disconnect(edge);
                 RemoveElement(enumerable.First());
             }
-        
-            dialogueNode.outputContainer.Remove(generatedPort);
+            
             RefreshNode(dialogueNode);
         }
 
@@ -235,3 +240,5 @@ namespace DialogueSystem.Editor
         }
     }
 }
+
+#endif

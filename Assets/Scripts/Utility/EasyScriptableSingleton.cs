@@ -1,5 +1,7 @@
 ﻿using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Utility
@@ -42,13 +44,14 @@ namespace Utility
             _instance = CreateInstance<T>();
             template = _instance as EasyScriptableSingleton<T>;
             
+            #if UNITY_EDITOR
             if (template != null)
             {
                 template.Initialize();
 
                 var fileResourcePath = $"{template.ResourcesPath}/{template.FileName}";
                 var pathToResources = $"{template.PathToResources}/{template.ResourcesPath}";
-
+                
                 if (!AssetDatabase.IsValidFolder($"{pathToResources}"))
                 {
                     Directory.CreateDirectory($"{pathToResources}");
@@ -60,12 +63,15 @@ namespace Utility
             }
 
             AssetDatabase.SaveAssets();
+            #endif
         }
         
         protected void SaveRuntimeData()
         {
+            #if UNITY_EDITOR
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
+            #endif
         }
 
         protected abstract void Initialize();

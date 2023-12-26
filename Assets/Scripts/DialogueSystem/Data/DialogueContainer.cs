@@ -8,8 +8,8 @@ namespace DialogueSystem.Data
     [Serializable]
     public class DialogueContainer : ScriptableObject
     {
-        [field: FormerlySerializedAs("nodeLinks"), SerializeField] public List<NodeLinkData> NodeLinks { get; set; } = new();
-        [field: FormerlySerializedAs("dialogueNodeData"), SerializeField] public List<DialogueNodeData> DialogueNodeData { get; set; } = new();
+        [field: FormerlySerializedAs("nodeLinks"), SerializeField, HideInInspector] public List<NodeLinkData> NodeLinks { get; set; } = new();
+        [field: FormerlySerializedAs("dialogueNodeData"), SerializeField, HideInInspector] public List<DialogueNodeData> DialogueNodeData { get; set; } = new();
 
         [field: SerializeField] public string PathToCheckpoint { get; set; } = string.Empty;
         [field: SerializeField] public bool IsNarrativeEndReached { get; set; }

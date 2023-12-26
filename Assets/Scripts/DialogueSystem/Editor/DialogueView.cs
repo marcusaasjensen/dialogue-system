@@ -5,6 +5,8 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 namespace DialogueSystem.Editor
 {
     public class DialogueView : EditorWindow
@@ -80,3 +82,5 @@ namespace DialogueSystem.Editor
         }
     }
 }
+
+#endif
