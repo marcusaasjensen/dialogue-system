@@ -5,6 +5,10 @@ Dialogue system by Marcus Aas Jensen.
 
 This dialogue system is a versatile tool integrated to Unity's engine to build story based interactions in a video game.
 
+# Demo
+
+https://github.com/marcusaasjensen/dialogue-system/assets/88457743/e2b22499-79bd-46cd-b5c0-79d5cdd33868
+
 
 # Features
 What's possible to create with this dialogue system:
@@ -25,7 +29,7 @@ What's possible to create with this dialogue system:
 
 # Dialogue Graph Editor
 
-![Dialogue Graph Editor](./Images/branching.png)
+<img width="1039" alt="branching" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/ac28e200-bd49-40a4-91d3-9c62c258ffa7">
 
 Open the Dialogue Graph Editor window in the top menu *"Graph > Dialogue Graph Editor"*.
 
@@ -34,19 +38,20 @@ You will see a blueprint with a menu at the top. The only existing node is the *
 ## Simple Nodes
 A simple node is a visual representation of a dialogue composed of a list of messages. It can start from other nodes and you can connect it to a single other dialogue node.
 
-![Simple Node](./Images/simple_node.png)
+<img width="155" alt="simple_node" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/fa763645-dc3e-480a-89f5-327536516219">
 
 Create a simple node in the top menu with the button *"Create Simple Node"*. A simple node will appear on the blueprint. This node is composed of a disconnected input port, an empty dialogue, and a disconnected output port.
 
 You can connect the START node to the simple node by dragging your mouse click from the start node port named *"Next"* to the simple node's input port. This indicates the dialogue will start the simple node's dialogue at the very beginning of the narration.
 Now, you know how you can build a chain of nodes by creating and connecting outputs to inputs. Also, it is possible to close the dialogue UI and reopen it at the next interaction using the option at the bottom of the simple node.
 
-![Connected Simple Node](./Images/connected_simple_node.png)
+<img width="211" alt="connected_simple_node" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/bfd96002-299b-468f-ab53-4b5a859f2062">
 
 ## Multiple Choice Nodes
 A multiple choice node is a simple node with multiple possible outputs. Each outputs has a text and must be a path to another node. Basically, when the player enters a multiple choice node, he will have to choose between the different text options. 
 
-![Multiple Choice Node](./Images/mutliple_choice_node.png)
+<img width="264" alt="mutliple_choice_node" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/640af5d2-931b-4de8-8675-6339854c3413">
+
 
 Create a multiple choice node in the top menu with the button *"Create Multiple Choice Node"*. A multiple choice node will appear on the blueprint. It is similar to the simple node.
 You can add an option using the *"New Choice"* button. Then, an option appears inside the node. Now you can edit the text and connect its port to other nodes. You can add up to 5 choices (otherwise it is too much). Also, you can remove it using the *"Remove"* button next to the option.
@@ -57,7 +62,7 @@ In case the player goes back to the same node, it is possible to disable already
 ## Dialogue Editor
 Edit the dialogue of a specific node by clicking on the *"Edit Dialogue"* button of the node. This will open a new window presenting an empty list of messages. 
 
-![Messages](./Images/messages.png)
+<img width="691" alt="messages" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/2087467c-32af-451d-8539-57638e405cb0">
 
 Add a new message to the list. 
 Then you can write the character's name, the message to show, add the command tags (see how to use them in the **Command tags** section) with the option of showing or not the character (*"Hide Character"*). 
@@ -73,7 +78,7 @@ You can load an existing narrative from the resource path by writing the file's 
 ## Test the narrative
 Before testing your narrative, open your narrative scriptable object's inspector and list all the characters present in your narrative.
 
-![Narrative](./Images/narrative.png)
+<img width="332" alt="narrative" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/e31a0192-8ffc-40d6-b7a8-2a1318f3366d">
 
 The *"Path To Checkpoint"* property is the path that will be created when the player makes choices in the narrative. You can use its value or remove it to reset the narrative.
 
@@ -121,7 +126,7 @@ Animates the text in between by the provided animation and the default text anim
 
 Here is a Wobble animation example...
 
-![Wobble](./Images/wobble.gif)
+![wobble](https://github.com/marcusaasjensen/dialogue-system/assets/88457743/375c0046-09a1-4894-8386-77bcc93a4a47)
 
 Replace the ```animation``` text by one of the following animation types.
 ```
@@ -141,8 +146,7 @@ Jitter
 > It is possible to use the TextAnimator component to test your animation values on the default text message in **Editor Mode**.
 > Make sure to disable animation testing before entering Play Mode.
 > 
-> ![Animator](./Images/animator.png)
->
+> <img width="322" alt="animator" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/943e0382-f9e8-4916-8129-d717465feb08">
 
 When you have decided the values to use in your dialogue, you can add other parameters in your tag:
 
@@ -162,11 +166,11 @@ When you have decided the values to use in your dialogue, you can add other para
 
 Changes the "emotion" of the current speaking character. The emotion must be defined in the Character's Scriptable Object in the list of character's states. If not defined, it will automatically use the default character's state that must be defined too.
 
-![Default Character](./Images/default_character.png)
+<img width="332" alt="default_character" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/82cc96bd-3be3-4937-9427-34c984ef9795">
 
 > [!WARNING]  
 > Make sure to create the character scriptable object, define it's properties (unless it is optional), and reference it in the narrative scriptable object (character's list).
->
+
 > Make sure the default character scriptable object is well defined and is referenced in the NarrativeController component.
 >
 
@@ -218,9 +222,12 @@ public class ExampleSceneScript : MonoBehaviour
 }
 ```
 
-![Dialogue Variables](./Images/dialogue_variables.png)
 
 ```"This coffee costs exactly <val:cost_coffee>$."```
+
+Resulting DialogueVariableData.asset values:
+
+<img width="331" alt="dialogue_variables" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/4b8f7fb4-a8d8-4a9f-973a-e170ed2f787a">
 
 > [!TIP] 
 > It is possible to use this tag inside text options
@@ -234,7 +241,7 @@ public class ExampleSceneScript : MonoBehaviour
 > Make sure the AudioPlayer GameObject is in the scene with the AudioPlayer script attached. Each audio source property must have a reference (both music and sound).
 >
 
-![Dialogue Audio](./Images/dialogue_audio.png)
+<img width="332" alt="dialogue_audio" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/8cbea8fa-ef95-4576-9b89-07dc0567ebfb">
 
 ### SFX tag ```<sfx:sound>```
 
