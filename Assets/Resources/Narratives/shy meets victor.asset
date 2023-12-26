@@ -12,84 +12,86 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d50752db9e472b8d367dcf46cdbad8, type: 3}
   m_Name: shy meets victor
   m_EditorClassIdentifier: 
-  nodeLinks:
-  - BaseNodeGuid: abf78271-4a17-4188-8cbf-5028b16f2613
-    PortName: Next
-    TargetNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
-  - BaseNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-    PortName: You can sit with me if you want.
-    TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
-  - BaseNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-    PortName: I want to be alone.
-    TargetNodeGuid: eceb53b7-9d18-4fa8-886b-396253d99edf
-  - BaseNodeGuid: eceb53b7-9d18-4fa8-886b-396253d99edf
-    PortName: I'm concentrated fixing my robot.
-    TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
-  - BaseNodeGuid: eceb53b7-9d18-4fa8-886b-396253d99edf
-    PortName: Yeah sure, why not.
-    TargetNodeGuid: de7315c5-fcfa-4683-a39f-6bebae69c4eb
-  - BaseNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
-    PortName: I'm concentrated fixing my robot.
-    TargetNodeGuid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
-  - BaseNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
-    PortName: You seem to be lonely.
-    TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-  - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
-    PortName: This tree needs a friend.
-    TargetNodeGuid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-  - BaseNodeGuid: 63dc8710-439f-48c0-8e63-75898d75b09f
-    PortName: I enjoy being alone.
-    TargetNodeGuid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
-  dialogueNodeData:
-  - Guid: abf78271-4a17-4188-8cbf-5028b16f2613
-    Dialogue: []
-    Position: {x: 100, y: 200}
-    TransitionNode: 0
-    EntryPoint: 1
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
-    Dialogue:
+  <NodeLinks>k__BackingField:
+  - <BaseNodeGuid>k__BackingField: abf78271-4a17-4188-8cbf-5028b16f2613
+    <PortName>k__BackingField: Next
+    <TargetNodeGuid>k__BackingField: 63dc8710-439f-48c0-8e63-75898d75b09f
+  - <BaseNodeGuid>k__BackingField: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+    <PortName>k__BackingField: You can sit with me if you want.
+    <TargetNodeGuid>k__BackingField: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
+  - <BaseNodeGuid>k__BackingField: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+    <PortName>k__BackingField: I want to be alone.
+    <TargetNodeGuid>k__BackingField: eceb53b7-9d18-4fa8-886b-396253d99edf
+  - <BaseNodeGuid>k__BackingField: eceb53b7-9d18-4fa8-886b-396253d99edf
+    <PortName>k__BackingField: I'm concentrated fixing my robot.
+    <TargetNodeGuid>k__BackingField: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
+  - <BaseNodeGuid>k__BackingField: eceb53b7-9d18-4fa8-886b-396253d99edf
+    <PortName>k__BackingField: Yeah sure, why not.
+    <TargetNodeGuid>k__BackingField: de7315c5-fcfa-4683-a39f-6bebae69c4eb
+  - <BaseNodeGuid>k__BackingField: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+    <PortName>k__BackingField: I'm concentrated fixing my robot.
+    <TargetNodeGuid>k__BackingField: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
+  - <BaseNodeGuid>k__BackingField: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+    <PortName>k__BackingField: You seem to be lonely.
+    <TargetNodeGuid>k__BackingField: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+  - <BaseNodeGuid>k__BackingField: 63dc8710-439f-48c0-8e63-75898d75b09f
+    <PortName>k__BackingField: This tree needs a friend.
+    <TargetNodeGuid>k__BackingField: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+  - <BaseNodeGuid>k__BackingField: 63dc8710-439f-48c0-8e63-75898d75b09f
+    <PortName>k__BackingField: I enjoy being alone.
+    <TargetNodeGuid>k__BackingField: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+  <DialogueNodeData>k__BackingField:
+  - guid: abf78271-4a17-4188-8cbf-5028b16f2613
+    dialogue: []
+    position: {x: 100, y: 200}
+    transitionNode: 0
+    entryPoint: 1
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: dfc2ae23-f48d-49f0-8d46-45c7bdf03bcb
+    dialogue:
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: <music:playground>I guess, everybody needs a friend.<p:long><sp:0,1>
+      <Content>k__BackingField: <music:playground>I guess, everybody needs a friend.<p:normal><sp:0,1>
         <em:curious>Right?
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Shy
-      <Content>k__BackingField: <sp:0,02>I guess.
+      <Content>k__BackingField: <sp:0,04>I guess.
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: Yeah. But I do have A LOT of friends though.
+      <Content>k__BackingField: Yeah.<p:short> But I do have <anim:wobble s:2 a:5
+        sync:true>A LOT </anim>of friends though.
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: By the way I'm victor. <em:curious>What is your name?
+      <Content>k__BackingField: By the way<p:short> I'm <color="yellow">victor</color>.<p:normal>
+        <em:curious>What is your name?
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Shy
-      <Content>k__BackingField: My name is Shy.
+      <Content>k__BackingField: My name is <color="yellow">Shy</color>.
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: '<em:curious>Do you want to be my friend?<em:default> '
+      <Content>k__BackingField: <em:curious>Do you want to be my friend?
       <HideCharacter>k__BackingField: 0
-    Position: {x: 719.3333, y: 361.3333}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: eceb53b7-9d18-4fa8-886b-396253d99edf
-    Dialogue:
+    position: {x: 719.3333, y: 361.3333}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: eceb53b7-9d18-4fa8-886b-396253d99edf
+    dialogue:
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: </music>Oh... Sure.
+      <Content>k__BackingField: </music>Oh...<p:normal> Sure.
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: Me and my friends are playing some basketball. Do
-        you want to come and join us?
+      <Content>k__BackingField: Me and my friends are playing some basketball.<p:normal><sp:0,1>
+        Do you want to come and join us?
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1214, y: 410}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: de7315c5-fcfa-4683-a39f-6bebae69c4eb
-    Dialogue:
+    position: {x: 1214, y: 410}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: de7315c5-fcfa-4683-a39f-6bebae69c4eb
+    dialogue:
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: Okay then!
       <HideCharacter>k__BackingField: 0
@@ -97,72 +99,73 @@ MonoBehaviour:
       <Content>k__BackingField: Just follow me.
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Shy
-      <Content>k__BackingField: Okay.
+      <Content>k__BackingField: </music>Okay.
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1753.3334, y: 322}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
-    Dialogue:
+    position: {x: 1753.3334, y: 322}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: 16b80f37-ca2c-4c35-a848-4f239dcfc4d7
+    dialogue:
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: Wait, you have a robot?!
+      <Content>k__BackingField: Wait,<p:normal> you have a robot?!
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: I can help you fixing that robot!
+      <Content>k__BackingField: I can help you fix that robot!
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Shy
       <Content>k__BackingField: You know that model?
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: Of course! I have one at home. Let me fix it for
-        you.
+      <Content>k__BackingField: Of course!<p:short> I have one at home.<p:normal>
+        Let me fix it for you.
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Shy
-      <Content>k__BackingField: Thank you I guess.
+      <Content>k__BackingField: Thank you I guess</music>.
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1214, y: 192}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
-    Dialogue:
+    position: {x: 1214, y: 192}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: 30302d35-d940-4fde-a1fd-d56d9b6e086d
+    dialogue:
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: How can you even enjoy that?
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: NOBODY likes to be alone!
+      <Content>k__BackingField: <anim:jitter s:2 a:2 sync:false>NOBODY</anim><p:short>
+        likes to be alone!
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Shy
       <Content>k__BackingField: I do.
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: Mmmh.
+      <Content>k__BackingField: <sp:0,2><anim:wave s:2 a:2 sync:false>Mmmh...</anim>
       <HideCharacter>k__BackingField: 0
     - <CharacterName>k__BackingField: Victor
-      <Content>k__BackingField: I wish I could be like you...
+      <Content>k__BackingField: <sp:0,1>I wish I could be like you...
       <HideCharacter>k__BackingField: 0
-    Position: {x: 750, y: -46}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: 63dc8710-439f-48c0-8e63-75898d75b09f
-    Dialogue:
+    position: {x: 782, y: -57.333336}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: 63dc8710-439f-48c0-8e63-75898d75b09f
+    dialogue:
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: <anim:Shake s:2.1 a:3 sync:false>Why are you sitting
         on that bench alone?</anim>
       <HideCharacter>k__BackingField: 1
-    Position: {x: 249.33333, y: 168}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
+    position: {x: 249.33333, y: 168}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
   <PathToCheckpoint>k__BackingField: 
   <IsNarrativeEndReached>k__BackingField: 0
-  <StartFromPreviousNarrativePath>k__BackingField: 1
+  <StartFromPreviousNarrativePath>k__BackingField: 0
   <Characters>k__BackingField:
   - {fileID: 11400000, guid: 4832ffe19772ab34b9dc50b517133c90, type: 2}
   - {fileID: 11400000, guid: 848ff35fdc3238047b19085af9e6f660, type: 2}
