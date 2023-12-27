@@ -9,6 +9,7 @@ This dialogue system is a versatile tool integrated to Unity's engine to build s
 
 https://github.com/marcusaasjensen/dialogue-system/assets/88457743/e2b22499-79bd-46cd-b5c0-79d5cdd33868
 
+You can watch the demo on Youtube too: https://www.youtube.com/watch?v=QhQQnyrjZJc
 
 # Features ✨
 What's possible to create with this dialogue system:
