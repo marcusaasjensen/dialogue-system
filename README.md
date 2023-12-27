@@ -1,16 +1,16 @@
-# Dialogue System
+# Dialogue System 💬
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/07a9391f2e08430c86e6fde5e45464ff)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Dialogue system by Marcus Aas Jensen. 
 
 This dialogue system is a versatile tool integrated to Unity's engine to build story based interactions in a video game.
 
-# Demo
+# Demo 📺
 
 https://github.com/marcusaasjensen/dialogue-system/assets/88457743/e2b22499-79bd-46cd-b5c0-79d5cdd33868
 
 
-# Features
+# Features ✨
 What's possible to create with this dialogue system:
 - Create branching dialogues with dialogue choices using the integrated Dialogue Graph Editor.
 - Dialogue path save system.
@@ -27,7 +27,7 @@ What's possible to create with this dialogue system:
 > 
 > - **TextMeshPro** 3.0.6 (dialogue UI's text)
 
-# Dialogue Graph Editor
+# Dialogue Graph Editor 🖱️
 
 <img width="1039" alt="branching" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/ac28e200-bd49-40a4-91d3-9c62c258ffa7">
 
@@ -35,7 +35,7 @@ Open the Dialogue Graph Editor window in the top menu *"Graph > Dialogue Graph E
 
 You will see a blueprint with a menu at the top. The only existing node is the *"START"* node which is the node that directs where the dialogue should start.
 
-## Simple Nodes
+## Simple Nodes 🌱
 A simple node is a visual representation of a dialogue composed of a list of messages. It can start from other nodes and you can connect it to a single other dialogue node.
 
 <img width="155" alt="simple_node" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/fa763645-dc3e-480a-89f5-327536516219">
@@ -47,7 +47,7 @@ Now, you know how you can build a chain of nodes by creating and connecting outp
 
 <img width="211" alt="connected_simple_node" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/bfd96002-299b-468f-ab53-4b5a859f2062">
 
-## Multiple Choice Nodes
+## Multiple Choice Nodes 🌿
 A multiple choice node is a simple node with multiple possible outputs. Each outputs has a text and must be a path to another node. Basically, when the player enters a multiple choice node, he will have to choose between the different text options. 
 
 <img width="264" alt="mutliple_choice_node" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/640af5d2-931b-4de8-8675-6339854c3413">
@@ -59,7 +59,7 @@ You can add an option using the *"New Choice"* button. Then, an option appears i
 At the end of the dialogue, it will automatically show the options you added. However, an option must be connected to another node, otherwise, it will be removed on save.
 In case the player goes back to the same node, it is possible to disable already chosen options at the bottom of the node. 
 
-## Dialogue Editor
+## Dialogue Editor ✏️
 Edit the dialogue of a specific node by clicking on the *"Edit Dialogue"* button of the node. This will open a new window presenting an empty list of messages. 
 
 <img width="691" alt="messages" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/2087467c-32af-451d-8539-57638e405cb0">
@@ -71,11 +71,11 @@ If the message list is empty, it will close the dialogue at that node or show th
 
 You can close the dialogue messages window to save.
 
-## Load and Save
+## Load and Save ⬇️
 To save your narrative, you must write the name of your file in the top menu. Then, you can save by clicking on the *"Save data"* button. All of your narratives will be saved in the path *"Assets/Resources/Dialogue/Narratives/"*.
 You can load an existing narrative from the resource path by writing the file's name and clicking on the *"Load Data"* button in the top menu.
 
-## Test the narrative
+## Test the narrative 👍
 Before testing your narrative, open your narrative scriptable object's inspector and list all the characters present in your narrative.
 
 <img width="332" alt="narrative" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/e31a0192-8ffc-40d6-b7a8-2a1318f3366d">
@@ -91,11 +91,11 @@ Every time you save your narrative, you will need to reference it to a GameObjec
 You can use DialogueStarter GameObject to start immediately the dialogue or the Character GameObject (InteractableDialogue) where you need to interact with the character (Interactable) to start. 
 You must test in **Play Mode**.
 
-# Command tags
+# Command tags 🏷️
 > [!CAUTION] 
 > Make sure to fully respect the tag notations and examples here. Otherwise, you may encounter unwanted behaviours.
 
-## Pause tag ```<p:pause>```
+## Pause tag ```<p:pause>``` ⏸️
 
 Pause the text typer for a certain time.
 
@@ -110,7 +110,7 @@ read: 2s
 
 ```"Wait... <p:normal> You're kidding right?"```
 
-## Speed tag ```<sp:speed>```
+## Speed tag ```<sp:speed>``` ⏩
 
 Changes the typer text's speed, otherwise the speed is the default typer pace.
 
@@ -120,7 +120,7 @@ The lower the value, the faster the typer.
 
 ```"PLEASE <sp:0,1>I BEG YOU!"```
 
-## Animation tags ```<anim:animation>...</anim>```
+## Animation tags ```<anim:animation>...</anim>``` 🔤
 
 Animates the text in between by the provided animation and the default text animator speed, amount and sync values.
 
@@ -162,7 +162,7 @@ When you have decided the values to use in your dialogue, you can add other para
  
 ```"<anim:wobble s:1 a:2.5 sync:false>I'm feelin' dizzy right now...</anim>"```
 
-## Emotion tag ```<em:emotion>```
+## Emotion tag ```<em:emotion>``` 😀
 
 Changes the "emotion" of the current speaking character. The emotion must be defined in the Character's Scriptable Object in the list of character's states. If not defined, it will automatically use the default character's state that must be defined too.
 
@@ -192,11 +192,11 @@ Warm
 Evil
 ```
 
-When the tag is used, the character will have the associated character face sprite, reaction sound (plays one time), and speaking pitch.
+When the tag is used, the character will have the associated character face sprite, reaction sound (plays one time), and speaking pitch. You will have to define each emotion with your own assets in the character's scriptable object.
 
 ```"<em:evil>I am the danger."```
 
-## Value tag ```<val:value>```
+## Value tag ```<val:value>``` 📂
 
 Replaces the tag's position by a stored value named ```value```. The variable must be defined in the Scriptable Singleton "DialogueVariableData.asset". If not defined, the value will be ```"X"```. The variables can be of type *int*, *float* or *string*. Boolean variables are not included.
 
@@ -223,7 +223,7 @@ public class ExampleSceneScript : MonoBehaviour
 ```
 
 
-```"This coffee costs exactly <val:cost_coffee>$."```
+```"This coffee costs exactly <val:cost_coffee>💲."```
 
 Resulting DialogueVariableData.asset values:
 
@@ -232,9 +232,9 @@ Resulting DialogueVariableData.asset values:
 > [!TIP] 
 > It is possible to use this tag inside text options
 >
-> ```"Pay <val:cost_coffee>$."```
+> ```"Pay <val:cost_coffee>💲."```
 
-## Audio tags
+## Audio tags 🎧
 > [!WARNING] 
 > Make sure to have only one DialogueAudioData Scriptable Singleton in the directory "Assets/Resources/Dialogue/".
 > 
@@ -243,24 +243,31 @@ Resulting DialogueVariableData.asset values:
 
 <img width="332" alt="dialogue_audio" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/8cbea8fa-ef95-4576-9b89-07dc0567ebfb">
 
-### SFX tag ```<sfx:sound>```
+### SFX tag ```<sfx:sound>``` 🔊
 
 Plays one shot the sound named ```sound``` when the text typer arrives at tag's position. The Sound effect must be defined with a name in the Scriptable Singleton "DialogueAudioData.asset" (sound effect list).
 
 ```"So I was saying...<sfx:fart> Woops, I farted."```
 
-### Start music tag ```<music:score>```
+### Start music tag ```<music:score>``` 🎵
 
 Plays in loop the music named ```score``` when the text typer arrives at tag's position. The music must be defined with a name in the Scriptable Singleton "DialogueAudioData.asset" (music list).
 
 ```"<music:emotional>Life is like a box of chocolate..."```
 
-### Stop music tag ```</music>```
+### Stop music tag ```</music>``` ⏹️
 
 Stops any current looping music.
 
 ```"*music playing*...</music>It's not your fault."```
 
-## Other tags
+## Other tags 🗒️
 Of course, it is possible to use the default tags to customize your TextMeshPro text like colored, italic, bold, rotated etc.
+
+# What's left to do ✅
+Timeline tags: tags allowing you to play your custom Timelines for dialogue sequences (something happens during the dialogue).
+
+Camera shake tags: tags making the camera shake in different ways at a certain moment of the dialogue in order to build tension in your scene.
+
+Build a package and make UI more custromizable and independant.
 
