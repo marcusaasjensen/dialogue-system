@@ -5,8 +5,8 @@ Dialogue system by Marcus Aas Jensen.
 
 This dialogue system is a versatile tool integrated to Unity's engine to build story based interactions in a video game.
 
->
->DISCLAIMER: I'm not a professional at building Unity tools, I simply share tools I initially build for myself to create my own games.
+>[!NOTE]
+>I'm not a professional at building Unity tools, I simply share tools I initially build for myself to create my own games.
 
 # Demo 📺
 
