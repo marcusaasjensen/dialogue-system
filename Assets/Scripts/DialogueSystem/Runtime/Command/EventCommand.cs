@@ -18,7 +18,7 @@ namespace DialogueSystem.Runtime.Command
         {
             if (_events is { Length: > 0 })
             {
-                _events.First(e => e.EventName == _eventName).onDialogueEvent?.Invoke();
+                _events.First(e => e.EventName == _eventName).OnDialogueEvent?.Invoke();
             }
         }
     }

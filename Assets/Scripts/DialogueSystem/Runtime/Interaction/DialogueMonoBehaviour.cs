@@ -12,9 +12,9 @@ namespace DialogueSystem.Runtime.Interaction
         public class DialogueEvent
         {
             [field: SerializeField] public string EventName { get; private set; }
-            [field: SerializeField] public UnityEvent onDialogueEvent;
+            [field: SerializeField] public UnityEvent OnDialogueEvent { get; private set; }
             
-            public void InvokeEvent() => onDialogueEvent?.Invoke();
+            public void InvokeEvent() => OnDialogueEvent?.Invoke();
         }
         
         [SerializeField] protected DialogueContainer narrativeScriptableObject;

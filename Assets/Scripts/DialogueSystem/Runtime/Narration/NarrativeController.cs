@@ -7,6 +7,7 @@ using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Utility;
 
 namespace DialogueSystem.Runtime.Narration
@@ -21,8 +22,8 @@ namespace DialogueSystem.Runtime.Narration
         [Header("Options")]
         [SerializeField] private bool resetNarrativeOnLoad;
 
-        public UnityEvent OnNarrativeStart;
-        public UnityEvent OnNarrativeEnd;
+        [SerializeField] private UnityEvent onNarrativeStart;
+        [SerializeField] private UnityEvent onNarrativeEnd;
         
         [Space, Header("Default Values"), SerializeField]
         private CharacterData defaultCharacterData;
@@ -31,7 +32,10 @@ namespace DialogueSystem.Runtime.Narration
     
         public bool IsChoosing { get; private set; }
         public bool IsNarrating { get; private set; }
-    
+        
+        public UnityEvent OnNarrativeStart => onNarrativeStart;
+        public UnityEvent OnNarrativeEnd => onNarrativeEnd;
+        
         private NarrativeNode _currentNarrative;
         private Queue<DialogueMessage> _narrativeQueue;
         private Narrative _narrative;
@@ -62,7 +66,7 @@ namespace DialogueSystem.Runtime.Narration
 
         private void StartNarrative()
         {
-            OnNarrativeStart?.Invoke();
+            onNarrativeStart?.Invoke();
             IsNarrating = true;
         
             narrativeUI.SetUIActive(true);
@@ -238,7 +242,7 @@ namespace DialogueSystem.Runtime.Narration
 
             narrativeLoader.SaveNarrativePath(NarrativePathID, _currentNarrative?.IsTipNarrativeNode() ?? false);
         
-            OnNarrativeEnd?.Invoke();
+            onNarrativeEnd?.Invoke();
             LogResults();
         }
 
