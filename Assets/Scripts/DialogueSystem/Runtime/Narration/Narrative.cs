@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DialogueSystem.Data;
-using Utility;
 
 namespace DialogueSystem.Runtime.Narration
 {

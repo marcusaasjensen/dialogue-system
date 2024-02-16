@@ -1,4 +1,4 @@
-﻿using Scene;
+﻿using DialogueSystem.Scene;
 using UnityEngine;
 
 namespace DialogueSystem.Runtime.Interaction
@@ -8,7 +8,7 @@ namespace DialogueSystem.Runtime.Interaction
         [SerializeField] private Transform interactSource;
         [SerializeField] private float interactionDistance;
         [SerializeField] private LayerMask interactableLayer;
-        [SerializeField] private PlayerController playerController;
+        [SerializeField] private PlayerControllerExample playerControllerExample; //To replace with your player controller
 
         private const KeyCode InteractionKey = KeyCode.Return;
         private Vector3 _rayDirection;
@@ -20,7 +20,7 @@ namespace DialogueSystem.Runtime.Interaction
         }
     
         private void CalculateInputDirection() => 
-            _rayDirection = playerController.InputDirection == Vector3.zero ? _rayDirection : playerController.InputDirection;
+            _rayDirection = playerControllerExample.InputDirection == Vector3.zero ? _rayDirection : playerControllerExample.InputDirection;
 
 
         private void InteractWithCharacter()

@@ -5,10 +5,10 @@ using DialogueSystem.Runtime.Command;
 using DialogueSystem.Runtime.Interaction;
 using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
+using DialogueSystem.Utility;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
-using Utility;
 
 namespace DialogueSystem.Runtime.Narration
 {

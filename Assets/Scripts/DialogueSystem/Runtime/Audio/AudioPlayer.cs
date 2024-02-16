@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Utility;
+﻿using DialogueSystem.Utility;
+using UnityEngine;
 
 namespace DialogueSystem.Runtime.Audio
 {

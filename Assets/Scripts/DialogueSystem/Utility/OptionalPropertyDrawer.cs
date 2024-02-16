@@ -5,7 +5,7 @@ using UnityEngine;
 
 #if UNITY_EDITOR
 
-namespace Utility
+namespace DialogueSystem.Utility
 {
     [CustomPropertyDrawer(typeof(Optional<>))]
     public class OptionalPropertyDrawer : PropertyDrawer

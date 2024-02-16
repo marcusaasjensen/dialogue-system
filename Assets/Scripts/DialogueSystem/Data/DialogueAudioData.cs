@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using DialogueSystem.Utility;
 using UnityEngine;
-using Utility;
 
 namespace DialogueSystem.Data
 {
@@ -24,7 +24,7 @@ namespace DialogueSystem.Data
         [SerializeField] private List<AudioData> soundEffectList;
         
         protected override string PathToResources => "Assets/Resources";
-        protected override string ResourcesPath => "Dialogue";
+        protected override string ResourcesPath => "Dialogue System Data/Dialogue";
         protected override string FileName => "DialogueAudioData";
 
         protected override void Initialize()

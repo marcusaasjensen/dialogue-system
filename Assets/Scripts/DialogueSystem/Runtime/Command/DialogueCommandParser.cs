@@ -7,8 +7,8 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using DialogueSystem.Data;
+using DialogueSystem.Utility;
 using UnityEngine;
-using Utility;
 
 namespace DialogueSystem.Runtime.Command
 {

@@ -17,7 +17,7 @@ namespace DialogueSystem.Editor
         private List<DialogueNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueNode>().ToList();
 
         private const string PathToResources = "Assets/Resources";
-        private const string ResourcesPath = "Narratives";
+        private const string ResourcesPath = "Dialogue System Data/Narratives";
     
         public static GraphSaveUtility GetInstance(DialogueGraphView targetGraphView)
         {

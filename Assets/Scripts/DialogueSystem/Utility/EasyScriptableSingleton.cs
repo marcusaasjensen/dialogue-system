@@ -1,10 +1,10 @@
 ﻿using System.IO;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 using UnityEngine;
+#if UNITY_EDITOR
+#endif
 
-namespace Utility
+namespace DialogueSystem.Utility
 {
     public abstract class EasyScriptableSingleton<T> : ScriptableObject where T : ScriptableObject
     {

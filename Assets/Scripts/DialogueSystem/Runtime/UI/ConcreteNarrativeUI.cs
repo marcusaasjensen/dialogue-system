@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using DialogueSystem.Data;
 using DialogueSystem.Runtime.Command;
 using DialogueSystem.Runtime.Narration;
-using JetBrains.Annotations;
+using DialogueSystem.Utility;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utility;
 
 namespace DialogueSystem.Runtime.UI
 {

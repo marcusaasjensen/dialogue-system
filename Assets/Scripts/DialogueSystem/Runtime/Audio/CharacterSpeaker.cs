@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using DialogueSystem.Runtime.UI;
+using DialogueSystem.Utility;
 using UnityEngine;
-using Utility;
 
 namespace DialogueSystem.Runtime.Audio
 {
