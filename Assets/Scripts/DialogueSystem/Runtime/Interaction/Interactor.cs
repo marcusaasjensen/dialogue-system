@@ -38,7 +38,7 @@ namespace DialogueSystem.Runtime.Interaction
             }
 
             var interactable = hit.collider.GetComponent<IInteractable>();
-            print(interactable);
+
             if (interactable.CanInteract)
             {
                 interactable.Interact();

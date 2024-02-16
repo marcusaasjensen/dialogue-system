@@ -12,179 +12,215 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d50752db9e472b8d367dcf46cdbad8, type: 3}
   m_Name: test
   m_EditorClassIdentifier: 
-  nodeLinks:
-  - BaseNodeGuid: abc633e1-2388-4a36-afae-7e512b14694f
-    PortName: Next
-    TargetNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
-  - BaseNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
-    PortName: <color="green">It can be better
-    TargetNodeGuid: b47bca0b-4822-41db-acc6-5558bc78f2a5
-  - BaseNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
-    PortName: <i>I'm guud</i>
-    TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
-  - BaseNodeGuid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
-    PortName: "Pay <val:cost_coffee>\u20AC"
-    TargetNodeGuid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
-  - BaseNodeGuid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
-    PortName: "Pay <val:cost_bread>\u20AC"
-    TargetNodeGuid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
-  - BaseNodeGuid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
-    PortName: Output
-    TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
-  - BaseNodeGuid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
-    PortName: Output
-    TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
-  - BaseNodeGuid: b47bca0b-4822-41db-acc6-5558bc78f2a5
-    PortName: Output
-    TargetNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
-  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    PortName: I want to buy you some bread.
-    TargetNodeGuid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
-  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    PortName: I want a coffee please.
-    TargetNodeGuid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
-  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    PortName: How are you?
-    TargetNodeGuid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
-  - BaseNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    PortName: I'm leaving.
-    TargetNodeGuid: 7779b11c-848f-418a-aca6-89b70a9311d6
-  - BaseNodeGuid: b551527d-3554-405b-bd0d-5949924857ec
-    PortName: Output
-    TargetNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-  - BaseNodeGuid: 5da6a15c-8cc3-439a-8360-8132191fae29
-    PortName: Output
-    TargetNodeGuid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-  - BaseNodeGuid: 7779b11c-848f-418a-aca6-89b70a9311d6
-    PortName: Output
-    TargetNodeGuid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
-  dialogueNodeData:
-  - Guid: abc633e1-2388-4a36-afae-7e512b14694f
-    Dialogue: []
-    Position: {x: 100, y: 200}
-    TransitionNode: 0
-    EntryPoint: 1
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
-    Dialogue:
+  <NodeLinks>k__BackingField:
+  - <BaseNodeGuid>k__BackingField: abc633e1-2388-4a36-afae-7e512b14694f
+    <PortName>k__BackingField: Next
+    <TargetNodeGuid>k__BackingField: b551527d-3554-405b-bd0d-5949924857ec
+  - <BaseNodeGuid>k__BackingField: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
+    <PortName>k__BackingField: <color="green">It can be better
+    <TargetNodeGuid>k__BackingField: b47bca0b-4822-41db-acc6-5558bc78f2a5
+  - <BaseNodeGuid>k__BackingField: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
+    <PortName>k__BackingField: <i>I'm guud</i>
+    <TargetNodeGuid>k__BackingField: 5da6a15c-8cc3-439a-8360-8132191fae29
+  - <BaseNodeGuid>k__BackingField: f12b69a2-5113-4cca-91d2-c887ae5dac4d
+    <PortName>k__BackingField: "Pay <val:cost_coffee>\u20AC"
+    <TargetNodeGuid>k__BackingField: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
+  - <BaseNodeGuid>k__BackingField: b7a0207d-cae2-4175-bf6a-f89ce0043e36
+    <PortName>k__BackingField: "Pay <val:cost_bread>\u20AC"
+    <TargetNodeGuid>k__BackingField: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
+  - <BaseNodeGuid>k__BackingField: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
+    <PortName>k__BackingField: Output
+    <TargetNodeGuid>k__BackingField: 5da6a15c-8cc3-439a-8360-8132191fae29
+  - <BaseNodeGuid>k__BackingField: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
+    <PortName>k__BackingField: Output
+    <TargetNodeGuid>k__BackingField: 5da6a15c-8cc3-439a-8360-8132191fae29
+  - <BaseNodeGuid>k__BackingField: b47bca0b-4822-41db-acc6-5558bc78f2a5
+    <PortName>k__BackingField: Output
+    <TargetNodeGuid>k__BackingField: 5da6a15c-8cc3-439a-8360-8132191fae29
+  - <BaseNodeGuid>k__BackingField: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    <PortName>k__BackingField: I want to buy you some bread.
+    <TargetNodeGuid>k__BackingField: b7a0207d-cae2-4175-bf6a-f89ce0043e36
+  - <BaseNodeGuid>k__BackingField: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    <PortName>k__BackingField: I want a coffee please.
+    <TargetNodeGuid>k__BackingField: f12b69a2-5113-4cca-91d2-c887ae5dac4d
+  - <BaseNodeGuid>k__BackingField: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    <PortName>k__BackingField: How are you?
+    <TargetNodeGuid>k__BackingField: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
+  - <BaseNodeGuid>k__BackingField: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    <PortName>k__BackingField: I'm leaving.
+    <TargetNodeGuid>k__BackingField: 7779b11c-848f-418a-aca6-89b70a9311d6
+  - <BaseNodeGuid>k__BackingField: b551527d-3554-405b-bd0d-5949924857ec
+    <PortName>k__BackingField: Output
+    <TargetNodeGuid>k__BackingField: f1be4272-2da9-4c72-a0bb-4f3947899efe
+  - <BaseNodeGuid>k__BackingField: 5da6a15c-8cc3-439a-8360-8132191fae29
+    <PortName>k__BackingField: Output
+    <TargetNodeGuid>k__BackingField: f1be4272-2da9-4c72-a0bb-4f3947899efe
+  - <BaseNodeGuid>k__BackingField: 7779b11c-848f-418a-aca6-89b70a9311d6
+    <PortName>k__BackingField: Output
+    <TargetNodeGuid>k__BackingField: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
+  <DialogueNodeData>k__BackingField:
+  - guid: abc633e1-2388-4a36-afae-7e512b14694f
+    dialogue: []
+    position: {x: 100, y: 200}
+    transitionNode: 0
+    entryPoint: 1
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: 97891cdd-c4f7-4ff8-8cc4-b791b97fa70b
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: I'm feeling really gooooood today!
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: What about ya?
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1113.3334, y: 54}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
-    Dialogue:
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 1113.3334, y: 54}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: f12b69a2-5113-4cca-91d2-c887ae5dac4d
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: "Nice choice. A coffee for <val:cost_coffee>\u20AC!"
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1126.6666, y: 429.3333}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
-    Dialogue:
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 1126.6666, y: 429.3333}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: b7a0207d-cae2-4175-bf6a-f89ce0043e36
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: "Okay then. That would cost<sp:0,2> <val:cost_bread>\u20AC<p:long>
         !!!!!"
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1126.6666, y: 318}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
-    Dialogue:
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 1126.6666, y: 318}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: 29dd61a9-064f-428a-a7e4-cd6a23aedc95
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: 'Thank you very much, here is your cup of coffee.
 
         Be
         Careful, it''s hot.'
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1610.6666, y: 429.3333}
-    TransitionNode: 1
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
-    Dialogue:
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 1610.6666, y: 429.3333}
+    transitionNode: 1
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: 16afb5f2-2c2a-4638-a0ab-1a0b98c0a256
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: Thank you. Here is your bread!
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1610.6666, y: 318}
-    TransitionNode: 1
-    EntryPoint: 0
-    IsCheckpoint: 1
-    DisableAlreadyChosenOptions: 0
-  - Guid: b47bca0b-4822-41db-acc6-5558bc78f2a5
-    Dialogue:
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 1610.6666, y: 318}
+    transitionNode: 1
+    entryPoint: 0
+    isCheckpoint: 1
+    disableAlreadyChosenOptions: 0
+  - guid: b47bca0b-4822-41db-acc6-5558bc78f2a5
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: I guess, I can make your day better!
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1647.3334, y: 121.333336}
-    TransitionNode: 1
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: f1be4272-2da9-4c72-a0bb-4f3947899efe
-    Dialogue: []
-    Position: {x: 660.6667, y: 318}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 1
-  - Guid: b551527d-3554-405b-bd0d-5949924857ec
-    Dialogue:
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 1647.3334, y: 121.333336}
+    transitionNode: 1
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: f1be4272-2da9-4c72-a0bb-4f3947899efe
+    dialogue: []
+    position: {x: 660.6667, y: 318}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 1
+  - guid: b551527d-3554-405b-bd0d-5949924857ec
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: <sp:0,2><i>Welcome <val:character></i><p:long> to
-        my<p:normal><em:Angry> <sp:0,01><color="green">shop</color><sp:0>!!!!!!!!!!!
+        <event:something>my<p:normal><em:Angry> <sp:0,01><color="green">shop</color><sp:0>!!!!!!!!!!!
       <HideCharacter>k__BackingField: 0
-    Position: {x: 336, y: 278.66666}
-    TransitionNode: 1
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: 5da6a15c-8cc3-439a-8360-8132191fae29
-    Dialogue:
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 336, y: 278.66666}
+    transitionNode: 1
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: 5da6a15c-8cc3-439a-8360-8132191fae29
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: Do you want anything else?
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1912.6666, y: 374}
-    TransitionNode: 1
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
-    Dialogue:
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 1912.6666, y: 374}
+    transitionNode: 1
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: 5a21c4ab-89f5-4caa-bcfd-b5d6b72fce39
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: Have a wonderful day!
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1330.6666, y: 712}
-    TransitionNode: 0
-    EntryPoint: 0
-    IsCheckpoint: 0
-    DisableAlreadyChosenOptions: 0
-  - Guid: 7779b11c-848f-418a-aca6-89b70a9311d6
-    Dialogue:
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 1330.6666, y: 712}
+    transitionNode: 0
+    entryPoint: 0
+    isCheckpoint: 0
+    disableAlreadyChosenOptions: 0
+  - guid: 7779b11c-848f-418a-aca6-89b70a9311d6
+    dialogue:
     - <CharacterName>k__BackingField: X
       <Content>k__BackingField: Thank you for coming. Have a wonderful day!
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Y
       <Content>k__BackingField: Thank you, bye.
       <HideCharacter>k__BackingField: 0
-    Position: {x: 1050.6666, y: 637.3334}
-    TransitionNode: 1
-    EntryPoint: 0
-    IsCheckpoint: 1
-    DisableAlreadyChosenOptions: 0
-  pathToCheckpoint: 
-  isNarrativeEndReached: 0
-  startFromPreviousNarrativePath: 1
-  characters: []
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
+    position: {x: 1050.6666, y: 637.3334}
+    transitionNode: 1
+    entryPoint: 0
+    isCheckpoint: 1
+    disableAlreadyChosenOptions: 0
+  <PathToCheckpoint>k__BackingField: 
+  <IsNarrativeEndReached>k__BackingField: 0
+  <StartFromPreviousNarrativePath>k__BackingField: 1
+  <Characters>k__BackingField: []

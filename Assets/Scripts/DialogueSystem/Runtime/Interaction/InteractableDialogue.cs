@@ -5,7 +5,7 @@ namespace DialogueSystem.Runtime.Interaction
     public class InteractableDialogue : DialogueMonoBehaviour, IInteractable
     {
         [SerializeField] private bool stopInteractAtNarrativeEnd;
-
+        
         [Header("Hint")]
         [SerializeField] private Transform player;
         [SerializeField] private float hintRadius;
@@ -14,6 +14,7 @@ namespace DialogueSystem.Runtime.Interaction
         public GameObject InteractionHint => hint;
     
         private bool _hintNull;
+        private Quaternion _originalRotation;
 
         public bool CanInteract =>
             !((stopInteractAtNarrativeEnd && (narrativeScriptableObject is { IsNarrativeEndReached: true })) ||
@@ -25,13 +26,15 @@ namespace DialogueSystem.Runtime.Interaction
             ShowHint();
         }
 
-        private void Awake() => _hintNull = hint == null;
-
-        public void Interact()
+        private void Awake()
         {
-            TurnCharacterTowardsPlayer();
-            StartDialogue();
+            _originalRotation = transform.rotation;
+            _hintNull = hint == null;
+            narrativeController.OnNarrativeStart.AddListener(TurnCharacterTowardsPlayer);
+            narrativeController.OnNarrativeEnd.AddListener(ResetCharacterRotation);
         }
+
+        public void Interact() => StartDialogue();
 
         private void TurnCharacterTowardsPlayer()
         {
@@ -39,6 +42,8 @@ namespace DialogueSystem.Runtime.Interaction
             position.y = transform.position.y;
             transform.LookAt(position);
         }
+        
+        private void ResetCharacterRotation() => transform.rotation = _originalRotation;
 
         private void ShowHint()
         {

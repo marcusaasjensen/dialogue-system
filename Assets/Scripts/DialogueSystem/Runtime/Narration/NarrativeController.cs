@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using DialogueSystem.Data;
 using DialogueSystem.Runtime.Command;
+using DialogueSystem.Runtime.Interaction;
 using DialogueSystem.Runtime.UI;
 using DialogueSystem.Runtime.Utility;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Utility;
 
 namespace DialogueSystem.Runtime.Narration
@@ -18,6 +21,9 @@ namespace DialogueSystem.Runtime.Narration
         
         [Header("Options")]
         [SerializeField] private bool resetNarrativeOnLoad;
+
+        [SerializeField] private UnityEvent onNarrativeStart;
+        [SerializeField] private UnityEvent onNarrativeEnd;
         
         [Space, Header("Default Values"), SerializeField]
         private CharacterData defaultCharacterData;
@@ -26,16 +32,22 @@ namespace DialogueSystem.Runtime.Narration
     
         public bool IsChoosing { get; private set; }
         public bool IsNarrating { get; private set; }
-    
+        
+        public UnityEvent OnNarrativeStart => onNarrativeStart;
+        public UnityEvent OnNarrativeEnd => onNarrativeEnd;
+        
         private NarrativeNode _currentNarrative;
         private Queue<DialogueMessage> _narrativeQueue;
         private Narrative _narrative;
 
         private const string PathSeparator = ".";
 
+        private DialogueMonoBehaviour.DialogueEvent[] _events;
+
         
-        public void BeginNarration(DialogueContainer narrativeToLoad)
+        public void BeginNarration(DialogueContainer narrativeToLoad, DialogueMonoBehaviour.DialogueEvent[] dialogueEvents)
         {
+            _events = dialogueEvents;
             _narrative = narrativeLoader.LoadNarrative(narrativeToLoad);
 
             if (_narrative == null)
@@ -54,6 +66,7 @@ namespace DialogueSystem.Runtime.Narration
 
         private void StartNarrative()
         {
+            onNarrativeStart?.Invoke();
             IsNarrating = true;
         
             narrativeUI.SetUIActive(true);
@@ -177,7 +190,7 @@ namespace DialogueSystem.Runtime.Narration
             var currentSpeakerData = GetCharacter(nextDialogueMessage.CharacterName);
             
             //Gather message commands and data
-            commandExecutionHandler.GatherCommandData(nextDialogueMessage, currentSpeakerData);
+            commandExecutionHandler.GatherCommandData(nextDialogueMessage, currentSpeakerData, _events);
             commandExecutionHandler.ExecuteDefaultCommands();
             
             var messageWithoutCommands = commandExecutionHandler.ParseDialogueCommands(nextDialogueMessage.Content);
@@ -229,6 +242,7 @@ namespace DialogueSystem.Runtime.Narration
 
             narrativeLoader.SaveNarrativePath(NarrativePathID, _currentNarrative?.IsTipNarrativeNode() ?? false);
         
+            onNarrativeEnd?.Invoke();
             LogResults();
         }
 

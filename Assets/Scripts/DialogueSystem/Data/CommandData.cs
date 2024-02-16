@@ -23,7 +23,7 @@
         SoundEffect, //must execute
         CameraShake, //must execute
         Animation, //must execute
-        TimeLine //must execute
+        Event //must execute
     }
 
     public enum TextAnimationType
