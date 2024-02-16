@@ -282,10 +282,7 @@ Stops any current looping music.
 ## Other tags 🗒️
 Of course, it is possible to use the default tags to customize your TextMeshPro text like colored, italic, bold, rotated etc.
 
-# What's left to do ✅
-Timeline tags: tags allowing you to play your custom Timelines for dialogue sequences (something happens during the dialogue).
-
-Camera shake tags: tags making the camera shake in different ways at a certain moment of the dialogue in order to build tension in your scene.
-
-Build a package and make UI more custromizable and independant.
+# What's left to do (nothing) ✅
+The latest update was the Unity Event tag feature, which actually groups all of the functionalities I initially wanted to make. You can use any function on your Unity Events to execute Timelines, use your custom camera shakes etc.
+Hope you enjoy the system.
 
