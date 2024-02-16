@@ -76,7 +76,7 @@ If the message list is empty, it will close the dialogue at that node or show th
 You can close the dialogue messages window to save.
 
 ## Load and Save ⬇️
-To save your narrative, you must write the name of your file in the top menu. Then, you can save by clicking on the *"Save data"* button. All of your narratives will be saved in the path *"Assets/Resources/Dialogue/Narratives/"*.
+To save your narrative, you must write the name of your file in the top menu. Then, you can save by clicking on the *"Save data"* button. All of your narratives will be saved in the path *"Assets/Resources/Dialogue System Data/Narratives/"*.
 You can load an existing narrative from the resource path by writing the file's name and clicking on the *"Load Data"* button in the top menu.
 
 ## Test the narrative 👍
@@ -219,7 +219,7 @@ When the tag is used, the character will have the associated character face spri
 Replaces the tag's position by a stored value named ```value```. The variable must be defined in the Scriptable Singleton "DialogueVariableData.asset". If not defined, the value will be ```"X"```. The variables can be of type *int*, *float* or *string*. Boolean variables are not included.
 
 > [!WARNING] 
-> Make sure to have only one DialogueVariableData Scriptable Singleton in the directory "Assets/Resources/Dialogue/".
+> Make sure to have only one DialogueVariableData Scriptable Singleton in the directory "Assets/Resources/Dialogue System Data/".
 >
 
 You can manipulate these variables using C# script.
@@ -254,7 +254,7 @@ Resulting DialogueVariableData.asset values:
 
 ## Audio tags 🎧
 > [!WARNING] 
-> Make sure to have only one DialogueAudioData Scriptable Singleton in the directory "Assets/Resources/Dialogue/".
+> Make sure to have only one DialogueAudioData Scriptable Singleton in the directory "Assets/Resources/Dialogue System Data/Dialogue/".
 > 
 > Make sure the AudioPlayer GameObject is in the scene with the AudioPlayer script attached. Each audio source property must have a reference (both music and sound).
 >
