@@ -2,7 +2,7 @@
 using UnityEngine;
 
 //By @aarthificial
-namespace Utility 
+namespace DialogueSystem.Utility 
 {
     [Serializable]
     public struct Optional<T> : IEquatable<Optional<T>>

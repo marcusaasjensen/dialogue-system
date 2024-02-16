@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DialogueSystem.Runtime.Interaction;
+using DialogueSystem.Utility;
 
 namespace DialogueSystem.Runtime.Command
 {
@@ -16,9 +17,14 @@ namespace DialogueSystem.Runtime.Command
 
         public override void Execute()
         {
-            if (_events is { Length: > 0 })
+            if (_events is not { Length: > 0 }) return;
+            try
             {
                 _events.First(e => e.EventName == _eventName).OnDialogueEvent?.Invoke();
+            }
+            catch
+            {
+                LogHandler.Alert($"Event with name \"{_eventName}\" not found.");
             }
         }
     }

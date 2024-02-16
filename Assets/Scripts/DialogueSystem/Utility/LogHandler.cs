@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Utility
+namespace DialogueSystem.Utility
 {
     public static class LogHandler
     {

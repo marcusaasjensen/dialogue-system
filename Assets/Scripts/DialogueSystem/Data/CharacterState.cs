@@ -1,6 +1,6 @@
 ﻿using System;
+using DialogueSystem.Utility;
 using UnityEngine;
-using Utility;
 
 namespace DialogueSystem.Data
 {

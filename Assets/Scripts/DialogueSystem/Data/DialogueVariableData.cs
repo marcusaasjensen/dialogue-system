@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using DialogueSystem.Utility;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Utility;
 
 namespace DialogueSystem.Data
 {
@@ -87,7 +87,7 @@ namespace DialogueSystem.Data
     public sealed class DialogueVariableData : EasyScriptableSingleton<DialogueVariableData>
     {
         protected override string PathToResources => "Assets/Resources";
-        protected override string ResourcesPath => "Dialogue";
+        protected override string ResourcesPath => "Dialogue System Data/Dialogue";
         protected override string FileName => "DialogueVariableData";
         
         [SerializeReference] private List<Variable> variables;

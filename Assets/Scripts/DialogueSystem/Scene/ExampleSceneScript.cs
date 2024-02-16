@@ -1,7 +1,7 @@
 ﻿using DialogueSystem.Data;
 using UnityEngine;
 
-namespace Scene
+namespace DialogueSystem.Scene
 {
     public class ExampleSceneScript : MonoBehaviour
     {

@@ -2,8 +2,8 @@
 using System.Linq;
 using DialogueSystem.Data;
 using DialogueSystem.Runtime.Narration;
+using DialogueSystem.Utility;
 using UnityEngine;
-using Utility;
 
 namespace DialogueSystem.Runtime.Utility
 {

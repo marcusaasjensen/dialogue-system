@@ -21,7 +21,6 @@
         MusicStart, //must execute
         MusicEnd, //must execute
         SoundEffect, //must execute
-        CameraShake, //must execute
         Animation, //must execute
         Event //must execute
     }

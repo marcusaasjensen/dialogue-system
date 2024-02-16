@@ -1,9 +1,9 @@
 ﻿using DialogueSystem.Runtime.Narration;
 using UnityEngine;
 
-namespace Scene
+namespace DialogueSystem.Scene
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerControllerExample : MonoBehaviour
     {
         [SerializeField] private float moveSpeed;
         [SerializeField] private NarrativeController narrativeController;
