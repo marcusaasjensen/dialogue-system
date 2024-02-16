@@ -47,6 +47,9 @@ namespace DialogueSystem.Runtime.Command
         private const string SoundRegexString = "<sfx:(?<sfx>" + RemainderRegex + ")>";
         private static readonly Regex SoundRegex = new (SoundRegexString);
         
+        private const string EventRegexString = "<event:(?<event>" + RemainderRegex + ")>";
+        private static readonly Regex EventRegex = new (EventRegexString);
+        
         private static readonly Dictionary<string, float> PauseDictionary = new()
         {
             { "tiny", .1f },
@@ -139,6 +142,7 @@ namespace DialogueSystem.Runtime.Command
             message = HandleMusicEndTags(message, result);
             message = HandleSoundTags(message, result);
             message = HandleAnimTags(message, result);
+            message = HandleEventTags(message, result);
 
             return new ParsedMessage
             {
@@ -344,6 +348,25 @@ namespace DialogueSystem.Runtime.Command
             }
 
             processedMessage = Regex.Replace(processedMessage, PauseRegexString, "");
+            return processedMessage;
+        }
+        
+        private static string HandleEventTags(string processedMessage, ICollection<CommandData> result)
+        {
+            var eventMatches = EventRegex.Matches(processedMessage);
+            foreach (Match match in eventMatches)
+            {
+                var stringVal = match.Groups["event"].Value;
+                result.Add(new CommandData
+                {
+                    StartPosition = VisibleCharactersUpToIndex(processedMessage, match.Index),
+                    Type = DialogueCommandType.Event,
+                    StringValue = stringVal,
+                    MustExecute = true
+                });
+            }
+
+            processedMessage = Regex.Replace(processedMessage, EventRegexString, "");
             return processedMessage;
         }
     }

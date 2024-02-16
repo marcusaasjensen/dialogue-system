@@ -1179,6 +1179,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9038169710125871603, guid: 931b2fb5222386642b1b04f844ea5e18, type: 3}
+      propertyPath: OnNarrativeStart.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9038169710125871603, guid: 931b2fb5222386642b1b04f844ea5e18, type: 3}
+      propertyPath: OnNarrativeStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1386496159073845843, guid: 931b2fb5222386642b1b04f844ea5e18, type: 3}
     m_RemovedGameObjects: []
@@ -1738,6 +1746,7 @@ MonoBehaviour:
   narrativeScriptableObject: {fileID: 11400000, guid: 1c1c9d1ab11b4a241b2ed4ceb58af6b2, type: 2}
   narrativeController: {fileID: 1843728724}
   skipInput: 32
+  dialogueEvents: []
   stopInteractAtNarrativeEnd: 0
   player: {fileID: 1222860799}
   hintRadius: 2

@@ -54,23 +54,41 @@ MonoBehaviour:
       <Content>k__BackingField: <music:playground>I guess, everybody needs a friend.<p:normal><sp:0,1>
         <em:curious>Right?
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Shy
       <Content>k__BackingField: <sp:0,04>I guess.
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: Yeah.<p:short> But I do have <anim:wobble s:2 a:5
         sync:true>A LOT </anim>of friends though.
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: By the way<p:short> I'm <color="yellow">victor</color>.<p:normal>
         <em:curious>What is your name?
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Shy
       <Content>k__BackingField: My name is <color="yellow">Shy</color>.
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: <em:curious>Do you want to be my friend?
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     position: {x: 719.3333, y: 361.3333}
     transitionNode: 0
     entryPoint: 0
@@ -81,10 +99,16 @@ MonoBehaviour:
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: </music>Oh...<p:normal> Sure.
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: Me and my friends are playing some basketball.<p:normal><sp:0,1>
         Do you want to come and join us?
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     position: {x: 1214, y: 410}
     transitionNode: 0
     entryPoint: 0
@@ -95,12 +119,21 @@ MonoBehaviour:
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: Okay then!
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: Just follow me.
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Shy
       <Content>k__BackingField: </music>Okay.
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     position: {x: 1753.3334, y: 322}
     transitionNode: 0
     entryPoint: 0
@@ -111,19 +144,34 @@ MonoBehaviour:
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: Wait,<p:normal> you have a robot?!
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: I can help you fix that robot!
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Shy
       <Content>k__BackingField: You know that model?
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: Of course!<p:short> I have one at home.<p:normal>
         Let me fix it for you.
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Shy
       <Content>k__BackingField: Thank you I guess</music>.
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     position: {x: 1214, y: 192}
     transitionNode: 0
     entryPoint: 0
@@ -134,19 +182,34 @@ MonoBehaviour:
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: How can you even enjoy that?
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: <anim:jitter s:2 a:2 sync:false>NOBODY</anim><p:short>
         likes to be alone!
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Shy
       <Content>k__BackingField: I do.
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: <sp:0,2><anim:wave s:2 a:2 sync:false>Mmmh...</anim>
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     - <CharacterName>k__BackingField: Victor
       <Content>k__BackingField: <sp:0,1>I wish I could be like you...
       <HideCharacter>k__BackingField: 0
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     position: {x: 782, y: -57.333336}
     transitionNode: 0
     entryPoint: 0
@@ -158,6 +221,9 @@ MonoBehaviour:
       <Content>k__BackingField: <anim:Shake s:2.1 a:3 sync:false>Why are you sitting
         on that bench alone?</anim>
       <HideCharacter>k__BackingField: 1
+      <DialogueEvent>k__BackingField:
+        m_PersistentCalls:
+          m_Calls: []
     position: {x: 249.33333, y: 168}
     transitionNode: 0
     entryPoint: 0

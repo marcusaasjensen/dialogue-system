@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DialogueSystem.Data;
 using DialogueSystem.Runtime.Audio;
+using DialogueSystem.Runtime.Interaction;
 using DialogueSystem.Runtime.Narration;
 using DialogueSystem.Runtime.UI;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace DialogueSystem.Runtime.Command
         private Queue<DialogueCommand> _commandQueue = new();
         private CharacterData _currentCharacterData;
         private DialogueMessage _currentDialogueMessage;
+        private DialogueMonoBehaviour.DialogueEvent[] _events;
 
         private void Awake() => narrativeUI.OnMessageStart += HandleCommandExecution;
         
@@ -59,6 +61,9 @@ namespace DialogueSystem.Runtime.Command
                     case DialogueCommandType.SoundEffect:
                         newCommand = CommandFactory.CreateSoundEffectCommand(commandData);
                         break;
+                    case DialogueCommandType.Event:
+                        newCommand = CommandFactory.CreateEventCommand(commandData, _events);
+                        break;
                     default:
                         newCommand = new NullCommand(commandData.StartPosition, commandData.MustExecute);
                         break;
@@ -70,10 +75,11 @@ namespace DialogueSystem.Runtime.Command
             return processedMessageWithTextTags;
         }
         
-        public void GatherCommandData(DialogueMessage dialogueMessage, CharacterData characterDataData)
+        public void GatherCommandData(DialogueMessage dialogueMessage, CharacterData characterDataData, DialogueMonoBehaviour.DialogueEvent[] events)
         {
             _currentCharacterData = characterDataData;
             _currentDialogueMessage = dialogueMessage;
+            _events = events;
         }
         
         public void ExecuteDefaultCommands()
