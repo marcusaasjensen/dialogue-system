@@ -99,6 +99,20 @@ You must test in **Play Mode**.
 > [!CAUTION] 
 > Make sure to fully respect the tag notations and examples here. Otherwise, you may encounter unwanted behaviours.
 
+## Event tag ```<event:onevent>```
+
+Invokes the event associated with a certain name you have defined in a dialogue monobehaviour that uses the narrative.
+
+Replace the ```onevent``` text by the name of your event you have previously defined (name as a string).
+
+```"Something is happening...<event:onevent> That was strange!"```
+
+Here is a script that extends the class DialogueMonoBehaviour that allows the player to interact with a character. 
+Then you can define your event at runtime in the script with the name you have used in your tag.
+
+<img width="391" alt="image" src="https://github.com/marcusaasjensen/dialogue-system/assets/88457743/00627acb-c2a1-44a8-83d5-c3b7815f2a50">
+
+
 ## Pause tag ```<p:pause>``` ⏸️
 
 Pause the text typer for a certain time.
